@@ -2,7 +2,7 @@
 import pandas as pd 
 
 #Using pd.read_excel to read file .xls or .xlsx from your local path
-#In the future, we will not use this method. We will try to read file from user's input.
+#In the future, we will read file from user's input instead of this method.
 df = pd.read_excel('C:/Users/World/Documents/SeniorProject/datast/harmful30jun2020.xls')
 
 #Using df.head to show the top 5 rows of dataframe
