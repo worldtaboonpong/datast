@@ -17,5 +17,13 @@ for key in dataTypeDict:
         # Using df[key] to access data which column header is key 
         # Using tail to show the last 5 rows of datatframe 
         print(df[key].tail())
+        # Using count to count the row
+        rowCount = df[key].count()
+        print(rowCount)
+        # Trying to access each row of this column
+        for i in range (rowCount):
+            if i&2 == 0 :
+                print(df[key][i])
+        
 
 
