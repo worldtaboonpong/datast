@@ -11,6 +11,7 @@ print(df.head())
 #Using df.dtypes to show type of data of each column
 #Using dict(df.types) to make Dict which the keys are column header and the values are type of data of each column
 dataTypeDict = dict(df.dtypes)
+print(dataTypeDict)
 for key in dataTypeDict:
     if (dataTypeDict[key] != 'int64'):
         print (key)
