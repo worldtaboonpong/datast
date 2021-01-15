@@ -1,22 +1,23 @@
 import pandas as pd 
-from sklearn.model_selection import train_test_split
 from sklearn.cluster import KMeans
 
 df = pd.read_excel('C:/Users/World/Documents/SeniorProject/datast/harmful30jun2020.xls')
-
-# (df_train, df_test) = train_test_split(df,test_size=0.30)
+num_cluster=3
 
 dataTypeDict = dict(df.dtypes)
-# kmeans = KMeans(n_clusters=2, n_init=3, max_iter=3000, random_state=1).fit(df)
-# kmeans = kmeans.fit(df_train[['รถบรรทุกวัสดุอันตราย'],['รถกึ่งพ่วงที่บรรทุกวัตถุอันตราย']])
 
 for key in dataTypeDict:
     if (dataTypeDict[key] != 'int64'):
         df.drop(key, inplace=True, axis=1)
 
-kmeans = KMeans(n_clusters=4, n_init=3, max_iter=3000, random_state=1).fit(df)
-print(kmeans.labels_)
+kmeans = KMeans(n_clusters=num_cluster,random_state=1)
+new = df._get_numeric_data()
+kmeans.fit(new)
+predict=kmeans.predict(new)
+df_kmeans = df.copy(deep=True)
+df_kmeans['Cluster KMeans'] = pd.Series(predict, index=df_kmeans.index)
 
+print(df_kmeans)
 
 
 # df_train.loc[:,'clusters'] = kmeans.labels_
