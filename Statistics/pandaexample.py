@@ -6,6 +6,7 @@ import numpy as np
 #In the future, we will read file from user's input instead of this method.
 df = pd.read_excel('./harmful30jun2020.xls')
 digitdf = df.select_dtypes(include=[np.number])
+digitdf = digitdf.drop('ลำดับ', axis=1)
 print(digitdf)
 
 # #Using df.head to show the top 5 rows of dataframe
@@ -13,7 +14,7 @@ print(digitdf)
 # #Using df.shape to show dimension of dataframe
 # print(df.shape)
 # print(df.columns)
-print(df.describe())
+print(digitdf.describe())
 
 #Using df.dtypes to show type of data of each column
 #Using dict(df.types) to make Dict which the keys are column header and the values are type of data of each column
@@ -36,7 +37,6 @@ print(df.describe())
 
 #iterate over columns
 for (columnName, columnData) in digitdf.iteritems():
-    if columnName != 'ลำดับ':
         print('Colunm Name : ', columnName)
         print('Column Contents : ', columnData.values)
         print('Column Mean : ', columnData.mean())
