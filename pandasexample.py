@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from apyori import apriori
 
 df = pd.read_excel("./harmful30jun2020.xls")
 digitdf = df.select_dtypes(include=[np.number])
