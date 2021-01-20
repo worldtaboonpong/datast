@@ -1,6 +1,7 @@
 import pandas as pd 
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
+import matplotlib.pyplot as plot
 
 df = pd.read_excel('C:/Users/World/Documents/SeniorProject/datast/harmful30jun2020.xls')
 range_n_clusters = list (range(2,10))
@@ -31,7 +32,8 @@ predict=kmeans.predict(new)
 df_kmeans = df.copy(deep=True)
 df_kmeans['Cluster KMeans'] = pd.Series(predict, index=df_kmeans.index)
 
-
+df_kmeans.plot.scatter('รถบรรทุกวัสดุอันตราย', 'รถกึ่งพ่วงที่บรรทุกวัตถุอันตราย', c='Cluster KMeans', colormap='gist_rainbow')
+plot.show(block=True)
 print(df_kmeans)
 
 
