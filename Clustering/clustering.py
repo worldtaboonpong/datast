@@ -5,6 +5,9 @@ import matplotlib.pyplot as plot
 import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
+import os
+
+my_path = os.path.abspath(__file__)
 
 df = pd.read_excel('C:/Users/World/Documents/SeniorProject/datast/harmful30jun2020.xls')
 range_n_clusters = list (range(2,10))
@@ -42,14 +45,19 @@ df_kmeans['Cluster KMeans'] = pd.Series(predict, index=df_kmeans.index)
 # df_kmeans.plot.scatter('รวมมัธยม','รวมทั้งหมด', c='Cluster KMeans', colormap='rainbow')
 
 # plot.show(block=True)
-print(df_kmeans.head())
-
-reduced_data = PCA(n_components=2).fit_transform(df_kmeans)
-results = pd.DataFrame(reduced_data,columns=['pca1','pca2'])
-
-sns.scatterplot(x="pca1", y="pca2", hue=df_kmeans['Cluster KMeans'], data=results)
-plt.title('K-means Clustering with 2 dimensions')
-plt.show()
+# print(len(df_kmeans.columns))
+if len(df_kmeans.columns) > 3:
+    reduced_data = PCA(n_components=2).fit_transform(df_kmeans)
+    results = pd.DataFrame(reduced_data,columns=['pca1','pca2'])
+    sns.scatterplot(x="pca1", y="pca2", hue=df_kmeans['Cluster KMeans'], data=results)
+    plt.title('K-means Clustering with 2 dimensions')
+    plt.savefig(my_path+'clustering.png')
+    plt.show()
+    
+else:
+    sns.scatterplot(x=df_kmeans[:,0], y=df_kmeans[:,1], hue=df_kmeans['Cluster KMeans'], data=results)
+    plt.title('K-means Clustering with 2 dimensions')
+    plt.show()
 
 # sns.lmplot(x='รวมประถม', y='รวมมัธยม', 
 #            data=df_kmeans, 
