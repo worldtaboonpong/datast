@@ -17,9 +17,16 @@ scores = []
 dataTypeDict = dict(df.dtypes)
 
 for key in dataTypeDict:
-    # Check if column is not integer or columnn is index column sorted
-    if (dataTypeDict[key] != 'int64' or df[key].is_monotonic):
+    if (dataTypeDict[key] != 'int64' #check if column is not integer
+    or (df[key].is_monotonic and (('ลำดับ' in key) or ( key == 'id')  )) #check if column is something like id or no.
+    or ((key == 'year') or (key == 'ปี') # check if column is year
+    or ('รวม' in key)):
         df.drop(key, inplace=True,axis=1)
+print(df.head())
+
+# Clustering each 2 columns of dataframe
+# If there are more than 5 columns, exit()
+# todo
 
 # Do Silhouette Method to find best K to fit
 for n_clusters in range_n_clusters:
@@ -46,18 +53,19 @@ df_kmeans['Cluster KMeans'] = pd.Series(predict, index=df_kmeans.index)
 
 # plot.show(block=True)
 # print(len(df_kmeans.columns))
-if len(df_kmeans.columns) > 3:
-    reduced_data = PCA(n_components=2).fit_transform(df_kmeans)
-    results = pd.DataFrame(reduced_data,columns=['pca1','pca2'])
-    sns.scatterplot(x="pca1", y="pca2", hue=df_kmeans['Cluster KMeans'], data=results)
-    plt.title('K-means Clustering with 2 dimensions')
-    plt.savefig(my_path+'clustering.png')
-    plt.show()
+
+# if len(df_kmeans.columns) > 3:
+#     reduced_data = PCA(n_components=2).fit_transform(df_kmeans)
+#     results = pd.DataFrame(reduced_data,columns=['pca1','pca2'])
+#     sns.scatterplot(x="pca1", y="pca2", hue=df_kmeans['Cluster KMeans'], data=results)
+#     plt.title('K-means Clustering with 2 dimensions')
+#     plt.savefig(my_path+'clustering.png')
+#     plt.show()
     
-else:
-    sns.scatterplot(x=df_kmeans[:,0], y=df_kmeans[:,1], hue=df_kmeans['Cluster KMeans'], data=results)
-    plt.title('K-means Clustering with 2 dimensions')
-    plt.show()
+# else:
+#     sns.scatterplot(x=df_kmeans[:,0], y=df_kmeans[:,1], hue=df_kmeans['Cluster KMeans'], data=results)
+#     plt.title('K-means Clustering with 2 dimensions')
+#     plt.show()
 
 # sns.lmplot(x='รวมประถม', y='รวมมัธยม', 
 #            data=df_kmeans, 
