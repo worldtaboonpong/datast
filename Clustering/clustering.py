@@ -1,7 +1,6 @@
 import pandas as pd 
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
-import matplotlib.pyplot as plot
 import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
@@ -59,9 +58,10 @@ if (len(df.columns) >= 2 and len(df.columns) <= 5 ):
             df_kmeans = new_df.copy(deep=True)
             df_kmeans['Cluster KMeans'] = pd.Series(predict, index=df_kmeans.index)
             # todo: get tha name of column header from i and j
+            # print(list(new.columns.values))
             
             plt.rcParams['font.family'] = 'Tahoma'
-            df_kmeans.plot.scatter('รถบรรทุกวัสดุอันตราย','รถกึ่งพ่วงที่บรรทุกวัตถุอันตราย', c='Cluster KMeans', colormap='rainbow')
+            df_kmeans.plot.scatter(new.columns.values[0],new.columns.values[1], c='Cluster KMeans', colormap='rainbow')
             plt.title('K-means Clustering with 2 dimensions')
             plt.savefig(my_path+'tograph'+str(i)+str(j)+'.png')
             plt.show()
