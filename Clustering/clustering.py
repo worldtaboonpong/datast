@@ -5,11 +5,13 @@ import matplotlib.pyplot as plot
 import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
+from operator import xor
 import os
 
 my_path = os.path.abspath(__file__)
 
 df = pd.read_excel('C:/Users/World/Documents/SeniorProject/datast/untitled.xlsx')
+
 range_n_clusters = list (range(2,10))
 
 # print(df.head())
@@ -17,28 +19,35 @@ range_n_clusters = list (range(2,10))
 dataTypeDict = dict(df.dtypes)
 print(dataTypeDict)
 for key in dataTypeDict:
-    if ((dataTypeDict[key] != 'int64' or dataTypeDict[key] != 'float64') #check if column is not integer
+    if (not xor(dataTypeDict[key] != 'int64',dataTypeDict[key] != 'float64')  #check if column is not integer or float
+    or (dataTypeDict[key] == 'O')
     or (df[key].is_monotonic and (('ลำดับ' in key) or ( key == 'id')  )) #check if column is something like id or no.
     or ((key == 'year') or (key == 'ปี')) # check if column is year
     or ('รวม' in key)):
         df.drop(key, inplace=True,axis=1)
-print(df.head())
+# print(df.head())
 
+print(len(df.columns))
 # Clustering each 2 columns of dataframe
 # If there are more than 5 columns, exit()
-if (len(df.columns) >= 2 and len(df.columns) < 5 ):
+if (len(df.columns) >= 2 and len(df.columns) <= 5 ):
     for i in range (len(df.columns)):
         for j in range (i+1,len(df.columns)) :
             # print(i,j)
             scores = []
             new_df = df.iloc[:,[i,j]]
+            # print(new_df.head())
+            # print(new_df.shape[0])
             # Do Silhouette Method to find best K to fit
-            for n_clusters in range_n_clusters:
-                kmeans = KMeans(n_clusters=n_clusters)
+            for n_cluster in range_n_clusters:
+                if n_cluster > new_df.shape[0]-1:
+                    break
+                kmeans = KMeans(n_clusters=n_cluster)
                 new = new_df._get_numeric_data()
+                print(new.head())
                 kmeans.fit(new)
                 predict=kmeans.fit_predict(new)
-                score = silhouette_score(df, predict)
+                score = silhouette_score(new , predict)
                 scores.append(score)
             # Choose best score to cluster data
             best_cluster = range_n_clusters[scores.index(max(scores))]
@@ -50,8 +59,11 @@ if (len(df.columns) >= 2 and len(df.columns) < 5 ):
             df_kmeans = new_df.copy(deep=True)
             df_kmeans['Cluster KMeans'] = pd.Series(predict, index=df_kmeans.index)
             # todo: get tha name of column header from i and j
+            
             plt.rcParams['font.family'] = 'Tahoma'
             df_kmeans.plot.scatter('รถบรรทุกวัสดุอันตราย','รถกึ่งพ่วงที่บรรทุกวัตถุอันตราย', c='Cluster KMeans', colormap='rainbow')
+            plt.title('K-means Clustering with 2 dimensions')
+            plt.savefig(my_path+'tograph'+str(i)+str(j)+'.png')
             plt.show()
 
 
