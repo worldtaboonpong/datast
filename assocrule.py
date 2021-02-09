@@ -6,7 +6,7 @@ from apyori import apriori
 
 dff = pd.read_excel("./covid19.xls")
 df = dff.select_dtypes(exclude=[np.datetime64])
-df.replace('', np.nan, inplace=True)
+df.replace(r'^\s+$', np.nan, regex=True)
 df.dropna(inplace=True)
 (col,row) = df.shape
 
@@ -62,8 +62,21 @@ for item in association_results:
     graph_coord.append((items[0], items[1], item[2][0][3])) #(From, To, Lift)
 
 graph_coord.sort(reverse=True, key=byLift) # sort by Lift, descending order
+graph_assoc = []
+graph_lift = []
 for e in graph_coord :
-    print("From:" + str(e[0]) + " To:" + str(e[1]) + " Lift:" + str(e[2]))
+    graph_assoc.append(str(e[0]) + " -> " + str(e[1]))
+    graph_lift.append(e[2])
+    #print("From:" + str(e[0]) + " To:" + str(e[1]) + " Lift:" + str(e[2]))
+
+# graph plotting
+"""
+plt.plot(graph_assoc, graph_lift)
+plt.xlabel('Association')
+plt.ylabel('Lift')
+plt.suptitle('Shows the correlation between 2 elements')
+plt.show()
+"""
 
 with open("output.txt", "w", encoding="utf-8-sig") as text_file:
     text_file.write(json.dumps(output_dict, ensure_ascii=False, indent = 4))
