@@ -9,20 +9,20 @@ import os
 
 my_path = os.path.abspath(__file__)
 
-df = pd.read_excel('C:/Users/World/Documents/SeniorProject/datast/harmful30jun2020.xls')
+df = pd.read_excel('C:/Users/World/Documents/SeniorProject/datast/untitled.xlsx')
 range_n_clusters = list (range(2,10))
 
 # print(df.head())
 
 dataTypeDict = dict(df.dtypes)
-
+print(dataTypeDict)
 for key in dataTypeDict:
-    if (dataTypeDict[key] != 'int64' #check if column is not integer
+    if ((dataTypeDict[key] != 'int64' or dataTypeDict[key] != 'float64') #check if column is not integer
     or (df[key].is_monotonic and (('ลำดับ' in key) or ( key == 'id')  )) #check if column is something like id or no.
     or ((key == 'year') or (key == 'ปี')) # check if column is year
     or ('รวม' in key)):
         df.drop(key, inplace=True,axis=1)
-# print(df.head())
+print(df.head())
 
 # Clustering each 2 columns of dataframe
 # If there are more than 5 columns, exit()
