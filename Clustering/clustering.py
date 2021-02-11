@@ -9,7 +9,8 @@ import os
 
 my_path = os.path.abspath(__file__)
 
-df = pd.read_excel('C:/Users/World/Documents/SeniorProject/datast/Clustering/untitled.xlsx')
+df_beforecut = pd.read_excel('C:/Users/World/Documents/SeniorProject/datast/Clustering/untitled.xlsx')
+df = df_beforecut.copy(deep=True)
 
 range_n_clusters = list (range(2,10))
 
@@ -18,7 +19,7 @@ range_n_clusters = list (range(2,10))
 qa_clustering = {'จากไฟล์ สามารถแบ่งกลุ่มข้อมูลเป็นกี่กลุ่ม อย่างไรบ้าง':[]}
 
 dataTypeDict = dict(df.dtypes)
-print(dataTypeDict)
+# print(dataTypeDict)
 for key in dataTypeDict:
     if (not xor(dataTypeDict[key] != 'int64',dataTypeDict[key] != 'float64')  #check if column is not integer or float
     or (dataTypeDict[key] == 'O')
@@ -26,7 +27,13 @@ for key in dataTypeDict:
     or ((key == 'year') or (key == 'ปี')) # check if column is year
     or ('รวม' in key)):
         df.drop(key, inplace=True,axis=1)
-# print(df.head())
+print(df.head())
+print(df_beforecut.head())
+
+difference_columns = set(df_beforecut.columns).difference(df.columns)
+print(df_beforecut[difference_columns].head())
+# print(df_beforecut[difference_columns].columns.values)
+
 
 # print(len(df.columns))
 # Clustering each 2 columns of dataframe
@@ -45,7 +52,7 @@ if (len(df.columns) >= 2 and len(df.columns) <= 5 ):
                     break
                 kmeans = KMeans(n_clusters=n_cluster)
                 new = new_df._get_numeric_data()
-                print(new.head())
+                # print(new.head())
                 kmeans.fit(new)
                 predict=kmeans.fit_predict(new)
                 score = silhouette_score(new , predict)
@@ -61,15 +68,18 @@ if (len(df.columns) >= 2 and len(df.columns) <= 5 ):
             df_kmeans['Cluster KMeans'] = pd.Series(predict, index=df_kmeans.index)
             # todo: get tha name of column header from i and j
             # print(list(new.columns.values))
+
+            # print(df_kmeans.head())
             
-            plt.rcParams['font.family'] = 'Tahoma'
-            df_kmeans.plot.scatter(new.columns.values[0],new.columns.values[1], c='Cluster KMeans', colormap='rainbow')
-            plt.title('Clustering with' + ' ' +new.columns.values[0] + ' ' + 'and' + ' ' + new.columns.values[1])
-            plt.savefig(my_path+'tograph'+str(i)+str(j)+'.png')
-            plt.show()
+            # plt.rcParams['font.family'] = 'Tahoma'
+            # df_kmeans.plot.scatter(new.columns.values[0],new.columns.values[1], c='Cluster KMeans', colormap='rainbow')
+            # plt.title('Clustering by' + ' ' +new.columns.values[0] + ' ' + 'and' + ' ' + new.columns.values[1])
+            # plt.savefig(my_path+'tograph'+str(i)+str(j)+'.png')
+            # plt.show()
             
             qa_clustering['จากไฟล์ สามารถแบ่งกลุ่มข้อมูลเป็นกี่กลุ่ม อย่างไรบ้าง'].append((
-                'การจัดกลุ่มระหว่าง' + ' ' + new.columns.values[0] + ' ' + 'และ' + ' ' + new.columns.values[1] ,
+                'การจัดกลุ่มระหว่าง' + ' ' + new.columns.values[0] + ' ' + 'และ' + ' ' + new.columns.values[1] +
+                ' ' + 'สามารถแบ่งได้เป็น' + ' ' + str(best_cluster) + ' ' + 'กลุ่ม' + ' ' + 'โดยกลุ่ม',
                 str(my_path) + 'tograph'+str(i)+str(j)+'.png'
             ))
 
