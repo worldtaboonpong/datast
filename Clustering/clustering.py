@@ -9,11 +9,13 @@ import os
 
 my_path = os.path.abspath(__file__)
 
-df = pd.read_excel('C:/Users/World/Documents/SeniorProject/datast/untitled.xlsx')
+df = pd.read_excel('C:/Users/World/Documents/SeniorProject/datast/Clustering/untitled.xlsx')
 
 range_n_clusters = list (range(2,10))
 
 # print(df.head())
+
+qa_clustering = {'จากไฟล์ สามารถแบ่งกลุ่มข้อมูลเป็นกี่กลุ่ม อย่างไรบ้าง':[]}
 
 dataTypeDict = dict(df.dtypes)
 print(dataTypeDict)
@@ -26,7 +28,7 @@ for key in dataTypeDict:
         df.drop(key, inplace=True,axis=1)
 # print(df.head())
 
-print(len(df.columns))
+# print(len(df.columns))
 # Clustering each 2 columns of dataframe
 # If there are more than 5 columns, exit()
 if (len(df.columns) >= 2 and len(df.columns) <= 5 ):
@@ -62,9 +64,17 @@ if (len(df.columns) >= 2 and len(df.columns) <= 5 ):
             
             plt.rcParams['font.family'] = 'Tahoma'
             df_kmeans.plot.scatter(new.columns.values[0],new.columns.values[1], c='Cluster KMeans', colormap='rainbow')
-            plt.title('K-means Clustering with 2 dimensions')
+            plt.title('Clustering with' + ' ' +new.columns.values[0] + ' ' + 'and' + ' ' + new.columns.values[1])
             plt.savefig(my_path+'tograph'+str(i)+str(j)+'.png')
             plt.show()
+            
+            qa_clustering['จากไฟล์ สามารถแบ่งกลุ่มข้อมูลเป็นกี่กลุ่ม อย่างไรบ้าง'].append((
+                'การจัดกลุ่มระหว่าง' + ' ' + new.columns.values[0] + ' ' + 'และ' + ' ' + new.columns.values[1] ,
+                str(my_path) + 'tograph'+str(i)+str(j)+'.png'
+            ))
+
+print(qa_clustering)
+
 
 
 # plot.show(block=True)
