@@ -20,7 +20,7 @@ config_dict["min_support"] = 0.01
 config_dict["min_confidence"] = 0.4
 config_dict["min_lift"] = 6
 config_dict["min_length"] = 2
-limit = 20  # Maximum amount of result shown
+max_show = 20  # Maximum amount of result shown
 
 association_rules = apriori(records, min_support=config_dict["min_support"], min_confidence=config_dict["min_confidence"],
      min_lift=config_dict["min_lift"], min_length=config_dict["min_length"])
@@ -62,17 +62,24 @@ for item in association_results:
     # for graph plotting
     sorted_result.append((items[0], items[1], item[2][0][3])) # (From, To, Lift)
 
-graph_coord = []
-sorted_result.sort(reverse=True, key=byLift)    # sort by Lift, descending order
-#graph_coord = sorted_result[:limit]    # create another list for plotting graph, with limited amount of result
-for i in range(limit) :
-    graph_coord.append(sorted_result[i])
+sorted_result.sort(key=byLift)    # sort by Lift, ascending order
+result_nodup = {}   # remove duplicate
+for i in sorted_result :
+    result_nodup[(i[0], i[1])] = i[2]
+
+sorted_result = list(result_nodup.items())
+sorted_result.reverse()     # sort by Lift, descending order  / List looks like (( From, To ) , Lift)
+
+graph_coord = sorted_result[:max_show]
+#graph_coord = []
+#for i in range(max_show) :
+#    graph_coord.append(sorted_result[i])   # create another list for plotting graph, with limited amount of result
 
 graph_assoc = []
 graph_lift = []
 for e in graph_coord :
-    graph_assoc.append(str(e[0]) + "," + str(e[1]))
-    graph_lift.append(e[2])
+    graph_assoc.append(str(e[0][0]) + "," + str(e[0][1]))
+    graph_lift.append(e[1])
     #print("From:" + str(e[0]) + " To:" + str(e[1]) + " Lift:" + str(e[2]))
 
 # graph plotting
@@ -85,13 +92,13 @@ plt.suptitle('Shows the correlation between 2 elements')
 plt.show()
 """
 
-with open("output.txt", "w", encoding="utf-8-sig") as text_file:
-    text_file.write(json.dumps(output_dict, ensure_ascii=False, indent = 4))
-
 qa = {}
 for e in graph_coord :
-    q = "What is the likelihood of " + str(e[1]) + " happening along with " + str(e[0]) + " rather than happening alone?"
-    qa[q] = str(e[2]) + " times more likely"
+    q = "What is the likelihood of " + str(e[0][1]) + " happening along with " + str(e[0][0]) + " rather than happening alone?"
+    qa[q] = str(e[1]) + " times more likely"
 
 with open("assocqa.txt", "w", encoding="utf-8-sig") as text_file:
     text_file.write(json.dumps(qa, ensure_ascii=False, indent = 4))
+
+with open("output.txt", "w", encoding="utf-8-sig") as text_file:
+    text_file.write(json.dumps(output_dict, ensure_ascii=False, indent = 4))
