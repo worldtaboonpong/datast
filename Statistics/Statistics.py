@@ -26,10 +26,6 @@ dft_columns = set(df.columns).difference(digitdf.columns)
 # print(dft[dft_columns].head())
 dft = dft[dft_columns]
 
-# print(df)
-# print(dft)
-# print(digitdf)
-
 
 #iterate over columns
 i = 0
@@ -59,56 +55,41 @@ i = 0
 index = df.shape[0]
 for (columnName, columnData) in digitdf.iteritems():
     nameindigitdf.append(columnName)
+digitc = ", ".join(nameindigitdf)
 
 nameindft = list()
 i = 0
 index = df.shape[0]
 for (columnName, columnData) in dft.iteritems():
     nameindft.append(columnName)
+dftc = ", ".join(nameindft)
 # ************************************************** #
 
-# # Question #
-# # print("Question : ค่า Max, Min, Mean ของ ", end="")
-# # print(*nameindigitdf, sep=", ", end="") 
-# # print(" มีความสัมพันธ์กับ ", end="")
-# # print(*nameindft, sep=", ", end="")
-# # print(" อย่างไร", end="")
-# ques = list()
-# for (columnName, columnData) in digitdf.iteritems():
-#     ques.append("ค่า Max, Min, Mean ของ " + str(nameindigitdf) + " มีความสัมพันธ์กับ " + str(nameindft) + " อย่างไร")
+# Question #
+ques = ("ค่า Max, Min, Mean ของ " + digitc + " มีความสัมพันธ์กับ " + dftc + " อย่างไร")
 # print("Question : ")
-# print(*ques, sep="\n")
-# # ************************************************** #
+# print(ques)
+# ************************************************** #
 
-# # Answer
-# ans = list()
-# for (columnName, columnData) in digitdf.iteritems():
-#     ans.append("ค่า Max ของ " + columnName + " คือ " + str(columnData.max()) + " ที่ " + str(dft.iloc[digitdf.idxmax()[i]].values))
-#     ans.append("ค่า Min ของ " + columnName + " คือ " + str(columnData.min()) + " ที่ " + str(dft.iloc[digitdf.idxmin()[i]].values))
-#     ans.append("ค่า Mean ของ " + columnName + " คือ " + str(columnData.mean().round(2)))
-#     ans.append("")
+# Answer
+ans = list()
+for (columnName, columnData) in digitdf.iteritems():
+    ans.append("ค่า Max ของ " + columnName + " คือ " + str(columnData.max()) + " ที่ " + str(dft.iloc[digitdf.idxmax()[i]].values))
+    ans.append("ค่า Min ของ " + columnName + " คือ " + str(columnData.min()) + " ที่ " + str(dft.iloc[digitdf.idxmin()[i]].values))
+    ans.append("ค่า Mean ของ " + columnName + " คือ " + str(columnData.mean().round(2)))
+    ans.append("")
 # print("Answer : ")
 # print(*ans, sep="\n")
-# # ************************************************** #
-QA = list()
+# ************************************************** #
 
-    # Question #
-    # print("Question : ค่า Max, Min, Mean ของ ", end="")
-    # print(*nameindigitdf, sep=", ", end="") 
-    # print(" มีความสัมพันธ์กับ ", end="")
-    # print(*nameindft, sep=", ", end="")
-    # print(" อย่างไร", end="")
+QA = dict()
+ans = list()
 for (columnName, columnData) in digitdf.iteritems():
-        ques = list()
-        ques.append("ค่า Max, Min, Mean ของ " + str(nameindigitdf) + " มีความสัมพันธ์กับ " + str(nameindft) + " อย่างไร")
-        # ************************************************** #
-        # Answer
-        for (columnName, columnData) in digitdf.iteritems():
-            ans = list()
-            ans.append("ค่า Max ของ " + columnName + " คือ " + str(columnData.max()) + " ที่ " + str(dft.iloc[digitdf.idxmax()[i]].values))
-            ans.append("ค่า Min ของ " + columnName + " คือ " + str(columnData.min()) + " ที่ " + str(dft.iloc[digitdf.idxmin()[i]].values))
-            ans.append("ค่า Mean ของ " + columnName + " คือ " + str(columnData.mean().round(2)))
-            ans.append("")
-        # ************************************************** #
-        QA[ques] = ans
+    ans.append("ค่า Max ของ " + columnName + " คือ " + str(columnData.max()) + " ที่ " + str(dft.iloc[digitdf.idxmax()[i]].values))
+    ans.append("ค่า Min ของ " + columnName + " คือ " + str(columnData.min()) + " ที่ " + str(dft.iloc[digitdf.idxmin()[i]].values))
+    ans.append("ค่า Mean ของ " + columnName + " คือ " + str(columnData.mean().round(2)))
+    ans.append("")
+    # ************************************************** #
+QA[ques] = ans
 # Print Q&A
+print (QA)
