@@ -5,11 +5,11 @@ import matplotlib.pyplot as plt
 from apyori import apriori
 
 dff = pd.read_excel("./covid19.xls")
-df = dff.select_dtypes(exclude=[np.datetime64])
-df.replace(r'^\s+$', np.nan, regex=True)
-df.dropna(inplace=True)
 
 def association(df, min_support, min_confidence, min_lift, min_length, max_show) :
+    df = dff.select_dtypes(exclude=[np.datetime64])
+    df.replace(r'^\s+$', np.nan, regex=True)
+    df.dropna(inplace=True)
     (col,row) = df.shape
 
     records = []
@@ -85,15 +85,14 @@ def association(df, min_support, min_confidence, min_lift, min_length, max_show)
         #print("From:" + str(e[0]) + " To:" + str(e[1]) + " Lift:" + str(e[2]))
 
     # graph plotting
-    """
-    plt.rc('font', **{'sans-serif' : 'Arial', 'family' : 'sans-serif'})
-    plt.scatter(graph_assoc, graph_lift)
-    plt.xlabel('Association') # Likelihood of the first to happen with the second, rather than the second happenning alone
-    plt.ylabel('Lift')
-    plt.suptitle('Shows the correlation between 2 elements')
-    plt.show()
-    """
-
+    
+    #plt.rc('font', **{'sans-serif' : 'Arial', 'family' : 'sans-serif'})
+    #plt.scatter(graph_assoc, graph_lift)
+    #plt.xlabel('Association') # Likelihood of the first to happen with the second, rather than the second happenning alone
+    #plt.ylabel('Lift')
+    #plt.suptitle('Shows the correlation between 2 elements')
+    #plt.show()
+    
     qa = {}
     for e in graph_coord :
         q = "What is the likelihood of " + str(e[0][1]) + " happening along with " + str(e[0][0]) + " rather than happening alone?"
