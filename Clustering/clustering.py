@@ -9,7 +9,7 @@ import os
 
 my_path = os.path.abspath(__file__)
 
-df_beforecut = pd.read_excel('C:/Users/World/Documents/SeniorProject/datast/Clustering/harmful30jun2020.xls')
+df_beforecut = pd.read_excel('C:/Users/World/Documents/SeniorProject/datast/Clustering/untitled.xlsx')
 df = df_beforecut.copy(deep=True)
 
 range_n_clusters = list (range(2,10))
@@ -28,12 +28,16 @@ for key in dataTypeDict:
     or ((key == 'year') or (key == 'ปี')) # check if column is year
     or ('รวม' in key)):
         df.drop(key, inplace=True,axis=1)
-print(df.head())
-print(df_beforecut.head())
+# print(df.head())
+# print(df_beforecut.head())
 
 difference_columns = set(df_beforecut.columns).difference(df.columns)
-print(difference_columns)
 dfForDetail = df_beforecut[difference_columns]
+dataTypeDictForDetail = dict(dfForDetail.dtypes)
+
+for key in dataTypeDictForDetail:
+    if (dfForDetail[key].is_monotonic and (('ลำดับ' in key) or ( key == 'id')  )) or ('รวม' in key) :
+        dfForDetail.drop(key, inplace=True,axis=1)
 # print(df_beforecut[difference_columns].columns.values)
 
 
@@ -72,11 +76,18 @@ if (len(df.columns) >= 2 and len(df.columns) <= 5 ):
             df_kmeans['Group'] = pd.Series(predict, index=df_kmeans.index)
 
 
-            # print(df_kmeans.head())
+ 
+            # Try to gert more detail to explain
             detailToExplain = ''
             for i in range (best_cluster):
                 dfForGroupI = dfForDetail.loc[df_kmeans['Group'] == i]
-                print(len(dfForGroupI.columns))
+                detailToExplain += ('กลุ่มที่ ' + str(i) + ' ได้แก่ ')
+                # print(detailToExplain, dfForGroupI.shape[0])
+                for j in range (dfForGroupI.shape[0]):
+                    for k in range (dfForGroupI.shape[1]):
+                        detailToExplain += dfForGroupI.columns.values[k] + str(dfForGroupI.iat[j,k]) + ' '
+            
+
             
             # plt.rcParams['font.family'] = 'Tahoma'
             # df_kmeans.plot.scatter(new.columns.values[0],new.columns.values[1], c='Group', colormap='rainbow')
@@ -84,16 +95,14 @@ if (len(df.columns) >= 2 and len(df.columns) <= 5 ):
             # plt.savefig(my_path+'tograph'+str(i)+str(j)+'.png')
             # plt.show()
             
-            # qa_clustering['จากไฟล์ สามารถแบ่งกลุ่มข้อมูลเป็นกี่กลุ่ม อย่างไรบ้าง'].append((
-            #     'การจัดกลุ่มระหว่าง' + ' ' + new.columns.values[0] + ' ' + 'และ' + ' ' + new.columns.values[1] +
-            #     ' ' + 'สามารถแบ่งได้เป็น' + ' ' + str(best_cluster) + ' ' + 'กลุ่ม' + ' ' + 'ดังนี้' + ' ' + 
-                
-            #     str(my_path) + 'tograph'+str(i)+str(j)+'.png'
-            # ))
+            qa_clustering['จากไฟล์ สามารถแบ่งกลุ่มข้อมูลเป็นกี่กลุ่ม อย่างไรบ้าง'].append(( 'การจัดกลุ่มระหว่าง' + 
+            ' ' + new.columns.values[0] + ' ' + 'และ' + ' ' + new.columns.values[1] +' ' + 
+            'สามารถแบ่งได้เป็น' + ' ' + str(best_cluster) + ' ' + 'กลุ่ม' + ' ' + 'ดังนี้' + ' ' + detailToExplain, 
+            str(my_path) + 'tograph'+str(i)+str(j)+'.png'))
 
 
 
-# print(qa_clustering)
+print(qa_clustering)
 
 
 
