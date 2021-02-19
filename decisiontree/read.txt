@@ -1,0 +1,2 @@
+In csv file must have only categorized column (if there are Name, Age,.... -> error)
+And "Last column is Target column only!!!!"
