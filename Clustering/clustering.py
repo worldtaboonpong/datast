@@ -9,7 +9,7 @@ import os
 
 my_path = os.path.abspath(__file__)
 
-df_beforecut = pd.read_excel('C:/Users/World/Documents/SeniorProject/datast/Clustering/untitled.xlsx')
+df_beforecut = pd.read_excel('C:/Users/World/Documents/SeniorProject/datast/Clustering/harmful30jun2020.xls')
 df = df_beforecut.copy(deep=True)
 
 range_n_clusters = list (range(2,10))
@@ -17,6 +17,7 @@ range_n_clusters = list (range(2,10))
 # print(df.head())
 
 qa_clustering = {'จากไฟล์ สามารถแบ่งกลุ่มข้อมูลเป็นกี่กลุ่ม อย่างไรบ้าง':[]}
+
 
 dataTypeDict = dict(df.dtypes)
 # print(dataTypeDict)
@@ -31,7 +32,8 @@ print(df.head())
 print(df_beforecut.head())
 
 difference_columns = set(df_beforecut.columns).difference(df.columns)
-print(df_beforecut[difference_columns].head())
+print(difference_columns)
+dfForDetail = df_beforecut[difference_columns]
 # print(df_beforecut[difference_columns].columns.values)
 
 
@@ -41,6 +43,8 @@ print(df_beforecut[difference_columns].head())
 if (len(df.columns) >= 2 and len(df.columns) <= 5 ):
     for i in range (len(df.columns)):
         for j in range (i+1,len(df.columns)) :
+
+            
             # print(i,j)
             scores = []
             new_df = df.iloc[:,[i,j]]
@@ -65,42 +69,35 @@ if (len(df.columns) >= 2 and len(df.columns) <= 5 ):
             kmeans.fit(new)
             predict=kmeans.fit_predict(new)
             df_kmeans = new_df.copy(deep=True)
-            df_kmeans['Cluster KMeans'] = pd.Series(predict, index=df_kmeans.index)
-            # todo: get tha name of column header from i and j
-            # print(list(new.columns.values))
+            df_kmeans['Group'] = pd.Series(predict, index=df_kmeans.index)
+
 
             # print(df_kmeans.head())
+            detailToExplain = ''
+            for i in range (best_cluster):
+                dfForGroupI = dfForDetail.loc[df_kmeans['Group'] == i]
+                print(len(dfForGroupI.columns))
             
             # plt.rcParams['font.family'] = 'Tahoma'
-            # df_kmeans.plot.scatter(new.columns.values[0],new.columns.values[1], c='Cluster KMeans', colormap='rainbow')
+            # df_kmeans.plot.scatter(new.columns.values[0],new.columns.values[1], c='Group', colormap='rainbow')
             # plt.title('Clustering by' + ' ' +new.columns.values[0] + ' ' + 'and' + ' ' + new.columns.values[1])
             # plt.savefig(my_path+'tograph'+str(i)+str(j)+'.png')
             # plt.show()
             
-            qa_clustering['จากไฟล์ สามารถแบ่งกลุ่มข้อมูลเป็นกี่กลุ่ม อย่างไรบ้าง'].append((
-                'การจัดกลุ่มระหว่าง' + ' ' + new.columns.values[0] + ' ' + 'และ' + ' ' + new.columns.values[1] +
-                ' ' + 'สามารถแบ่งได้เป็น' + ' ' + str(best_cluster) + ' ' + 'กลุ่ม' + ' ' + 'โดยกลุ่ม',
-                str(my_path) + 'tograph'+str(i)+str(j)+'.png'
-            ))
-
-print(qa_clustering)
-
+            # qa_clustering['จากไฟล์ สามารถแบ่งกลุ่มข้อมูลเป็นกี่กลุ่ม อย่างไรบ้าง'].append((
+            #     'การจัดกลุ่มระหว่าง' + ' ' + new.columns.values[0] + ' ' + 'และ' + ' ' + new.columns.values[1] +
+            #     ' ' + 'สามารถแบ่งได้เป็น' + ' ' + str(best_cluster) + ' ' + 'กลุ่ม' + ' ' + 'ดังนี้' + ' ' + 
+                
+            #     str(my_path) + 'tograph'+str(i)+str(j)+'.png'
+            # ))
 
 
-# plot.show(block=True)
-# print(len(df_kmeans.columns))
 
-# if len(df_kmeans.columns) > 3:
-#     reduced_data = PCA(n_components=2).fit_transform(df_kmeans)
-#     results = pd.DataFrame(reduced_data,columns=['pca1','pca2'])
-#     sns.scatterplot(x="pca1", y="pca2", hue=df_kmeans['Cluster KMeans'], data=results)
-#     plt.title('K-means Clustering with 2 dimensions')
-#     plt.savefig(my_path+'clustering.png')
-#     plt.show()
-    
-# else:
-#     sns.scatterplot(x=df_kmeans[:,0], y=df_kmeans[:,1], hue=df_kmeans['Cluster KMeans'], data=results)
-#     plt.title('K-means Clustering with 2 dimensions')
-#     plt.show()
+# print(qa_clustering)
+
+
+
+
+
 
 
