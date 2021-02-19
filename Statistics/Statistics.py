@@ -87,15 +87,3 @@ for (columnName, columnData) in digitdf.iteritems():
 print("Answer : ")
 print(*ans, sep="\n")
 # ************************************************** #
-
-QA = dict()
-ans = list()
-for (columnName, columnData) in digitdf.iteritems():
-    ans.append("ค่า Max ของ " + columnName + " คือ " + str(columnData.max()) + " ที่ " + str(dft.iloc[digitdf.idxmax()[i]].values))
-    ans.append("ค่า Min ของ " + columnName + " คือ " + str(columnData.min()) + " ที่ " + str(dft.iloc[digitdf.idxmin()[i]].values))
-    ans.append("ค่า Mean ของ " + columnName + " คือ " + str(columnData.mean().round(2)))
-    ans.append("")
-    # ************************************************** #
-QA[ques] = ans
-# Print Q&A
-# print (QA)
