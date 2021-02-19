@@ -5,6 +5,9 @@ import os
 
 my_path = os.path.abspath(__file__)
 
+# dftest = pd.read_excel('harmful30jun2020.xls')
+dftest = pd.read_excel('MRTuser.xlsx', 'สายฉลองรัชธรรม')
+
 def statistics(df):
     digitdf = df.select_dtypes(include=[np.number])
     dft = df.copy()
@@ -17,6 +20,7 @@ def statistics(df):
             
     dft_columns = set(df.columns).difference(digitdf.columns)
     dft = dft[dft_columns]
+    # ************************************************** #
 
     #iterate over columns
     i = 0
@@ -39,6 +43,7 @@ def statistics(df):
             # save graph
             plt.savefig(__file__ + columnName +'.png')
             plt.show()
+    # ************************************************** #
 
     # Iterate to get all column names.
     nameindigitdf = list()
@@ -60,25 +65,27 @@ def statistics(df):
     ques = ("ค่า Max, Min, Mean ของ " + digitc + " มีความสัมพันธ์กับ " + dftc + " อย่างไร")
     # ************************************************** #
 
+    QA = {ques:[]}
+
     # Answer
-    ans = list()
     for (columnName, columnData) in digitdf.iteritems():
-        ans.append("ค่า Max ของ " + columnName + " คือ " + str(columnData.max()) + " ที่ " + str(dft.iloc[digitdf.idxmax()[i]].values))
-        ans.append("ค่า Min ของ " + columnName + " คือ " + str(columnData.min()) + " ที่ " + str(dft.iloc[digitdf.idxmin()[i]].values))
-        ans.append("ค่า Mean ของ " + columnName + " คือ " + str(columnData.mean().round(2)))
-        ans.append("")
+        ans = ''
+        toStringMAX = ''
+        for i in range (len(dft.iloc[digitdf.idxmax()[i]].values)) :
+            toStringMAX += nameindft[i] + " " + str(dft.iloc[digitdf.idxmax()[i]].values[i]) + " "
+        ans += ("ค่า Max ของ " + columnName + " คือ " + str(columnData.max()) + " ที่ " + toStringMAX)
+        toStringMIN = ''
+        for i in range (len(dft.iloc[digitdf.idxmin()[i]].values)) :
+            toStringMIN += nameindft[i] + " " + str(dft.iloc[digitdf.idxmin()[i]].values[i]) + " "
+        ans += ("ค่า Min ของ " + columnName + " คือ " + str(columnData.max()) + " ที่ " + toStringMIN)
+        ans += ("ค่า Mean ของ " + columnName + " คือ " + str(columnData.mean().round(2)))
+        QA[ques].append((ans,__file__ + columnName +'.png'))
     # ************************************************** #
 
-    QA = dict()
-    ans = list()
-
-    for (columnName, columnData) in digitdf.iteritems():
-        ans.append("ค่า Max ของ " + columnName + " คือ " + str(columnData.max()) + " ที่ " + str(dft.iloc[digitdf.idxmax()[i]].values))
-        ans.append("ค่า Min ของ " + columnName + " คือ " + str(columnData.min()) + " ที่ " + str(dft.iloc[digitdf.idxmin()[i]].values))
-        ans.append("ค่า Mean ของ " + columnName + " คือ " + str(columnData.mean().round(2)))
-        ans.append("")
-    # ************************************************** #
-
-    QA[ques] = ans
     # Return Q&A
-    return (QA)
+    return QA
+    # ************************************************** #
+    # ********************************************** End of Function **************************************************** #
+
+result = statistics(dftest)
+print(result)

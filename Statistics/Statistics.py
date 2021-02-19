@@ -10,8 +10,8 @@ my_path = os.path.abspath(__file__)
 #If can't read .xlsx file then, 'pip install xlrd==1.2.0'.
 #In the future, we will read file from user's input instead of this method.
 #To read excel file with multiple sheets, put ", 'sheetname'" after 'filename'.
-# df = pd.read_excel('MRTuser.xlsx', 'สายฉลองรัชธรรม')
-df = pd.read_excel('harmful30jun2020.xls')
+df = pd.read_excel('MRTuser.xlsx', 'สายฉลองรัชธรรม')
+# df = pd.read_excel('harmful30jun2020.xls')
 dft = df.copy()
 digitdf = df.select_dtypes(include=[np.number])
 
@@ -74,12 +74,18 @@ ques = ("ค่า Max, Min, Mean ของ " + digitc + " มีความส
 # Answer
 ans = list()
 for (columnName, columnData) in digitdf.iteritems():
-    ans.append("ค่า Max ของ " + columnName + " คือ " + str(columnData.max()) + " ที่ " + str(dft.iloc[digitdf.idxmax()[i]].values))
-    ans.append("ค่า Min ของ " + columnName + " คือ " + str(columnData.min()) + " ที่ " + str(dft.iloc[digitdf.idxmin()[i]].values))
+    toStringMAX = ''
+    for i in range (len(dft.iloc[digitdf.idxmax()[i]].values)) :
+        toStringMAX += nameindft[i] + " " + str(dft.iloc[digitdf.idxmax()[i]].values[i]) + " "
+    ans.append("ค่า Max ของ " + columnName + " คือ " + str(columnData.max()) + " ที่ " + toStringMAX)
+    toStringMIN = ''
+    for i in range (len(dft.iloc[digitdf.idxmin()[i]].values)) :
+        toStringMIN += nameindft[i] + " " + str(dft.iloc[digitdf.idxmin()[i]].values[i]) + " "
+    ans.append("ค่า Min ของ " + columnName + " คือ " + str(columnData.max()) + " ที่ " + toStringMIN)
     ans.append("ค่า Mean ของ " + columnName + " คือ " + str(columnData.mean().round(2)))
     ans.append("")
-# print("Answer : ")
-# print(*ans, sep="\n")
+print("Answer : ")
+print(*ans, sep="\n")
 # ************************************************** #
 
 QA = dict()
@@ -92,4 +98,4 @@ for (columnName, columnData) in digitdf.iteritems():
     # ************************************************** #
 QA[ques] = ans
 # Print Q&A
-print (QA)
+# print (QA)
