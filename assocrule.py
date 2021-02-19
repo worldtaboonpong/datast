@@ -4,10 +4,10 @@ import json
 import matplotlib.pyplot as plt
 from apyori import apriori
 
-dff = pd.read_excel("./covid19.xls")
+dataframe = pd.read_excel("./covid19.xls")
 
-def association(df, min_support, min_confidence, min_lift, min_length, max_show) :
-    df = dff.select_dtypes(exclude=[np.datetime64])
+def association(dataframe, min_support, min_confidence, min_lift, min_length, max_show) :
+    df = dataframe.select_dtypes(exclude=[np.datetime64])
     df.replace(r'^\s+$', np.nan, regex=True)
     df.dropna(inplace=True)
     (col,row) = df.shape
@@ -104,4 +104,4 @@ def association(df, min_support, min_confidence, min_lift, min_length, max_show)
     with open("output.txt", "w", encoding="utf-8-sig") as text_file:
         text_file.write(json.dumps(output_dict, ensure_ascii=False, indent = 4))
 
-association(df, 0.01, 0.4, 6, 2, 20)
+association(dataframe, 0.01, 0.4, 6, 2, 20)
