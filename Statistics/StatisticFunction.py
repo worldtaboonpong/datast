@@ -6,7 +6,7 @@ import os
 my_path = os.path.abspath(__file__)
 
 # dftest = pd.read_excel('harmful30jun2020.xls')
-dftest = pd.read_excel('MRTuser.xlsx', 'สายฉลองรัชธรรม')
+# dftest = pd.read_excel('MRTuser.xlsx', 'สายฉลองรัชธรรม')
 
 def statistics(df):
     digitdf = df.select_dtypes(include=[np.number])
@@ -87,5 +87,5 @@ def statistics(df):
     # ************************************************** #
     # ********************************************** End of Function **************************************************** #
 
-result = statistics(dftest)
-print(result)
+# result = statistics(dftest)
+# print(result)
