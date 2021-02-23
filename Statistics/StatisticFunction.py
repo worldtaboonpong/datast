@@ -42,7 +42,7 @@ def statistics(df):
         i+=1
         # save graph
         plt.savefig(__file__ + columnName +'.png')
-        plt.show()
+        # plt.show()
     # ************************************************** #
 
     # Iterate to get all column names.

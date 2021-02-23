@@ -4,7 +4,7 @@ import json
 import matplotlib.pyplot as plt
 from apyori import apriori
 
-dataframe = pd.read_excel("./AssociationRule/covid19.xls")
+# dataframe = pd.read_excel("./AssociationRule/covid19.xls")
 
 def association(dataframe, min_support=0.01, min_confidence=0.4, min_lift=6, min_length=2) :
     df = dataframe.select_dtypes(exclude=[np.datetime64])
@@ -105,5 +105,3 @@ def association(dataframe, min_support=0.01, min_confidence=0.4, min_lift=6, min
 
     return qa
 
-print(association(dataframe, 0.03, 0.2, 3, 2))
-print(association(dataframe))
