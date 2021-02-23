@@ -4,9 +4,9 @@ import json
 import matplotlib.pyplot as plt
 from apyori import apriori
 
-dataframe = pd.read_excel("./covid19.xls")
+dataframe = pd.read_excel("./AssociationRule/covid19.xls")
 
-def association(dataframe, min_support, min_confidence, min_lift, min_length, max_show) :
+def association(dataframe, min_support=0.01, min_confidence=0.4, min_lift=6, min_length=2) :
     df = dataframe.select_dtypes(exclude=[np.datetime64])
     df.replace(r'^\s+$', np.nan, regex=True)
     df.dropna(inplace=True)
@@ -22,7 +22,7 @@ def association(dataframe, min_support, min_confidence, min_lift, min_length, ma
     config_dict["min_confidence"] = min_confidence
     config_dict["min_lift"] = min_lift
     config_dict["min_length"] = min_length
-    max_show = max_show  # Maximum amount of result shown
+    #config_dict["max_show"] = max_show  # Maximum amount of result shown
 
     association_rules = apriori(records, min_support=config_dict["min_support"], min_confidence=config_dict["min_confidence"],
         min_lift=config_dict["min_lift"], min_length=config_dict["min_length"])
@@ -33,9 +33,9 @@ def association(dataframe, min_support, min_confidence, min_lift, min_length, ma
     output_dict['Config'] = config_dict
     output_dict['Data'] = data_list
 
-    sorted_result = []
+    apriori_result = []
     def byLift(e) :
-        return e[2]
+        return e[1]
 
     i=0
     for item in association_results:
@@ -62,24 +62,22 @@ def association(dataframe, min_support, min_confidence, min_lift, min_length, ma
         data_list.append(rule_dict)    
 
         # for graph plotting
-        sorted_result.append((items[0], items[1], item[2][0][3])) # (From, To, Lift)
+        apriori_result.append((items[0], items[1], item[2][0][3])) # (From, To, Lift)
 
-    sorted_result.sort(key=byLift)    # sort by Lift, ascending order
     result_nodup = {}   # remove duplicate
-    for i in sorted_result :
+    for i in apriori_result :
         result_nodup[(i[0], i[1])] = i[2]
 
-    sorted_result = list(result_nodup.items())
-    sorted_result.reverse()     # sort by Lift, descending order  / List looks like (( From, To ) , Lift)
+    list_nodup = list(result_nodup.items())
+    list_nodup.sort(key=byLift, reverse=True)     # sort by Lift, descending order  / List looks like (( From, To ) , Lift)
 
-    graph_coord = sorted_result[:max_show]
     #graph_coord = []
-    #for i in range(max_show) :
-    #    graph_coord.append(sorted_result[i])   # create another list for plotting graph, with limited amount of result
+    #for i in range(config_dict["max_show"]) :
+    #    graph_coord.append(apriori_result[i])   # create another list for plotting graph, with limited amount of result
 
     graph_assoc = []
     graph_lift = []
-    for e in graph_coord :
+    for e in list_nodup :
         graph_assoc.append(str(e[0][0]) + "," + str(e[0][1]))
         graph_lift.append(e[1])
         #print("From:" + str(e[0]) + " To:" + str(e[1]) + " Lift:" + str(e[2]))
@@ -92,16 +90,20 @@ def association(dataframe, min_support, min_confidence, min_lift, min_length, ma
     #plt.ylabel('Lift')
     #plt.suptitle('Shows the correlation between 2 elements')
     #plt.show()
-    
+
     qa = {}
-    for e in graph_coord :
+    for e in list_nodup :
         q = "What is the likelihood of " + str(e[0][1]) + " happening along with " + str(e[0][0]) + " rather than happening alone?"
         qa[q] = str(e[1]) + " times more likely"
+    #print(len(qa))
 
-    with open("assocqa.txt", "w", encoding="utf-8-sig") as text_file:
-        text_file.write(json.dumps(qa, ensure_ascii=False, indent = 4))
+    #with open("assocqa.txt", "w", encoding="utf-8-sig") as text_file:
+        #text_file.write(json.dumps(qa, ensure_ascii=False, indent = 4))
 
-    with open("output.txt", "w", encoding="utf-8-sig") as text_file:
-        text_file.write(json.dumps(output_dict, ensure_ascii=False, indent = 4))
+    #with open("output.txt", "w", encoding="utf-8-sig") as text_file:
+        #text_file.write(json.dumps(output_dict, ensure_ascii=False, indent = 4))
 
-association(dataframe, 0.01, 0.4, 6, 2, 20)
+    return qa
+
+print(association(dataframe, 0.03, 0.2, 3, 2))
+print(association(dataframe))
