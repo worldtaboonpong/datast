@@ -10,7 +10,7 @@ import os
 my_path = os.path.abspath(__file__)
 
 df_beforecut = pd.read_excel(
-    'C:/Users/World/Documents/SeniorProject/datast/Clustering/untitled.xlsx')
+    'C:/Users/World/Documents/SeniorProject/datast/MRTuser.xlsx','สายฉลองรัชธรรม')
 df = df_beforecut.copy(deep=True)
 
 range_n_clusters = list(range(2, 10))

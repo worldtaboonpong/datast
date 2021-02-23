@@ -12,7 +12,6 @@ def cleanDataframe(dfToClean):
         if ((cleandf[key].is_monotonic and (('ลำดับ' in key) or (key == 'id')))
         #delete unique row and not a number
         or ((not xor(dataTypeDict[key] != 'int64', dataTypeDict[key] != 'float64')) and cleandf[key].is_unique)):      
-        #delete column which might be date/time
              cleandf.drop(key,inplace=True,axis=1)
 
     # print(cleandf.head())
