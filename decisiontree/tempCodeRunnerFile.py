@@ -1,0 +1,1 @@
+print(cleandf[col_name])
