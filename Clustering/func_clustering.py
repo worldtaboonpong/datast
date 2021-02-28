@@ -9,6 +9,8 @@ import os
 
 my_path = os.path.abspath(__file__)
 
+# df = pd.read_excel('./MRTuser.xlsx','สายฉลองรัชธรรม')
+
 
 def clustering(df_beforecut):
 
@@ -81,7 +83,10 @@ def clustering(df_beforecut):
                                                                                            str(
                                                                                                best_cluster) + ' ' + 'กลุ่ม' + ' ' + 'ดังนี้' + ' ' + detailToExplain,
                                                                                            str(my_path) + 'tograph'+str(i)+str(j)+'.png'))
+                # print(scores)                                                                           
 
     return qa_clustering
+
+# clustering(df)
 
 
