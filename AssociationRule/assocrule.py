@@ -1,13 +1,13 @@
 import pandas as pd
 import numpy as np
-import json
-import matplotlib.pyplot as plt
+#import json
 from apyori import apriori
 
 # dataframe = pd.read_excel("./AssociationRule/covid19.xls")
+# dataframe = pd.read_excel('./MRTuser.xlsx' , 'สายฉลองรัชธรรม'  )
 
 def association(dataframe, min_support=0.01, min_confidence=0.4, min_lift=6, min_length=2) :
-    df = dataframe.select_dtypes(exclude=[np.datetime64])
+    df = dataframe.select_dtypes(exclude=[np.datetime64, np.number])
     df.replace(r'^\s+$', np.nan, regex=True)
     df.dropna(inplace=True)
     (col,row) = df.shape
@@ -71,30 +71,10 @@ def association(dataframe, min_support=0.01, min_confidence=0.4, min_lift=6, min
     list_nodup = list(result_nodup.items())
     list_nodup.sort(key=byLift, reverse=True)     # sort by Lift, descending order  / List looks like (( From, To ) , Lift)
 
-    #graph_coord = []
-    #for i in range(config_dict["max_show"]) :
-    #    graph_coord.append(apriori_result[i])   # create another list for plotting graph, with limited amount of result
-
-    graph_assoc = []
-    graph_lift = []
-    for e in list_nodup :
-        graph_assoc.append(str(e[0][0]) + "," + str(e[0][1]))
-        graph_lift.append(e[1])
-        #print("From:" + str(e[0]) + " To:" + str(e[1]) + " Lift:" + str(e[2]))
-
-    # graph plotting
-    
-    #plt.rc('font', **{'sans-serif' : 'Arial', 'family' : 'sans-serif'})
-    #plt.scatter(graph_assoc, graph_lift)
-    #plt.xlabel('Association') # Likelihood of the first to happen with the second, rather than the second happenning alone
-    #plt.ylabel('Lift')
-    #plt.suptitle('Shows the correlation between 2 elements')
-    #plt.show()
-
     qa = {}
     for e in list_nodup :
-        q = "What is the likelihood of " + str(e[0][1]) + " happening along with " + str(e[0][0]) + " rather than happening alone?"
-        qa[q] = str(e[1]) + " times more likely"
+        q = "โอกาสที่ " + str(e[0][1]) + " จะปรากฎพร้อมกับ " + str(e[0][0]) + " แทนที่จะปรากฎเพียงตัวเดียวเป็นเท่าไร"
+        qa[q] = str(e[1]) + " เท่า"
     #print(len(qa))
 
     #with open("assocqa.txt", "w", encoding="utf-8-sig") as text_file:
@@ -105,3 +85,4 @@ def association(dataframe, min_support=0.01, min_confidence=0.4, min_lift=6, min
 
     return qa
 
+#association(dataframe)
