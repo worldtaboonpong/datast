@@ -1,1 +1,1 @@
- # cleandf.loc[cleandf[col] > 1,col] = 'Hi'
+print(cleandf[col_name])

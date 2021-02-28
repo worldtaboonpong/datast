@@ -2,6 +2,7 @@ import pandas as pd
 import math 
 from decimal import Decimal
 from operator import xor
+import numpy as np
 
 
 
@@ -25,7 +26,9 @@ def cleanDataframe(dfToClean):
              cleandf.drop(key,inplace=True,axis=1)
 
         # todo: change int and float to be string of range of value
+    
     for col_name in cleandf.columns:
+        # print(cleandf[col_name])
         if (cleandf[col_name].dtype == 'int64' or cleandf[col_name].dtype == 'float64'):
 
 
@@ -45,6 +48,8 @@ def cleanDataframe(dfToClean):
 
 
             start = v_min
+            # print(start, start+interval)
+            # print((cleandf[col_name] >= start) & (cleandf[col_name] < start+interval))
 
             # condition = (cleandf[col_name] >= start) & (cleandf[col_name] <= start+interval)
             # cleandf.loc[condition,col_name] = 'ช่วง '+str(start)+' ถึง ' + str(start+interval) 
@@ -52,14 +57,24 @@ def cleanDataframe(dfToClean):
             # print(cleandf)
 
             for i in range(v_floor):
-                # stringStart = str(start)
-                # stringStartInterval = str(start+interval)
-                # condition = (cleandf[col_name] >= start) & (cleandf[col_name] < start+interval)
-                cleandf.loc[(cleandf[col_name] >= start) & (cleandf[col_name] < start+interval),col_name] = 'ช่วง '+str(start)+' ถึง ' + str(start+interval)
-                # print(cleandf,start,start+interval,condition)                
+                condition = (cleandf[col_name] >= start) & (cleandf[col_name] <= start+interval)
+                # cleandf.loc[condition,col_name] = 'ช่วง '+str(start)+' ถึง ' + str(start+interval)
+                cleandf[col_name].mask(condition,'ช่วง '+str(start)+' ถึง ' + str(start+interval),inplace = True)
+                # print(condition)
                 start = start+interval
 
-    
+            # for i in range(v_floor):
+            #     # stringStart = str(start)
+            #     # stringStartInterval = str(start+interval)
+            #     condition = (cleandf[col_name] >= start) & (cleandf[col_name] < start+interval)
+            #     cleandf.loc[condition,col_name] = 'ช่วง '+str(start)+' ถึง ' + str(start+interval)
+            #     # cleandf[col_name] = np.where((cleandf[col_name] >= start) & (cleandf[col_name] < start+interval),'ช่วง '+str(start)+' ถึง ' + str(start+interval),cleandf[col_name])
+            #     # print(cleandf,start,start+interval,condition)                
+            #     start = start+interval
+
+            #     # & (cleandf[col_name] < (start+interval)
+
+    # print(cleandf.head())
     
 
     if len(cleandf.columns) <= 2:
