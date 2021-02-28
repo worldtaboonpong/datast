@@ -8,10 +8,10 @@ import pandas as pd
 
 app = Flask(__name__)
 
-qa_clustering = clustering(df)
-qa_statistic = statistics(df)
-qa_assoocrule = association(df) # default association(dataframe, min_support=0.01, min_confidence=0.4, min_lift=6, min_length=2)
-qa={**qa_clustering,**qa_statistic,**qa_assoocrule}
+# qa_clustering = clustering(df)
+# qa_statistic = statistics(df)
+# qa_assoocrule = association(df) # default association(dataframe, min_support=0.01, min_confidence=0.4, min_lift=6, min_length=2)
+# qa={**qa_clustering,**qa_statistic,**qa_assoocrule}
 
 
 @app.route('/')
