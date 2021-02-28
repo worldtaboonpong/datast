@@ -9,8 +9,8 @@ import os
 
 my_path = os.path.abspath(__file__)
 
+# df = pd.read_excel('./MRTuser.xlsx','สายฉลองรัชธรรม')
 
-dfForTestingFunction = pd.read_excel('C:/Users/World/Documents/SeniorProject/datast/Clustering/untitled.xlsx')
 
 def clustering(df_beforecut):
 
@@ -71,11 +71,11 @@ def clustering(df_beforecut):
                             detailToExplain += dfForGroupI.columns.values[k] + str(
                                 dfForGroupI.iat[j, k]) + ' '
 
-                plt.rcParams['font.family'] = 'Tahoma'
-                df_kmeans.plot.scatter(new.columns.values[0],new.columns.values[1], c='Group', colormap='rainbow')
-                plt.title('Clustering by' + ' ' +new.columns.values[0] + ' ' + 'and' + ' ' + new.columns.values[1])
-                plt.savefig(my_path+'tograph'+str(i)+str(j)+'.png')
-                plt.show()
+                # plt.rcParams['font.family'] = 'Tahoma'
+                # df_kmeans.plot.scatter(new.columns.values[0],new.columns.values[1], c='Group', colormap='rainbow')
+                # plt.title('Clustering by' + ' ' +new.columns.values[0] + ' ' + 'and' + ' ' + new.columns.values[1])
+                # plt.savefig(my_path+'tograph'+str(i)+str(j)+'.png')
+                # plt.show()
 
                 qa_clustering['จากไฟล์ สามารถแบ่งกลุ่มข้อมูลเป็นกี่กลุ่ม อย่างไรบ้าง'].append(('การจัดกลุ่มระหว่าง' +
                                                                                            ' ' + new.columns.values[0] + ' ' + 'และ' + ' ' + new.columns.values[1] + ' ' +
@@ -83,9 +83,10 @@ def clustering(df_beforecut):
                                                                                            str(
                                                                                                best_cluster) + ' ' + 'กลุ่ม' + ' ' + 'ดังนี้' + ' ' + detailToExplain,
                                                                                            str(my_path) + 'tograph'+str(i)+str(j)+'.png'))
+                # print(scores)                                                                           
 
     return qa_clustering
 
+# clustering(df)
 
-dictForTestingFunction = clustering(dfForTestingFunction)
-print(dictForTestingFunction)
+

@@ -10,7 +10,7 @@ import os
 my_path = os.path.abspath(__file__)
 
 df_beforecut = pd.read_excel(
-    'C:/Users/World/Documents/SeniorProject/datast/Clustering/untitled.xlsx')
+    'C:/Users/World/Documents/SeniorProject/datast/MRTuser.xlsx','สายฉลองรัชธรรม')
 df = df_beforecut.copy(deep=True)
 
 range_n_clusters = list(range(2, 10))
@@ -28,8 +28,10 @@ for key in dataTypeDict:
         # check if column is something like id or no.
         or (df[key].is_monotonic and (('ลำดับ' in key) or (key == 'id')))
         or ((key == 'year') or (key == 'ปี'))  # check if column is year
-            or ('รวม' in key)):
-        df.drop(key, inplace=True, axis=1)
+        or ('รวม' in key)):
+        
+            df.drop(key, inplace=True, axis=1)
+        
 # print(df.head())
 # print(df_beforecut.head())
 
@@ -101,4 +103,4 @@ if (len(df.columns) >= 2 and len(df.columns) <= 5):
                                                                                            str(my_path) + 'tograph'+str(i)+str(j)+'.png'))
 
 
-print(qa_clustering)
+# print(qa_clustering)
