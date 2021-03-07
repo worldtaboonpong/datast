@@ -6,7 +6,7 @@ import numpy as np
 import csv
 
 
-df = pd.read_csv('untitled.csv')
+df = pd.read_excel('./MRTuser.xlsx','สายฉลองรัชธรรม')
 
 def cleanDataframe(dfToClean):
     cleandf = dfToClean.copy(deep=True)
@@ -24,7 +24,7 @@ def cleanDataframe(dfToClean):
         if (cleandf[col_name].dtype == 'int64' or cleandf[col_name].dtype == 'float64'):
             v_max = cleandf[col_name].max()
             v_min = cleandf[col_name].min()
-            v_range = Decimal(v_max)-Decimal(v_min)
+            v_range = (v_max)-(v_min)
             sample = cleandf.shape[0]
             v_floor = math.ceil(1+3.322*math.log10(sample))
             interval = math.ceil(v_range/v_floor)

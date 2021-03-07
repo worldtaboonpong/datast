@@ -1,1 +1,2 @@
-plt.figure()
+print(clustering(df))
+
