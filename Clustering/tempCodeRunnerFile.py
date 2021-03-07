@@ -1,1 +1,1 @@
-Try to gert more detail to explain
+plt.figure()
