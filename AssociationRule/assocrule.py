@@ -73,8 +73,8 @@ def association(dataframe, min_support=0.01, min_confidence=0.4, min_lift=6, min
 
     qa = {}
     for e in list_nodup :
-        q = "โอกาสที่ " + str(e[0][1]) + " จะปรากฎพร้อมกับ " + str(e[0][0]) + " แทนที่จะปรากฎเพียงตัวเดียวเป็นเท่าไร"
-        qa[q] = str(e[1]) + " เท่า"
+        q = "What is the odds that " + str(e[0][1]) + " happens along with " + str(e[0][0]) + " instead of happening by itself"
+        qa[q] = str(e[1]) + " times more likely"
     #print(len(qa))
 
     #with open("assocqa.txt", "w", encoding="utf-8-sig") as text_file:
