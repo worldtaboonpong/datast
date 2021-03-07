@@ -62,7 +62,7 @@ def statistics(df):
     # ************************************************** #
 
     # Question #
-    ques = ("ค่า Max, Min, Mean ของ " + digitc + " มีความสัมพันธ์กับ " + dftc + " อย่างไร")
+    ques = ("How do Max, Min, Mean of " + digitc + " relate with " + dftc )
     # ************************************************** #
 
     QA = {ques:[]}
@@ -73,12 +73,12 @@ def statistics(df):
         toStringMAX = ''
         for i in range (len(dft.iloc[digitdf.idxmax()[i]].values)) :
             toStringMAX += nameindft[i] + " " + str(dft.iloc[digitdf.idxmax()[i]].values[i]) + " "
-        ans += ("ค่า Max ของ " + columnName + " คือ " + str(columnData.max()) + " ที่ " + toStringMAX)
+        ans += ("Max of " + columnName + " is " + str(columnData.max()) + " at " + toStringMAX)
         toStringMIN = ''
         for i in range (len(dft.iloc[digitdf.idxmin()[i]].values)) :
             toStringMIN += nameindft[i] + " " + str(dft.iloc[digitdf.idxmin()[i]].values[i]) + " "
-        ans += ("ค่า Min ของ " + columnName + " คือ " + str(columnData.max()) + " ที่ " + toStringMIN)
-        ans += ("ค่า Mean ของ " + columnName + " คือ " + str(columnData.mean().round(2)))
+        ans += ("Min of " + columnName + " is " + str(columnData.max()) + " at " + toStringMIN)
+        ans += ("Mean of " + columnName + " is " + str(columnData.mean().round(2)))
         QA[ques].append((ans,__file__ + columnName +'.png'))
     # ************************************************** #
 
