@@ -29,6 +29,7 @@ def clustering(df_beforecut):
             or (df[key].is_monotonic and (('ลำดับ' in key) or (key == 'id' or key == 'Id')))
             or (key == 'Id')
             or ((key == 'year') or (key == 'ปี'))  # check if column is year
+            or ((key == 'month') or (key == 'เดือน')) # check if column is month
             or (('รวม' in key) or ('total' in key))):
             df.drop(key, inplace=True, axis=1)
 
