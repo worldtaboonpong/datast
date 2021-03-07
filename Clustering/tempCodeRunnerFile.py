@@ -1,1 +1,1 @@
-plt.legend(group, title = 'Group')
+plt.figure()

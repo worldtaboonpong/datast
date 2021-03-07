@@ -73,15 +73,32 @@ def clustering(df_beforecut):
                                 dfForGroupI.iat[l, m]) + ' '
                 
                 colormap = np.array(['r','g','b'])
-                group = df_kmeans['Group']
+                # group = df_kmeans['Group']
 
                 plt.rcParams['font.family'] = 'Tahoma'
+            
+                for group in range(best_cluster):
+                    dfToVisualize = df_kmeans.loc[(df_kmeans['Group'] == group)]
+                    col_name = list(dfToVisualize)
+                    first_col = col_name[0]
+                    second_col = col_name[1]
+                    list_first_col = dfToVisualize[first_col].tolist()
+                    list_second_col = dfToVisualize[second_col].tolist()
+                    print(first_col)
+                    print(second_col)
+                    # plt.figure()
+                    plt.scatter(list_first_col,list_second_col, c=colormap[group] , label=group)
+                    plt.xlabel(first_col)
+                    plt.ylabel(second_col)
+                    # df_kmeans.plot.scatter(new.columns.values[0],new.columns.values[1], c=colormap[group] , label=group)
+
+                # df_kmeans.plot.scatter(new.columns.values[0],new.columns.values[1], c=colormap[group] )
                 
-                df_kmeans.plot.scatter(new.columns.values[0],new.columns.values[1], c=colormap[group] )
+                print('Make graph')
                 plt.legend(title = 'Group')
-    
                 plt.title('Clustering by' + ' ' +new.columns.values[0] + ' ' + 'and' + ' ' + new.columns.values[1])
                 plt.savefig(my_path+'tograph'+str(i)+str(j)+'.png')
+                plt.figure()
                 # plt.show()
 
                 qa_clustering['How can we cluster the data from this file'].append(('We can cluster between' +
@@ -94,6 +111,9 @@ def clustering(df_beforecut):
 
     return qa_clustering
 
-print(clustering(df))
+
+clustering(df)
+
+# print(clustering(df))
 
 
