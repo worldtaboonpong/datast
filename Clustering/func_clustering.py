@@ -10,7 +10,7 @@ import numpy as np
 
 my_path = os.path.abspath(__file__)
 
-df = pd.read_excel('./MRTuser.xlsx','สายฉลองรัชธรรม')
+# df = pd.read_excel('./MRTuser.xlsx','สายฉลองรัชธรรม')
 
 
 def clustering(df_beforecut):
@@ -84,8 +84,7 @@ def clustering(df_beforecut):
                     second_col = col_name[1]
                     list_first_col = dfToVisualize[first_col].tolist()
                     list_second_col = dfToVisualize[second_col].tolist()
-                    print(first_col)
-                    print(second_col)
+        
                     # plt.figure()
                     plt.scatter(list_first_col,list_second_col, c=colormap[group] , label=group)
                     plt.xlabel(first_col)
@@ -94,7 +93,7 @@ def clustering(df_beforecut):
 
                 # df_kmeans.plot.scatter(new.columns.values[0],new.columns.values[1], c=colormap[group] )
                 
-                print('Make graph')
+               
                 plt.legend(title = 'Group')
                 plt.title('Clustering by' + ' ' +new.columns.values[0] + ' ' + 'and' + ' ' + new.columns.values[1])
                 plt.savefig(my_path+'tograph'+str(i)+str(j)+'.png')
@@ -112,7 +111,7 @@ def clustering(df_beforecut):
     return qa_clustering
 
 
-clustering(df)
+
 
 # print(clustering(df))
 
