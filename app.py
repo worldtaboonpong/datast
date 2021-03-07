@@ -7,7 +7,8 @@ from werkzeug.utils import secure_filename
 import os
 import pandas as pd
 
-df = pd.read_excel('./9-2563-2.xlsx')
+df = pd.read_excel('sample-xlsx-file-for-testing.xlsx')
+
 
 # app = Flask(__name__)
 # app.config['UPLOAD_EXTENSION'] = ['.xls','.xlsx','.csv']
