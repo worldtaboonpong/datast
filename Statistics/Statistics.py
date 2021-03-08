@@ -2,6 +2,7 @@
 import pandas as pd 
 import numpy as np
 import matplotlib.pyplot as plt
+from operator import xor
 import os
 
 my_path = os.path.abspath(__file__)
@@ -10,16 +11,21 @@ my_path = os.path.abspath(__file__)
 #If can't read .xlsx file then, 'pip install xlrd==1.2.0'.
 #In the future, we will read file from user's input instead of this method.
 #To read excel file with multiple sheets, put ", 'sheetname'" after 'filename'.
-df = pd.read_excel('MRTuser.xlsx', 'สายฉลองรัชธรรม')
+# df = pd.read_excel('MRTuser.xlsx', 'สายฉลองรัชธรรม')
 # df = pd.read_excel('harmful30jun2020.xls')
+df = pd.read_excel('untitled.xlsx')
 dft = df.copy()
 digitdf = df.select_dtypes(include=[np.number])
 
 dataTypeDict = dict(digitdf.dtypes)
 for key in dataTypeDict:
     # Check if column is not integer or columnn is index column sorted
-    if (dataTypeDict[key] != 'int64' or digitdf[key].is_monotonic):
-        digitdf.drop(key, inplace=True,axis=1)
+    if (not xor(dataTypeDict[key] != 'int64', dataTypeDict[key] != 'float64')
+        or (dataTypeDict[key] == 'O')
+        or (df[key].is_monotonic and (('ลำดับ' in key) or (key == 'id') or (key == 'ID') or (key == 'Id')))
+        or ((key == 'year') or (key == 'YEAR') or (key == 'Year') or (key == 'ปี'))  # check if column is year
+        or ((key == 'month') or (key == 'MONTH') or (key == 'Month') or (key == 'เดือน'))):  # check if column is month
+            digitdf.drop(key, inplace=True,axis=1)
 
 # print(digitdf.describe())
 dft_columns = set(df.columns).difference(digitdf.columns)
@@ -42,7 +48,7 @@ for (columnName, columnData) in digitdf.iteritems():
         plt.scatter(digitdf.idxmin()[i], columnData.min(), color = 'red')
         plt.annotate('Max: '+ str(columnData.max()), (digitdf.idxmax()[i], columnData.max()), color="blue")
         plt.annotate('Min: '+ str(columnData.min()), (digitdf.idxmin()[i], columnData.min()), color="red")
-        plt.text(index/2, columnData.mean(), 'Mean: '+ str(columnData.mean().round(2)), fontsize=10, va='center', ha='center', backgroundcolor='w')
+        plt.text(index/2, columnData.mean(), 'Mean: '+ str(round(columnData.mean(),2)), fontsize=10, va='center', ha='center', backgroundcolor='w')
         plt.axhline(columnData.mean(), color = 'gray', linestyle = '--', linewidth = .5)
         i+=1
         # save graph
@@ -82,7 +88,7 @@ for (columnName, columnData) in digitdf.iteritems():
     for i in range (len(dft.iloc[digitdf.idxmin()[i]].values)) :
         toStringMIN += nameindft[i] + " " + str(dft.iloc[digitdf.idxmin()[i]].values[i]) + " "
     ans.append("ค่า Min ของ " + columnName + " คือ " + str(columnData.max()) + " ที่ " + toStringMIN)
-    ans.append("ค่า Mean ของ " + columnName + " คือ " + str(columnData.mean().round(2)))
+    ans.append("ค่า Mean ของ " + columnName + " คือ " + str(round(columnData.mean(),2)))
     ans.append("")
 print("Answer : ")
 print(*ans, sep="\n")
