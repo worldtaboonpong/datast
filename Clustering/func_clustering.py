@@ -10,7 +10,7 @@ import numpy as np
 
 my_path = os.path.abspath(__file__)
 
-df = pd.read_excel('sample-xlsx-file-for-testing.xlsx')
+df = pd.read_excel('Clustering\harmful30jun2020.xls','ลักษณะที่บรรทุก')
 
 
 def clustering(df_beforecut):
@@ -117,6 +117,6 @@ def clustering(df_beforecut):
 
 
 
-# print(clustering(df))
+print(clustering(df))
 
 
