@@ -1,1 +1,2 @@
-Try to gert more detail to explain
+print(clustering(df))
+
