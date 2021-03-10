@@ -1,6 +1,7 @@
 import pandas as pd 
 import numpy as np
 import matplotlib.pyplot as plt
+from operator import xor
 import os
 
 my_path = os.path.abspath(__file__)
@@ -15,8 +16,12 @@ def statistics(df):
     dataTypeDict = dict(digitdf.dtypes)
     for key in dataTypeDict:
         # Check if column is not integer or columnn is index column sorted
-        if (dataTypeDict[key] != 'int64' or digitdf[key].is_monotonic):
-            digitdf.drop(key, inplace=True,axis=1)
+        if (not xor(dataTypeDict[key] != 'int64', dataTypeDict[key] != 'float64')
+            or (dataTypeDict[key] == 'O')
+            or (df[key].is_monotonic and (('ลำดับ' in key) or (key == 'id') or (key == 'ID') or (key == 'Id')))
+            or ((key == 'year') or (key == 'YEAR') or (key == 'Year') or (key == 'ปี'))  # check if column is year
+            or ((key == 'month') or (key == 'MONTH') or (key == 'Month') or (key == 'เดือน'))):  # check if column is month
+                digitdf.drop(key, inplace=True,axis=1)
             
     dft_columns = set(df.columns).difference(digitdf.columns)
     dft = dft[dft_columns]
