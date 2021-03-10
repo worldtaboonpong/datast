@@ -8,6 +8,7 @@ my_path = os.path.abspath(__file__)
 
 # dftest = pd.read_excel('harmful30jun2020.xls')
 # dftest = pd.read_excel('MRTuser.xlsx', 'สายฉลองรัชธรรม')
+# dftest = pd.read_excel('sampledatafoodsales.xlsx', 'FoodSales')
 
 def statistics(df):
     digitdf = df.select_dtypes(include=[np.number])
@@ -36,12 +37,22 @@ def statistics(df):
         # print('Column Min : ', columnData.min())
         # print('Column Max : ', columnData.max())
         # print('\n')
+        CDNX = list()
+        for a in columnData:
+            CDNX.append(a)
+        max_count = CDNX.count(columnData.max())
+        CDNN = list()
+        for a in columnData:
+            CDNN.append(a)
+        min_count = CDNN.count(columnData.min())
         plt.rcParams['font.family'] = 'Tahoma'
         df.reset_index().plot.scatter( x= 'index', y = columnName, color = 'black')
-        plt.scatter(digitdf.idxmax()[i], columnData.max(), color = 'blue')
-        plt.scatter(digitdf.idxmin()[i], columnData.min(), color = 'red')
-        plt.annotate('Max: '+ str(columnData.max()), (digitdf.idxmax()[i], columnData.max()), color="blue")
-        plt.annotate('Min: '+ str(columnData.min()), (digitdf.idxmin()[i], columnData.min()), color="red")
+        if(max_count < 2):
+            plt.scatter(digitdf.idxmax()[0], columnData.max(), color = 'blue')
+            plt.annotate('Max: '+ str(columnData.max()), (digitdf.idxmax()[i], columnData.max()), color="blue")
+        if(min_count < 2):
+            plt.scatter(digitdf.idxmin()[i], columnData.min(), color = 'red')
+            plt.annotate('Min: '+ str(columnData.min()), (digitdf.idxmin()[i], columnData.min()), color="red")
         plt.text(index/2, columnData.mean(), 'Mean: '+ str(columnData.mean().round(2)), fontsize=10, va='center', ha='center', backgroundcolor='w')
         plt.axhline(columnData.mean(), color = 'gray', linestyle = '--', linewidth = .5)
         i+=1
@@ -74,15 +85,29 @@ def statistics(df):
 
     # Answer
     for (columnName, columnData) in digitdf.iteritems():
+        CDNX = list()
+        for a in columnData:
+            CDNX.append(a)
+        max_count = CDNX.count(columnData.max())
+        CDNN = list()
+        for a in columnData:
+            CDNN.append(a)
+        min_count = CDNN.count(columnData.min())
         ans = ''
-        toStringMAX = ''
-        for i in range (len(dft.iloc[digitdf.idxmax()[i]].values)) :
-            toStringMAX += nameindft[i] + " " + str(dft.iloc[digitdf.idxmax()[i]].values[i]) + " "
-        ans += ("Max of " + columnName + " is " + str(columnData.max()) + " at " + toStringMAX)
-        toStringMIN = ''
-        for i in range (len(dft.iloc[digitdf.idxmin()[i]].values)) :
-            toStringMIN += nameindft[i] + " " + str(dft.iloc[digitdf.idxmin()[i]].values[i]) + " "
-        ans += ("Min of " + columnName + " is " + str(columnData.max()) + " at " + toStringMIN)
+        if(max_count < 2):
+            toStringMAX = ''
+            for i in range (len(dft.iloc[digitdf.idxmax()[0]].values)) :
+                toStringMAX += nameindft[i] + " " + str(dft.iloc[digitdf.idxmax()[0]].values[i]) + " "
+            ans += ("Max of " + columnName + " is " + str(columnData.max()) + " at " + toStringMAX)
+        else :
+            ans += ("There are more than one Max in " + columnName + " ")
+        if(min_count < 2):
+            toStringMIN = ''
+            for i in range (len(dft.iloc[digitdf.idxmin()[0]].values)) :
+                toStringMIN += nameindft[i] + " " + str(dft.iloc[digitdf.idxmin()[0]].values[i]) + " "
+            ans += ("Min of " + columnName + " is " + str(columnData.min()) + " at " + toStringMIN)
+        else :
+            ans += ("There are more than one Min in " + columnName + " ")
         ans += ("Mean of " + columnName + " is " + str(columnData.mean().round(2)))
         QA[ques].append((ans,__file__ + columnName +'.png'))
     # ************************************************** #

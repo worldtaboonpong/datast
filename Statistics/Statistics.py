@@ -12,8 +12,8 @@ my_path = os.path.abspath(__file__)
 #In the future, we will read file from user's input instead of this method.
 #To read excel file with multiple sheets, put ", 'sheetname'" after 'filename'.
 # df = pd.read_excel('MRTuser.xlsx', 'สายฉลองรัชธรรม')
-# df = pd.read_excel('harmful30jun2020.xls')
-df = pd.read_excel('untitled.xlsx')
+df = pd.read_excel('harmful30jun2020.xls')
+# df = pd.read_excel('sampledatafoodsales.xlsx', 'FoodSales')
 dft = df.copy()
 digitdf = df.select_dtypes(include=[np.number])
 
@@ -32,7 +32,6 @@ dft_columns = set(df.columns).difference(digitdf.columns)
 # print(dft[dft_columns].head())
 dft = dft[dft_columns]
 
-
 #iterate over columns
 i = 0
 index = df.shape[0]
@@ -42,12 +41,22 @@ for (columnName, columnData) in digitdf.iteritems():
         # print('Column Min : ', columnData.min())
         # print('Column Max : ', columnData.max())
         # print('\n')
+        CDNX = list()
+        for a in columnData:
+            CDNX.append(a)
+        max_count = CDNX.count(columnData.max())
+        CDNN = list()
+        for a in columnData:
+            CDNN.append(a)
+        min_count = CDNN.count(columnData.min())
         plt.rcParams['font.family'] = 'Tahoma'
         df.reset_index().plot.scatter( x= 'index', y = columnName, color = 'black')
-        plt.scatter(digitdf.idxmax()[i], columnData.max(), color = 'blue')
-        plt.scatter(digitdf.idxmin()[i], columnData.min(), color = 'red')
-        plt.annotate('Max: '+ str(columnData.max()), (digitdf.idxmax()[i], columnData.max()), color="blue")
-        plt.annotate('Min: '+ str(columnData.min()), (digitdf.idxmin()[i], columnData.min()), color="red")
+        if(max_count < 2):
+            plt.scatter(digitdf.idxmax()[0], columnData.max(), color = 'blue')
+            plt.annotate('Max: '+ str(columnData.max()), (digitdf.idxmax()[i], columnData.max()), color="blue")
+        if(min_count < 2):
+            plt.scatter(digitdf.idxmin()[i], columnData.min(), color = 'red')
+            plt.annotate('Min: '+ str(columnData.min()), (digitdf.idxmin()[i], columnData.min()), color="red")
         plt.text(index/2, columnData.mean(), 'Mean: '+ str(round(columnData.mean(),2)), fontsize=10, va='center', ha='center', backgroundcolor='w')
         plt.axhline(columnData.mean(), color = 'gray', linestyle = '--', linewidth = .5)
         i+=1
@@ -57,38 +66,49 @@ for (columnName, columnData) in digitdf.iteritems():
 
 # Iterate to get all column names.
 nameindigitdf = list()
-i = 0
-index = df.shape[0]
 for (columnName, columnData) in digitdf.iteritems():
     nameindigitdf.append(columnName)
 digitc = ", ".join(nameindigitdf)
 
 nameindft = list()
-i = 0
-index = df.shape[0]
 for (columnName, columnData) in dft.iteritems():
     nameindft.append(columnName)
 dftc = ", ".join(nameindft)
 # ************************************************** #
-
+print(*nameindft)
 # Question #
 ques = ("ค่า Max, Min, Mean ของ " + digitc + " มีความสัมพันธ์กับ " + dftc + " อย่างไร")
-# print("Question : ")
-# print(ques)
+print("Question : ")
+print(ques)
 # ************************************************** #
 
 # Answer
 ans = list()
 for (columnName, columnData) in digitdf.iteritems():
-    toStringMAX = ''
-    for i in range (len(dft.iloc[digitdf.idxmax()[i]].values)) :
-        toStringMAX += nameindft[i] + " " + str(dft.iloc[digitdf.idxmax()[i]].values[i]) + " "
-    ans.append("ค่า Max ของ " + columnName + " คือ " + str(columnData.max()) + " ที่ " + toStringMAX)
-    toStringMIN = ''
-    for i in range (len(dft.iloc[digitdf.idxmin()[i]].values)) :
-        toStringMIN += nameindft[i] + " " + str(dft.iloc[digitdf.idxmin()[i]].values[i]) + " "
-    ans.append("ค่า Min ของ " + columnName + " คือ " + str(columnData.max()) + " ที่ " + toStringMIN)
-    ans.append("ค่า Mean ของ " + columnName + " คือ " + str(round(columnData.mean(),2)))
+    CDNX = list()
+    for a in columnData:
+        CDNX.append(a)
+    max_count = CDNX.count(columnData.max())
+    CDNN = list()
+    for a in columnData:
+        CDNN.append(a)
+    min_count = CDNN.count(columnData.min())
+
+    if(max_count < 2):
+        toStringMAX = ''
+        for i in range (len(dft.iloc[digitdf.idxmax()[0]].values)) :
+            toStringMAX += nameindft[i] + " " + str(dft.iloc[digitdf.idxmax()[0]].values[i]) + " "
+        ans.append("Max of " + columnName + " is " + str(columnData.max()) + " at " + toStringMAX)
+    else :
+        ans.append("There are more than one Max in " + columnName)
+    if(min_count < 2):
+        toStringMIN = ''
+        for i in range (len(dft.iloc[digitdf.idxmin()[0]].values)) :
+            toStringMIN += nameindft[i] + " " + str(dft.iloc[digitdf.idxmin()[0]].values[i]) + " "
+        ans.append("Min of " + columnName + " is " + str(columnData.min()) + " at " + toStringMIN)
+    else :
+        ans.append("There are more than one Min in " + columnName)
+    ans.append("Mean of " + columnName + " is " + str(columnData.mean().round(2)))
     ans.append("")
 print("Answer : ")
 print(*ans, sep="\n")
