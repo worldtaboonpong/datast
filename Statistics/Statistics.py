@@ -12,8 +12,8 @@ my_path = os.path.abspath(__file__)
 #In the future, we will read file from user's input instead of this method.
 #To read excel file with multiple sheets, put ", 'sheetname'" after 'filename'.
 # df = pd.read_excel('MRTuser.xlsx', 'สายฉลองรัชธรรม')
-df = pd.read_excel('harmful30jun2020.xls')
-# df = pd.read_excel('sampledatafoodsales.xlsx', 'FoodSales')
+# df = pd.read_excel('harmful30jun2020.xls')
+df = pd.read_excel('sampledatafoodsales.xlsx', 'FoodSales')
 dft = df.copy()
 digitdf = df.select_dtypes(include=[np.number])
 
@@ -75,9 +75,9 @@ for (columnName, columnData) in dft.iteritems():
     nameindft.append(columnName)
 dftc = ", ".join(nameindft)
 # ************************************************** #
-print(*nameindft)
+
 # Question #
-ques = ("ค่า Max, Min, Mean ของ " + digitc + " มีความสัมพันธ์กับ " + dftc + " อย่างไร")
+ques = ("How do Max, Min, Mean of " + digitc + " relate with " + dftc )
 print("Question : ")
 print(ques)
 # ************************************************** #
