@@ -2,7 +2,9 @@ import pandas as pd
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 import seaborn as sns
-import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('Agg')
+from matplotlib import pyplot as plt
 from sklearn.decomposition import PCA
 from operator import xor
 import os
@@ -10,7 +12,7 @@ import numpy as np
 
 my_path = os.path.abspath(__file__)
 
-df = pd.read_excel('Clustering\harmful30jun2020.xls','ลักษณะที่บรรทุก')
+# df = pd.read_excel('Clustering\harmful30jun2020.xls','ลักษณะที่บรรทุก')
 
 
 def clustering(df_beforecut):
@@ -102,6 +104,7 @@ def clustering(df_beforecut):
                 plt.title('Clustering by' + ' ' +new.columns.values[0] + ' ' + 'and' + ' ' + new.columns.values[1])
                 plt.savefig(my_path+'tograph'+str(i)+str(j)+'.png')
                 plt.figure()
+                # plt.close()
                 # plt.show()
 
                 qa_clustering['How can we cluster the data from this file'].append(('We can cluster between' +
@@ -117,6 +120,6 @@ def clustering(df_beforecut):
 
 
 
-print(clustering(df))
+# print(clustering(df))
 
 

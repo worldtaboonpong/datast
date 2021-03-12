@@ -1,9 +1,30 @@
 <html>
+    <script>
+        function goBack(){
+            window.history.back();
+        }
+    </script>    
     <body>
         <p>
             {{msg}}
         </p>
-        
+        <table>
+            {% for questions , answers in qa.items() %}
+            <tr>
+                <th>
+                    {{questions}}
+                </th>
+                <td>
+                    {% for answer in answers %}
+                        {{answer[0]}}      
+                    {% endfor %}            
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <button onclick="goBack()">
+            Back
+        </button>
         
     </body>
 </html>
