@@ -3,6 +3,10 @@
         function goBack(){
             window.history.back();
         }
+        function getPath(item){
+            return item;
+        }
+        
     </script>    
     <body>
         <p>
@@ -16,7 +20,12 @@
                 </th>
                 <td>
                     {% for answer in answers %}
-                        {{answer[0]}}      
+                        {{answer[0]}}  
+                        <p>
+                            {{answer[1]}}
+                            <img src="Clustering/testpic.jpg">
+                            
+                        </p>                       
                     {% endfor %}            
                 </td>
             </tr>

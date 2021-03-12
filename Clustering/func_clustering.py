@@ -10,7 +10,7 @@ from operator import xor
 import os
 import numpy as np
 
-my_path = os.path.abspath(__file__)
+my_path = os.path.relpath(__file__)
 
 # df = pd.read_excel('Clustering\harmful30jun2020.xls','ลักษณะที่บรรทุก')
 
