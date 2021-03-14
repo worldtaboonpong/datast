@@ -1,6 +1,8 @@
 import pandas as pd 
 import numpy as np
-import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('Agg')
+from matplotlib import pyplot as plt
 from operator import xor
 import os
 
@@ -58,6 +60,8 @@ def statistics(df):
         i+=1
         # save graph
         plt.savefig(__file__ + columnName +'.png')
+        plt.figure()
+        # plt.close()
         # plt.show()
     # ************************************************** #
 
