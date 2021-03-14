@@ -8,7 +8,7 @@ import os
 import pandas as pd
 from flask_cors import CORS
 
-df = pd.read_excel('sample-xlsx-file-for-testing.xlsx')
+# df = pd.read_excel('sample-xlsx-file-for-testing.xlsx')
 
 
 app = Flask(__name__)
@@ -25,36 +25,10 @@ file_to_be_analyze = ''
 
 # print(qa)
 
-# @app.route('/')
-# def hello():
-#     return render_template('index.html')
-
 @app.route('/')
 def hello():
-    return {'result' : "Hello World"}
+    return render_template('index.html')
 
-# @app.route('/submit', methods=['POST'])
-# def submitFile():
-#     uploaded_file = request.files['file']
-#     filename = secure_filename(uploaded_file.filename)
-#     if filename != '':
-#         file_ext = os.path.splitext(filename)[1]
-#         if file_ext not in app.config['UPLOAD_EXTENSION']:
-#             return
-#         uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'],filename))
-#         global file_to_be_analyze
-#         file_to_be_analyze = filename
-#         # df = pd.read_excel(uploaded_file)
-#         # qa_clustering = clustering(df)
-#         # qa_statistic = statistics(df)
-#         # qa_assoocrule = association(df)
-#         # qa={**qa_clustering,**qa_statistic,**qa_assoocrule}
-    
-#     msg = "Your file is uploaded , the file is" + file_to_be_analyze
-#     print(msg)
-    
-
-#     return render_template('submit.html', msg=msg)
 
 @app.route('/submit', methods=['POST'])
 def submitFile():
@@ -73,8 +47,13 @@ def submitFile():
         # qa_assoocrule = association(df)
         # qa={**qa_clustering,**qa_statistic,**qa_assoocrule}
     
-    msg = "Your file is uploaded , the file is" + file_to_be_analyze   
-    return msg
+    msg = "Your file is uploaded , the file is" + file_to_be_analyze
+    print(msg)
+    
+
+    return render_template('submit.html', msg=msg)
+
+
 
 
 @app.route('/analyze', methods=['POST'])

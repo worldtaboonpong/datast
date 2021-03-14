@@ -60,6 +60,7 @@ def statistics(df):
         i+=1
         # save graph
         plt.savefig(__file__ + columnName +'.png')
+        plt.figure()
         # plt.close()
         # plt.show()
     # ************************************************** #
