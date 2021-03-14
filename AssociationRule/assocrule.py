@@ -1,12 +1,13 @@
 import pandas as pd
 import numpy as np
-#import json
+import json
 from apyori import apriori
 
 #dataframe = pd.read_excel("./AssociationRule/covid19.xls")
 #dataframe = pd.read_excel('./MRTuser.xlsx' , 'สายฉลองรัชธรรม'  )
+dataframe = pd.read_excel('./sampledatafoodsales.xlsx', 'FoodSales'  )
 
-def association(dataframe, min_support=0.01, min_confidence=0.4, min_lift=6, min_length=2) :
+def association(dataframe, min_support=0.01, min_confidence=0.2, min_lift=3, min_length=2) :
     df = dataframe.select_dtypes(exclude=[np.datetime64, np.number])
     df.replace(r'^\s+$', np.nan, regex=True)
     df.dropna(inplace=True)
@@ -81,12 +82,12 @@ def association(dataframe, min_support=0.01, min_confidence=0.4, min_lift=6, min
         qa[q] = "Probability of " + str(e[0][1]) + " happening together with " + str(e[0][0]) + " is " + str(e[1]) + " times more likely than to happen by itself"
     #print(len(qa))
 
-    #with open("assocqa.txt", "w", encoding="utf-8-sig") as text_file:
-        #text_file.write(json.dumps(qa, ensure_ascii=False, indent = 4))
+    with open("assocqa.txt", "w", encoding="utf-8-sig") as text_file:
+        text_file.write(json.dumps(qa, ensure_ascii=False, indent = 4))
 
-    #with open("output.txt", "w", encoding="utf-8-sig") as text_file:
-        #text_file.write(json.dumps(output_dict, ensure_ascii=False, indent = 4))
+    with open("output.txt", "w", encoding="utf-8-sig") as text_file:
+        text_file.write(json.dumps(output_dict, ensure_ascii=False, indent = 4))
 
     return qa
 
-#association(dataframe)
+association(dataframe)
