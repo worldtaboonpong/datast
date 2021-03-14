@@ -19,3 +19,14 @@ file_to_be_analyze = ''
 def hello():
     return {'result' : "Hello World"}
 
+
+@app.route('/analyze', methods=['POST'])
+def analyze():
+    file = 'Files/'+ file_to_be_analyze
+    df = pd.read_excel(file)
+    qa_clustering = clustering(df)
+    qa_statistic = statistics(df)
+    qa_assoocrule = association(df)
+    qa={**qa_clustering,**qa_statistic,**qa_assoocrule}
+    return 
+
