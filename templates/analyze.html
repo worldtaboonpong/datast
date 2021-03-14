@@ -1,9 +1,45 @@
 <html>
+    <script>
+        function goBack(){
+            window.history.back();
+        }
+        function getPath(item){
+            return item;
+        }
+        
+    </script>    
     <body>
         <p>
             {{msg}}
         </p>
-        
+        <!-- <table>
+            {% for questions , answers in qa.items() %}
+            <tr>
+                <th>
+                    {{questions}}
+                </th>
+                <td>
+                    {% for answer in answers %}
+                        {{answer[0]}}  
+                        <p>
+                            {{answer[1]}}
+                            <img src="Clustering/testpic.jpg">
+                            
+                        </p>                       
+                    {% endfor %}            
+                </td>
+            </tr>
+            {% endfor %}
+        </table> -->
+        <select name="questions" id="questions" multiple>
+            {% for questions,answers in qa.items()%}
+                <option value="{{questions}}"> {{questions}} </option>
+            {% endfor %}
+        </select>
+
+        <button onclick="goBack()">
+            Back
+        </button>
         
     </body>
 </html>
