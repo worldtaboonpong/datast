@@ -1,13 +1,15 @@
 import pandas as pd
 import numpy as np
 import json
+import plotly.graph_objects as go
+import os
 from apyori import apriori
 
 #dataframe = pd.read_excel("./AssociationRule/covid19.xls")
 #dataframe = pd.read_excel('./MRTuser.xlsx' , 'สายฉลองรัชธรรม'  )
 dataframe = pd.read_excel('./sampledatafoodsales.xlsx', 'FoodSales'  )
 
-def association(dataframe, min_support=0.01, min_confidence=0.2, min_lift=3, min_length=2) :
+def association(dataframe, min_support=0.01, min_confidence=0.2, min_lift=2, min_length=2) :
     df = dataframe.select_dtypes(exclude=[np.datetime64, np.number])
     df.replace(r'^\s+$', np.nan, regex=True)
     df.dropna(inplace=True)
@@ -18,8 +20,15 @@ def association(dataframe, min_support=0.01, min_confidence=0.2, min_lift=3, min
     (col,row) = newdf.shape
 
     records = []
+    #for i in range(1, col):
+        #records.append([str(newdf.values[i,j]) for j in range(0, row)])
     for i in range(1, col):
-        records.append([str(newdf.values[i,j]) for j in range(0, row)])
+        temp = []
+        for j in range(0, row):
+            val = str(newdf.values[i,j])
+            if not ( val == "" or val == "-" or val == " " ):
+                temp.append(val)
+        records.append(temp)
 
     config_dict = {}
     # customizable
@@ -34,60 +43,74 @@ def association(dataframe, min_support=0.01, min_confidence=0.2, min_lift=3, min
     association_results = list(association_rules)
 
     output_dict = {}
-    data_list = []
+    data_dict = {}
+    data_list_sorted = []
     output_dict['Config'] = config_dict
-    output_dict['Data'] = data_list
-
-    apriori_result = []
+    
     def byLift(e) :
-        return e[1]
+        return e[1][2]
 
     i=0
     for item in association_results:
-        rule_dict = {}
-        i += 1
-
-        #print("Rule No.: " + str(i)) 
-        rule_dict['No'] = i
-
-        # first index of the inner list
-        # Contains base item and add item
         pair = item[0] 
         items = [x for x in pair]
-        rule_dict['From'] = items[0]
-        rule_dict['To'] = items[1]
+        # From = items[0]        # X
+        # To = items[1]          # Y
+        # Support = item[1]      # Y / Total
+        # Confidence = item[2][0][2]     # X&Y / X
+        # Lift = item[2][0][3]           # Confidence X -> Y / Support Y
+        if item[2][0][2] < 1 :
+            data_dict[(items[0], items[1])] = (item[1], item[2][0][2], item[2][0][3])   # ((From, To) , (Support, Confidence, Lift))
 
-        # second index of the inner list
-        rule_dict['Support'] = item[1]
+    data_list_sorted = list(data_dict.items())
+    data_list_sorted.sort(key=byLift, reverse=True)     # sort by Lift, descending order  / List looks like ((From, To) , (Support, Confidence, Lift))
+    
+    data_dict = []
+    i=0
+    for item in data_list_sorted :
+        rule = {}
+        i += 1
+        rule['No'] = i
+        rule['From'] = item[0][0]
+        rule['To'] = item[0][1]
+        rule['Support'] = item[1][0]
+        rule['Confidence'] = item[1][1]
+        rule['Lift'] = item[1][2]
 
-        # third index of the list located at 0th of the third index of the inner list
-        rule_dict['Confidence'] = item[2][0][2]
-        rule_dict['Lift'] = item[2][0][3]
+        data_dict.append(rule)
 
-        data_list.append(rule_dict)    
-
-        # for graph plotting
-        apriori_result.append((items[0], items[1], item[2][0][3])) # (From, To, Lift)
-
-    result_nodup = {}   # remove duplicate
-    for i in apriori_result :
-        result_nodup[(i[0], i[1])] = i[2]
-
-    list_nodup = list(result_nodup.items())
-    list_nodup.sort(key=byLift, reverse=True)     # sort by Lift, descending order  / List looks like (( From, To ) , Lift)
+    output_dict['Data'] = data_dict
 
     qa = {}
-    for e in list_nodup :
-        q = "What is the connection between " + str(e[0][1]) + " and " + str(e[0][0])
-        qa[q] = "Probability of " + str(e[0][1]) + " happening together with " + str(e[0][0]) + " is " + str(e[1]) + " times more likely than to happen by itself"
-    #print(len(qa))
+    for item in data_dict :
+        q = "What is the connection between " + str(item['To']) + " and " + str(item['From'])
+        qa[q] = "Probability of " + str(item['To']) + " happening together with " + str(item['From']) + " is " + str(item['Lift']) + " times more likely than to happen by itself"
 
-    with open("assocqa.txt", "w", encoding="utf-8-sig") as text_file:
-        text_file.write(json.dumps(qa, ensure_ascii=False, indent = 4))
+    if not os.path.exists("associmages"):
+        os.mkdir("associmages")
 
-    with open("output.txt", "w", encoding="utf-8-sig") as text_file:
-        text_file.write(json.dumps(output_dict, ensure_ascii=False, indent = 4))
+    for i in output_dict['Data'] :
+        fig = go.Figure()
+        supp = i["Support"]
+        conf = i["Confidence"]
+        lift = i["Lift"]
+        x = ["Confidence", "Support"]
+        y = [conf, supp]
+        yn = [1-conf, 1-supp]
+
+        fig.add_bar(x=x, y=y, name='Yes', text=y)
+        fig.add_bar(x=x, y=yn, name='No')
+        fig.update_layout(barmode="stack")
+        fig.update_traces(textposition='outside')
+        fig.update_layout(uniformtext_minsize=8, uniformtext_mode='hide')
+        #fig.write_image("associmages/fig" + str(i["No"]) + ".png")
+
+    #with open("assocqa.txt", "w", encoding="utf-8-sig") as text_file:
+        #text_file.write(json.dumps(qa, ensure_ascii=False, indent = 4))
+
+    #with open("output.txt", "w", encoding="utf-8-sig") as text_file:
+        #text_file.write(json.dumps(output_dict, ensure_ascii=False, indent = 4))
 
     return qa
 
-association(dataframe)
+#association(dataframe)
