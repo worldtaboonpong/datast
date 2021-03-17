@@ -1,0 +1,10 @@
+.navbar{
+    background-color: blue;
+    color: white;
+}
+
+
+.foot {
+    position: fixed;
+    bottom: 0px;
+}

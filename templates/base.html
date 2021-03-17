@@ -1,0 +1,24 @@
+<htmml>
+    <head>
+        {% block head %}
+            <meta charset="UTF-8">
+            <link rel='stylesheet' type="text/css" href="style.css">
+            <title>
+                {% block title %}
+                    Datast
+                {% endblock %}
+            </title>
+        {% endblock %}
+    </head>
+    <body>
+        <div class='navbar'>
+            <h1>
+                Datast
+            </h1>
+        </div>
+        {% block content%}{% endblock %}
+        <div class='foot'>
+            Have a good day
+        </div>
+    </body>   
+</htmml>
