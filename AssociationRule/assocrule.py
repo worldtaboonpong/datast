@@ -59,7 +59,7 @@ def association(dataframe, min_support=0.01, min_confidence=0.2, min_lift=2, min
         # Support = item[1]      # Y / Total
         # Confidence = item[2][0][2]     # X&Y / X
         # Lift = item[2][0][3]           # Confidence X -> Y / Support Y
-        if item[2][0][2] < 1 :
+        if item[2][0][2] < 1 :           # Confidence Must not be 1.0
             data_dict[(items[0], items[1])] = (item[1], item[2][0][2], item[2][0][3])   # ((From, To) , (Support, Confidence, Lift))
 
     data_list_sorted = list(data_dict.items())
@@ -81,13 +81,13 @@ def association(dataframe, min_support=0.01, min_confidence=0.2, min_lift=2, min
 
     output_dict['Data'] = data_dict
 
-    qa = {}
-    for item in data_dict :
-        q = "What is the connection between " + str(item['To']) + " and " + str(item['From'])
-        qa[q] = "Probability of " + str(item['To']) + " happening together with " + str(item['From']) + " is " + str(item['Lift']) + " times more likely than to happen by itself"
-
     if not os.path.exists("associmages"):
         os.mkdir("associmages")
+    else:
+        for f in os.listdir("associmages"):
+            if not f.endswith(".png"):
+                continue
+            os.remove(os.path.join("associmages", f))
 
     for i in output_dict['Data'] :
         fig = go.Figure()
@@ -98,12 +98,18 @@ def association(dataframe, min_support=0.01, min_confidence=0.2, min_lift=2, min
         y = [conf, supp]
         yn = [1-conf, 1-supp]
 
-        fig.add_bar(x=x, y=y, name='Yes', text=y)
-        fig.add_bar(x=x, y=yn, name='No')
+        fig.add_bar(x=x, y=y, name='Yes')
+        fig.add_bar(x=x, y=yn, name='No', text=y)
         fig.update_layout(barmode="stack")
         fig.update_traces(textposition='outside')
-        fig.update_layout(uniformtext_minsize=8, uniformtext_mode='hide')
-        #fig.write_image("associmages/fig" + str(i["No"]) + ".png")
+        fig.update_layout(uniformtext_minsize=11, uniformtext_mode='hide')
+        fig.write_image("associmages/fig" + str(i['No']) + ".png")
+
+    qa = {}
+    for item in data_dict :
+        q = "What is the connection between " + str(item['To']) + " and " + str(item['From'])
+        qa[q] = ["Probability of " + str(item['To']) + " happening together with " + str(item['From']) + " is " + str(item['Lift']) + " times more likely than to happen by itself",
+                  "associmages/fig" + str(item['No']) + ".png"]
 
     #with open("assocqa.txt", "w", encoding="utf-8-sig") as text_file:
         #text_file.write(json.dumps(qa, ensure_ascii=False, indent = 4))
