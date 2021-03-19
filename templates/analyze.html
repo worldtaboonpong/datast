@@ -15,7 +15,7 @@
             checkboxes.forEach((question) => {
                 answers.push(question.value)
             })
-            console.log(answers)
+            console.log('hi')
             
         } 
     </script>   
@@ -97,11 +97,11 @@
             </tr>
             {% endfor %}
         </table> -->
-        <form name='select_question' action="/">
+        <form name='select_question' >
             {% for questions,answers in qa.items()%}
                 
                 <label for='{{questions}}' class="container">{{questions}} 
-                    <input name="questions" type="checkbox" value="{{answers}}" id="{{questions}}"> 
+                    <input name="questions" type="checkbox" value="{{qa[questions]}}" id="{{questions}}"> 
                     <span class="checkmark"></span>
                 </label> 
             {% endfor %}

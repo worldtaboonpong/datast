@@ -20,7 +20,8 @@ def hello():
     files_dir = 'Files'
     for root, dirs, files in os.walk(files_dir):
         for name in files:
-            os.remove(os.path.join(root,name))
+            if (name == file_to_be_analyze):
+                os.remove(os.path.join(root,name))
 
     return render_template('index.html')
 
@@ -42,7 +43,7 @@ def submitFile():
     return render_template('submit.html', msg=msg)
 
 
-@app.route('/analyze', methods=['POST'])
+@app.route('/analyze', methods=['GET','POST'])
 def analyze():
  
     file = 'Files/'+ file_to_be_analyze
@@ -52,7 +53,10 @@ def analyze():
     qa_assoocrule = association(df)
     qa={**qa_clustering,**qa_statistic,**qa_assoocrule}
     msg = 'This page will analyze data from your uploaded file '+ file_to_be_analyze
-    return render_template('analyze.html',  msg=msg, qa=qa)
+    if (request.method == 'POST'):
+        return render_template('analyze.html',  msg=msg, qa=qa)
+    # else:
+    #     return render_template('answers.html',  msg=msg, qa=qa)
 
 
 @app.route('/predict' , methods=['POST'])
