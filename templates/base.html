@@ -1,8 +1,8 @@
 <htmml>
+    <link rel='stylesheet' type="text/css" href="style.css">
     <head>
         {% block head %}
-            <meta charset="UTF-8">
-            <link rel='stylesheet' type="text/css" href="style.css">
+            <meta charset="UTF-8">         
             <title>
                 {% block title %}
                     Datast
@@ -10,8 +10,29 @@
             </title>
         {% endblock %}
     </head>
+    <style>
+
+        .navbar{
+            background-color: blue;
+            color: white;
+        }
+
+        h1:hover{
+            cursor: pointer;
+        }
+        
+        .foot {
+            position: fixed;
+            bottom: 0px;
+            background-color: black;
+            color: white;
+            width: 100%;
+            left: 0px;
+        
+        }
+    </style>
     <body>
-        <div class='navbar'>
+        <div class='navbar' onclick="location.href='/'">
             <h1>
                 Datast
             </h1>

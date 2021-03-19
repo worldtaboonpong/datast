@@ -1,4 +1,10 @@
-<html>
+{% extends "base.html" %}
+{% block title %} Home {% endblock %}
+{% block head%}
+    {{super()}}
+{% endblock %}
+{% block content %}
+
     <script>
         function goBack(){
             window.history.back();
@@ -38,4 +44,6 @@
         </button>
         
     </body>
-</html>
+
+
+{% endblock %}
