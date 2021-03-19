@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %} Home {% endblock %}
+{% block title %} Choose {% endblock %}
 {% block head%}
     {{super()}}
 {% endblock %}
@@ -8,8 +8,72 @@
     <script>
         function goBack(){
             window.history.back();
-        }       
-    </script>    
+        }      
+        function showAnswers(){
+            let answers = []
+            const checkboxes = document.querySelectorAll('input[name="questions"]:checked');
+            checkboxes.forEach((question) => {
+                answers.push(question.value)
+            })
+            console.log(answers)
+            
+        } 
+    </script>   
+    
+    <style>
+        .container {
+            display: block;
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            /* font-size: 22px; */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        .container input {
+            position: absolute;
+            /* opacity: 50; */
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            background-color: #eee;
+        }
+        .container:hover input ~ .checkmark {
+            background-color: #ccc;
+        }
+        .container input:checked ~ .checkmark {
+            background-color: #2196F3;
+        }
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+        .container input:checked ~ .checkmark:after {
+            display: block;
+        }
+        .container .checkmark:after {
+            left: 9px;
+            top: 5px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+    </style>
     <body>
         <p>
             {{msg}}
@@ -33,17 +97,30 @@
             </tr>
             {% endfor %}
         </table> -->
-        <select name="questions" id="questions" multiple>
+        <form name='select_question' action="/">
+            {% for questions,answers in qa.items()%}
+                
+                <label for='{{questions}}' class="container">{{questions}} 
+                    <input name="questions" type="checkbox" value="{{answers}}" id="{{questions}}"> 
+                    <span class="checkmark"></span>
+                </label> 
+            {% endfor %}
+            <input type="submit" value="Submit" onclick="showAnswers()">
+        </form>
+
+        <!-- <select name="questions" id="questions" multiple>
             {% for questions,answers in qa.items()%}
                 <option value="{{questions}}"> {{questions}} </option>
             {% endfor %}
-        </select>
+        </select> -->
 
         <button onclick="goBack()">
             Back
         </button>
         
     </body>
+
+  
 
 
 {% endblock %}
