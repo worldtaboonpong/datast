@@ -17,6 +17,10 @@ file_to_be_analyze = ''
 
 @app.route('/')
 def hello():
+    files_dir = 'Files'
+    for root, dirs, files in os.walk(files_dir):
+        for name in files:
+            os.remove(os.path.join(root,name))
 
     return render_template('index.html')
 
