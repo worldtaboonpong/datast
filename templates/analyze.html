@@ -9,17 +9,18 @@
         function goBack(){
             window.history.back();
         }      
-        function showAnswers(){
-            let answers = []
-            const checkboxes = document.querySelectorAll('input[name="questions"]:checked');
-            checkboxes.forEach((question) => {
-                answers.push(question.value)
-            })
-            console.log('hi')
+        function showAnswer(id){
+
+            var checkBox = document.getElementById(id)
+            var answer_id = document.getElementById("anwer-for-"+id)
+            if (checkBox.checked == true){
+                answer_id.style.display = 'block'
+            } else {
+                answer_id.style.display = 'none'
+            }
             
         } 
     </script>   
-    
     <style>
         .container {
             display: block;
@@ -78,41 +79,21 @@
         <p>
             {{msg}}
         </p>
-        <!-- <table>
-            {% for questions , answers in qa.items() %}
-            <tr>
-                <th>
-                    {{questions}}
-                </th>
-                <td>
-                    {% for answer in answers %}
-                        {{answer[0]}}  
-                        <p>
-                            {{answer[1]}}
-                            <img src="Clustering/testpic.jpg">
-                            
-                        </p>                       
-                    {% endfor %}            
-                </td>
-            </tr>
-            {% endfor %}
-        </table> -->
+
         <form name='select_question' >
-            {% for questions,answers in qa.items()%}
+            {% for id,qa in qa.items()%}
                 
-                <label for='{{questions}}' class="container">{{questions}} 
-                    <input name="questions" type="checkbox" value="{{qa[questions]}}" id="{{questions}}"> 
+                <label class="container">{{qa[0]}}
+                    <input name="questions" type="checkbox" 
+                    value="{{qa[1]}}" id="{{id}}" onclick="showAnswer(this.id)"> 
                     <span class="checkmark"></span>
                 </label> 
+                <p id="anwer-for-{{id}}" style="display: none;">
+                    {{qa[1]}}
+                </p>
             {% endfor %}
             <input type="submit" value="Submit" onclick="showAnswers()">
         </form>
-
-        <!-- <select name="questions" id="questions" multiple>
-            {% for questions,answers in qa.items()%}
-                <option value="{{questions}}"> {{questions}} </option>
-            {% endfor %}
-        </select> -->
 
         <button onclick="goBack()">
             Back

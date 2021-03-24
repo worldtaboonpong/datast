@@ -52,9 +52,23 @@ def analyze():
     qa_statistic = statistics(df)
     qa_assoocrule = association(df)
     qa={**qa_clustering,**qa_statistic,**qa_assoocrule}
+    number_of_item = len(qa)
+    list_number_of_item = list(range(0,number_of_item))
+    i = 0
+    qx = {}
+
+    for question in qa:
+        question_answer = [question]
+        for answer in qa[question]:
+            question_answer.append(answer[0])
+            question_answer.append(answer[1])
+        qx[list_number_of_item[i]] = question_answer
+        i=i+1
+
     msg = 'This page will analyze data from your uploaded file '+ file_to_be_analyze
     if (request.method == 'POST'):
-        return render_template('analyze.html',  msg=msg, qa=qa)
+        print(qx)
+        return render_template('analyze.html',  msg=msg, qa=qx)
     # else:
     #     return render_template('answers.html',  msg=msg, qa=qa)
 
