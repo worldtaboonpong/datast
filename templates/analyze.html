@@ -88,9 +88,11 @@
                     value="{{qa[1]}}" id="{{id}}" onclick="showAnswer(this.id)"> 
                     <span class="checkmark"></span>
                 </label> 
+                {% for each_answer in qa[1:] %}
                 <p id="anwer-for-{{id}}" style="display: none;">
-                    {{qa[1]}}
+                    each_answer
                 </p>
+                {% endfor %}
             {% endfor %}
             <input type="submit" value="Submit" onclick="showAnswers()">
         </form>
