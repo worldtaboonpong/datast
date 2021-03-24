@@ -1,24 +1,20 @@
 {% extends "base.html" %}
-{% block title %} Choose {% endblock %}
 {% block head%}
     {{super()}}
 {% endblock %}
 {% block content %}
-
     <script>
         function goBack(){
             window.history.back();
         }      
         function showAnswer(id){
-
             var checkBox = document.getElementById(id)
             var answer_id = document.getElementById("anwer-for-"+id)
             if (checkBox.checked == true){
                 answer_id.style.display = 'block'
             } else {
                 answer_id.style.display = 'none'
-            }
-            
+            }       
         } 
     </script>   
     <style>
