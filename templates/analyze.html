@@ -81,18 +81,29 @@
         </p>
 
         <form name='select_question' >
-            {% for id,qa in qa.items()%}
+            {% for id,question_answer in qa.items()%}
                 
-                <label class="container">{{qa[0]}}
+                <label class="container">{{question_answer[0]}}
                     <input name="questions" type="checkbox" 
-                    value="{{qa[1]}}" id="{{id}}" onclick="showAnswer(this.id)"> 
+                    id="{{id}}" onclick="showAnswer(this.id)"> 
                     <span class="checkmark"></span>
                 </label> 
-                {% for each_answer in qa[1:] %}
+                
                 <p id="anwer-for-{{id}}" style="display: none;">
-                    each_answer
+                    {% for each_answer in question_answer[1:] %}
+                        {% if '.png' not in each_answer  %}
+                            <!-- <p>
+                                this is a picture
+                            </p> -->
+                            {{each_answer}}
+                        {% endif %}
+                        {% if '.png' in each_answer %}
+                            <img src="{{each_answer}}">
+                        {% endif %}
+                        
+                    {% endfor %}
                 </p>
-                {% endfor %}
+                
             {% endfor %}
             <input type="submit" value="Submit" onclick="showAnswers()">
         </form>
