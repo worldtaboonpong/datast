@@ -9,15 +9,16 @@ from sklearn.decomposition import PCA
 from operator import xor
 import os
 import numpy as np
+from IPython.display import HTML
 
-my_path = os.path.relpath(__file__)
+my_path = 'static/'
 
-# df = pd.read_excel('Clustering\harmful30jun2020.xls','ลักษณะที่บรรทุก')
+df = pd.read_excel('Clustering\harmful30jun2020.xls','ลักษณะที่บรรทุก')
 
 
 def clustering(df_beforecut):
 
-    qa_clustering = {'How can we cluster the data from this file': []}
+    qa_clustering = {}
 
     range_n_clusters = list(range(2, 10))
     df = df_beforecut.copy(deep=True)
@@ -39,10 +40,12 @@ def clustering(df_beforecut):
     difference_columns = set(df_beforecut.columns).difference(df.columns)
     dfForDetail = df_beforecut[difference_columns]
     dataTypeDictForDetail = dict(dfForDetail.dtypes)
+    
 
     for key in dataTypeDictForDetail:
         if (dfForDetail[key].is_monotonic and (('ลำดับ' in key) or (key == 'id'))) or ('รวม' in key):
             dfForDetail.drop(key, inplace=True, axis=1)
+
 
     if (len(df.columns) >= 2 and len(df.columns) <= 5):
         for i in range(len(df.columns)):
@@ -68,16 +71,22 @@ def clustering(df_beforecut):
                 predict = kmeans.fit_predict(new)
                 df_kmeans = new_df.copy(deep=True)
                 df_kmeans['Group'] = pd.Series(predict, index=df_kmeans.index)
+                dfForDetail['Group'] = pd.Series(predict,index=dfForDetail.index)
+                result = dfForDetail.to_html()
+                # print(result)
+                # print(dfForDetail)
                 # Try to gert more detail to explain
-                detailToExplain = ''
-                for k in range(best_cluster):
-                    dfForGroupI = dfForDetail.loc[df_kmeans['Group'] == k]
-                    detailToExplain += ('Group #' + str(k) + ' include ')
-                    for l in range(dfForGroupI.shape[0]):
-                        for m in range(dfForGroupI.shape[1]):
-                            detailToExplain += dfForGroupI.columns.values[m] +': ' +str(
-                                dfForGroupI.iat[l, m]) + ' '
-                        detailToExplain += ', '
+                # detailToExplain = ''
+                # for k in range(best_cluster):
+                #     dfForGroupI = dfForDetail.loc[df_kmeans['Group'] == k]
+                #     # dfForGroupI['Group'] = pd.Series(k,index=dfForGroupI.index)
+                #     # print(dfForGroupI)
+                #     detailToExplain += ('Group #' + str(k) + ' include ')
+                #     for l in range(dfForGroupI.shape[0]):
+                #         for m in range(dfForGroupI.shape[1]):
+                #             detailToExplain += dfForGroupI.columns.values[m] +': ' +str(
+                #                 dfForGroupI.iat[l, m]) + ' '
+                #         detailToExplain += ', '
                 colormap = np.array(['r','g','b'])
                 # group = df_kmeans['Group']
 
@@ -102,17 +111,14 @@ def clustering(df_beforecut):
                
                 plt.legend(title = 'Group')
                 plt.title('Clustering by' + ' ' +new.columns.values[0] + ' ' + 'and' + ' ' + new.columns.values[1])
-                plt.savefig(my_path+'tograph'+str(i)+str(j)+'.png')
+                plt.savefig(my_path+'cluster'+str(i)+str(j)+'.png')
                 plt.figure()
                 # plt.close()
                 # plt.show()
 
-                qa_clustering['How can we cluster the data from this file'].append(('We can cluster between' +
-                                                                                           ' ' + new.columns.values[0] + ' ' + 'and' + ' ' + new.columns.values[1] + ' ' +
-                                                                                           'into' + ' ' +
-                                                                                           str(
-                                                                                               best_cluster) + ' ' + 'groups' + ' ' + 'which' + ' ' + detailToExplain,
-                                                                                           str(my_path) + 'tograph'+str(i)+str(j)+'.png'))
+                qa_clustering['How can we cluster between '+ new.columns.values[0] +' and '+ new.columns.values[1]] = list()
+                qa_clustering['How can we cluster between '+ new.columns.values[0] +' and '+ new.columns.values[1]].append(str(my_path)+'cluster'+str(i)+str(j)+'.png')
+                qa_clustering['How can we cluster between '+ new.columns.values[0] +' and '+ new.columns.values[1]].append(result)
                 # print(scores)                                                                           
 
     return qa_clustering
@@ -120,6 +126,6 @@ def clustering(df_beforecut):
 
 
 
-# print(clustering(df))
+print(clustering(df))
 
 
