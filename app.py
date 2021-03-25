@@ -8,7 +8,7 @@ import os
 import pandas as pd
 from flask_cors import CORS
 
-app = Flask(__name__)
+app = Flask(__name__,static_folder = "static")
 CORS(app)
 app.config['UPLOAD_EXTENSION'] = ['.xls','.xlsx','.csv']
 app.config['UPLOAD_PATH'] = 'Files'

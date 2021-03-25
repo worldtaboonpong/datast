@@ -1,85 +1,69 @@
 <!DOCTYPE html>
 <html>
-  <meta charset="UTF-8" />
-  <link rel="stylesheet" href="../static/style.css" />
-  <link
-    rel="stylesheet"
-    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
-  />
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <script>
-    function goHome() {
-      location.href = "/";
-    }
-    window.addEventListener("scroll", function (e) {
-      var top = this.scrollY;
-      var navbar = document.getElementsByClassName("navbar-custom");
-      var navbar_brand = document.getElementById("header");
-      var navbar_nav = document.querySelectorAll("A");
-      console.log(navbar_nav);
-      if (top > 60) {
-        document.getElementsByClassName("navbar-custom")[0].style.cssText =
-          "background-color:black;";
-        navbar_brand.style.color = "white";
-        // navbar_nav[0].style.color = "rgb(219, 217, 217)";
-        navbar_nav.forEach(item=>{
-            console.log(item)
-            item.style.color = 'white'
-        })
-      } else {
-        document.getElementsByClassName(
-          "navbar-custom"
-        )[0].style.backgroundColor = "white";
-        navbar_brand.style.color = "black";
-        navbar_nav.forEach(item=>{
-            item.style.color = "rgb(73, 72, 72)"
-        })
+  <head>
+    {% block head %}
+    <meta charset="UTF-8" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="../static/style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script>
+      function goHome() {
+        location.href = "/";
       }
-    });
-  </script>
-  <style>
-    .foot {
-      position: fixed;
-      bottom: 0px;
-      background-color: black;
-      color: white;
-      width: 100%;
-      left: 0px;
-    }
-    .navbar-custom {
-      background-color: white;
-    }
-    .navbar-custom .navbar-brand {
-      color: black;
-    }
-    .navbar-custom .navbar-brand > a:hover {
-      text-decoration: none;
-    }
-    .navbar-custom .navbar-nav > li > a {
-      color: rgb(73, 72, 72);
-      /* color: rgb(219, 217, 217); */
-    }
-    .navbar-custom .navbar-nav > li > a:hover {
-      text-decoration: none;
-      background: none;
-    }
-  </style>
-  <title>Datast</title>
-  <body style="height: 1500px">
-    <!--This is Navbar-->
-    <nav class="navbar navbar-custom navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a id="header" class="navbar-brand" href="/"> Datast </a>
+      window.addEventListener("scroll", function (e) {
+        var top = this.scrollY;
+        var navbar = document.getElementsByClassName("navbar-custom");
+        var navbar_brand = document.getElementById("header");
+        var navbar_nav = document.querySelectorAll("A");
+        console.log(navbar_nav);
+        if (top > 60) {
+          document.getElementsByClassName("navbar-custom")[0].style.cssText =
+            "background-color:black;";
+          navbar_brand.style.color = "white";
+          // navbar_nav[0].style.color = "rgb(219, 217, 217)";
+          navbar_nav.forEach((item) => {
+            console.log(item);
+            item.style.color = "white";
+          });
+        } else {
+          document.getElementsByClassName(
+            "navbar-custom"
+          )[0].style.backgroundColor = "white";
+          navbar_brand.style.color = "black";
+          navbar_nav.forEach((item) => {
+            item.style.color = "rgb(73, 72, 72)";
+          });
+        }
+      });
+    </script>
+
+    <title>Datast</title>
+    {% endblock %}
+  </head>
+
+  <!--This is Navbar-->
+  <body>
+    <div class="navbar-container">
+      <nav class="navbar navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a id="header" class="navbar-brand" href="/"> Datast </a>
+          </div>
+          <ul class="nav navbar-nav">
+            <li><a id="home" href="/">Home</a></li>
+            <li><a id="about" href="/about">About Us</a></li>
+          </ul>
         </div>
-        <ul class="nav navbar-nav">
-          <li><a id='home' href="/">Home</a></li>
-          <li><a id='about' href="/about">About Us</a></li>
-        </ul>
-      </div>
-    </nav>
-    {% block content%}{% endblock %}
-    <div class="foot">Have a good day</div>
+      </nav>
+    </div>
+
+    <div class="content" >{% block content%} {% endblock %}</div>
+
+    <div class="footer">Have a good day</div>
   </body>
 </html>

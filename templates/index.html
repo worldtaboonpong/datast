@@ -1,19 +1,12 @@
-{% extends "base.html" %}
-{% block title %} Home {% endblock %}
-{% block head%}
-    {{super()}}
-{% endblock %}
-{% block content %}
-    <body>
-        <h3> Hello </h3>
-        <p> We are Datast</p>
-    </body>
-    <form action="/submit" method="POST" enctype='multipart/form-data'>
-        <p>
-            <input type="file" name="file" accept=".xls,.xlsx,.csv" >
-        </p>
-        <p>
-            <input type="submit" value="submit">
-        </p>
-    </form>
+{% extends "base.html" %} {% block head %}{{super()}}{% endblock %} {% block
+content %}
+<div class="say-hi">
+  <p>Hi</p>
+</div>
+
+<img
+  src="static/pexels-pixabay-259006.jpg"
+  alt="background"
+  class="responsive"
+/>
 {% endblock %}

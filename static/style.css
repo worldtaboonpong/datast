@@ -1,0 +1,47 @@
+.navbar-container {
+  position: relative;
+}
+
+.navbar-custom {
+  background-color: white;
+}
+.navbar-custom .navbar-brand {
+  color: black;
+}
+.navbar-custom .navbar-brand > a:hover {
+  text-decoration: none;
+}
+.navbar-custom .navbar-nav > li > a {
+  color: rgb(73, 72, 72);
+  /* color: rgb(219, 217, 217); */
+}
+.navbar-custom .navbar-nav > li > a:hover {
+  text-decoration: none;
+  background: none;
+}
+
+.home-container {
+  background-color: black;
+}
+
+.footer {
+  /* position: fixed; */
+  bottom: 0px;
+  background-color: black;
+  color: white;
+  width: 100%;
+  text-align: center;
+}
+
+.responsive {
+  width: 100%;
+  height: full;
+}
+
+.say-hi {
+  top: 50px;
+}
+
+.content {
+  margin-top: 50px;
+}
