@@ -13,7 +13,7 @@ from IPython.display import HTML
 
 my_path = 'static/'
 
-df = pd.read_excel('Clustering\harmful30jun2020.xls','ลักษณะที่บรรทุก')
+# df = pd.read_excel('MRTuser.xlsx')
 
 
 def clustering(df_beforecut):
@@ -126,6 +126,6 @@ def clustering(df_beforecut):
 
 
 
-print(clustering(df))
+# print(clustering(df))
 
 

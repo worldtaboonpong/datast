@@ -1,12 +1,31 @@
 {% extends "base.html" %} {% block head %}{{super()}}{% endblock %} {% block
 content %}
-<div class="say-hi">
-  <p>Hi</p>
+<div class="home-container">
+  <div class="home-text-container">
+    <p class="home-header">Datast</p>
+    <p class="home-detail">
+      We are auto-data-science web apllication which will help you analyze and
+      predict the data in .xls, .xlsx and .csv format
+    </p>
+    <div class="home-button-container">
+      <button onclick="location.href = '/upload'">Start Now!</p>
+    </div>
+    <div class="home-data">
+      <p class="home-data-header">
+          Why data is so important
+      </p>
+      <p class="home-data-detail">
+          Helloooooo
+      </p>
+    </div>
+  </div>
+  <div class="image-container">
+    <img
+      src="static/pexels-pixabay-259006.jpg"
+      alt="background"
+      class="responsive"
+    />
+  </div>
 </div>
 
-<img
-  src="static/pexels-pixabay-259006.jpg"
-  alt="background"
-  class="responsive"
-/>
 {% endblock %}

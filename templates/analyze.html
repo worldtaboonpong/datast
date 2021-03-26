@@ -86,11 +86,9 @@
                 </label> 
                 
                 <p id="anwer-for-{{id}}" style="display: none;">
+                    <!-- {{question_answer[1:]}} -->
                     {% for each_answer in question_answer[1:] %}
                         {% if '.png' not in each_answer  %}
-                            <!-- <p>
-                                this is a picture
-                            </p> -->
                             {{each_answer}}
                         {% endif %}
                         {% if '.png' in each_answer %}

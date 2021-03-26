@@ -26,6 +26,11 @@ def hello():
     return render_template('index.html')
 
 
+@app.route('/upload')
+def upload():
+    return render_template('upload.html')
+
+
 @app.route('/submit', methods=['POST'])
 def submitFile():
 
@@ -49,9 +54,9 @@ def analyze():
     file = 'Files/'+ file_to_be_analyze
     df = pd.read_excel(file)
     qa_clustering = clustering(df)
-    qa_statistic = statistics(df)
-    qa_assoocrule = association(df)
-    qa={**qa_clustering,**qa_statistic,**qa_assoocrule}
+    # qa_statistic = statistics(df)
+    # qa_assoocrule = association(df)
+    qa={**qa_clustering}
     number_of_item = len(qa)
     list_number_of_item = list(range(0,number_of_item))
     i = 0
@@ -60,8 +65,8 @@ def analyze():
     for question in qa:
         question_answer = [question]
         for answer in qa[question]:
-            question_answer.append(answer[0])
-            question_answer.append(answer[1])
+            question_answer.append(answer)
+            # question_answer.append(answer[1])
         qx[list_number_of_item[i]] = question_answer
         print(question_answer[1:])
         i=i+1
