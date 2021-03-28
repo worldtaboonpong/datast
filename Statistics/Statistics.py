@@ -5,6 +5,9 @@ import matplotlib.pyplot as plt
 from operator import xor
 import os
 
+import plotly.express as px
+import plotly.graph_objects as go
+
 my_path = os.path.abspath(__file__)
 
 #Using pd.read_excel to read file .xls or .xlsx from your local path.
@@ -36,11 +39,6 @@ dft = dft[dft_columns]
 i = 0
 index = df.shape[0]
 for (columnName, columnData) in digitdf.iteritems():
-        # print('Column Name : ', columnName)
-        # print('Column Mean : ', columnData.mean())
-        # print('Column Min : ', columnData.min())
-        # print('Column Max : ', columnData.max())
-        # print('\n')
         CDNX = list()
         for a in columnData:
             CDNX.append(a)
@@ -49,11 +47,12 @@ for (columnName, columnData) in digitdf.iteritems():
         for a in columnData:
             CDNN.append(a)
         min_count = CDNN.count(columnData.min())
-        plt.rcParams['font.family'] = 'Tahoma'
-        df.reset_index().plot.scatter( x= 'index', y = columnName, color = 'black')
+        data = df.reset_index()
+        # plt.rcParams['font.family'] = 'Tahoma'
+        fig = px.scatter(data, x= 'index', y = columnName)
         if(max_count < 2):
-            plt.scatter(digitdf.idxmax()[0], columnData.max(), color = 'blue')
-            plt.annotate('Max: '+ str(columnData.max()), (digitdf.idxmax()[i], columnData.max()), color="blue")
+            fig = px.scatter(digitdf.idxmax()[0], columnData.max(), color = 'blue')
+            fig = px.annotate('Max: '+ str(columnData.max()), (digitdf.idxmax()[i], columnData.max()), color="blue")
         if(min_count < 2):
             plt.scatter(digitdf.idxmin()[i], columnData.min(), color = 'red')
             plt.annotate('Min: '+ str(columnData.min()), (digitdf.idxmin()[i], columnData.min()), color="red")
@@ -61,8 +60,9 @@ for (columnName, columnData) in digitdf.iteritems():
         plt.axhline(columnData.mean(), color = 'gray', linestyle = '--', linewidth = .5)
         i+=1
         # save graph
-        plt.savefig(__file__ + columnName +'.png')
-        plt.show()
+        # fig.savefig(__file__ + columnName +'.png')
+        # plt.show()
+        fig.show()
 
 # Iterate to get all column names.
 nameindigitdf = list()
