@@ -23,6 +23,12 @@ def hello():
             if (name == file_to_be_analyze):
                 os.remove(os.path.join(root,name))
 
+    files_dir_2 = 'static'
+    for root,dirs,files in os.walk(files_dir_2):
+        for name in files:
+            if ('.png' in name):
+                os.remove(os.path.join(root,name))
+
     return render_template('index.html')
 
 
