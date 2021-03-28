@@ -81,14 +81,13 @@ def statistics(df):
     dftc = ", ".join(nameindft)
     # ************************************************** #
 
-    # Question #
-    ques = ("How do Max, Min, Mean of " + digitc + " relate with " + dftc )
-    # ************************************************** #
+    QA = dict()
 
-    QA = {ques:[]}
-
-    # Answer
     for (columnName, columnData) in digitdf.iteritems():
+        # Question #
+        ques = "How do Max, Min, Mean of " + columnName + " relate with " + dftc
+        # ************************************************** #
+        # Answer
         CDNX = list()
         for a in columnData:
             CDNX.append(a)
@@ -113,13 +112,15 @@ def statistics(df):
         else :
             ans += ("There are more than one Min in " + columnName + " ")
         ans += ("Mean of " + columnName + " is " + str(columnData.mean().round(2)))
-        QA[ques].append((ans,__file__ + columnName +'.png'))
-    # ************************************************** #
+        # ************************************************** #
+        # Combine Q&A
+        QA[ques] = [ans, __file__ + columnName +'.png']
+        # ************************************************** #
 
     # Return Q&A
     return QA
     # ************************************************** #
     # ********************************************** End of Function **************************************************** #
 
-#result = statistics(dftest)
-#print(result)
+# result = statistics(dftest)
+# print(result)
