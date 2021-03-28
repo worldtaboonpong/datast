@@ -1,0 +1,14 @@
+{% extends "base.html" %} {% block title %} Home {% endblock %} {% block head%}
+{{super()}} {% endblock %} {% block content %}
+<body>
+  <form action="/submit" method="POST" enctype="multipart/form-data">
+    <p>
+      <input type="file" name="file" accept=".xls,.xlsx,.csv" />
+    </p>
+    <p>
+      <input type="submit" value="submit" />
+    </p>
+  </form>
+</body>
+
+{% endblock %}
