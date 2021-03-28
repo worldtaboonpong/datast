@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %} Home {% endblock %}
+{% block head%}
+    {{super()}}
+{% endblock %}
+{% block content %}
+    <script>
+        function showAnswers(){
+            let answers = []
+            const checkboxes = document.querySelectorAll('input[name="questions"]:checked');
+            checkboxes.forEach((question) => {
+                answers.push(question.value)
+            })
+            console.log(answers)           
+        } 
+    </script>
+    <body>
+        <p>
+            Hi
+        </p>
+    </body>
+   
+
+
+{% endblock %}
