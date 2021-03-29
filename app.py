@@ -60,9 +60,9 @@ def analyze():
     file = 'Files/'+ file_to_be_analyze
     df = pd.read_excel(file)
     qa_clustering = clustering(df)
-    # qa_statistic = statistics(df)
+    qa_statistic = statistics(df)
     qa_assoocrule = association(df)
-    qa={**qa_clustering,**qa_assoocrule}
+    qa={**qa_clustering,**qa_assoocrule,**qa_statistic}
     number_of_item = len(qa)
     list_number_of_item = list(range(0,number_of_item))
     i = 0
