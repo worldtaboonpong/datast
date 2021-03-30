@@ -14,7 +14,7 @@ import plotly.express as px
 
 my_path = 'static/'
 
-df = pd.read_excel('MRTuser.xlsx')
+# df = pd.read_excel('MRTuser.xlsx')
 
 
 def clustering(df_beforecut):
@@ -95,6 +95,6 @@ def clustering(df_beforecut):
 
 
 
-clustering(df)
+# clustering(df)
 
 
