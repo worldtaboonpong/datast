@@ -10,6 +10,8 @@ from apyori import apriori
 dataframe = pd.read_excel('./sampledatafoodsales.xlsx', 'FoodSales'  )
 
 def association(dataframe, min_support=0.01, min_confidence=0.2, min_lift=2, min_length=2) :
+    image_path = "static"
+
     df = dataframe.select_dtypes(exclude=[np.datetime64, np.number])
     df.replace(r'^\s+$', np.nan, regex=True)
     df.dropna(inplace=True)
@@ -81,13 +83,10 @@ def association(dataframe, min_support=0.01, min_confidence=0.2, min_lift=2, min
 
     output_dict['Data'] = data_dict
 
-    if not os.path.exists("associmages"):
-        os.mkdir("associmages")
-    else:
-        for f in os.listdir("associmages"):
-            if not f.endswith(".png"):
-                continue
-            os.remove(os.path.join("associmages", f))
+    for f in os.listdir(image_path):
+        if not f.startswith("asso"):
+            continue
+        os.remove(os.path.join(image_path, f))
 
     for i in output_dict['Data'] :
         fig = go.Figure()
@@ -103,13 +102,13 @@ def association(dataframe, min_support=0.01, min_confidence=0.2, min_lift=2, min
         fig.update_layout(barmode="stack")
         fig.update_traces(textposition='outside')
         fig.update_layout(uniformtext_minsize=11, uniformtext_mode='hide')
-        fig.write_image("associmages/fig" + str(i['No']) + ".png")
+        fig.write_image(image_path + "/asso" + str(i['No']) + ".png")
 
     qa = {}
     for item in data_dict :
         q = "What is the connection between " + str(item['To']) + " and " + str(item['From'])
         qa[q] = ["Probability of " + str(item['To']) + " happening together with " + str(item['From']) + " is " + str(item['Lift']) + " times more likely than to happen by itself",
-                  "associmages/fig" + str(item['No']) + ".png"]
+                  image_path + "/asso" + str(item['No']) + ".png"]
 
     #with open("assocqa.txt", "w", encoding="utf-8-sig") as text_file:
         #text_file.write(json.dumps(qa, ensure_ascii=False, indent = 4))
@@ -119,4 +118,4 @@ def association(dataframe, min_support=0.01, min_confidence=0.2, min_lift=2, min
 
     return qa
 
-#association(dataframe)
+association(dataframe)
