@@ -4,7 +4,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from operator import xor
 import os
-
 import plotly.express as px
 import plotly.graph_objects as go
 
@@ -15,8 +14,8 @@ my_path = os.path.abspath(__file__)
 #In the future, we will read file from user's input instead of this method.
 #To read excel file with multiple sheets, put ", 'sheetname'" after 'filename'.
 # df = pd.read_excel('MRTuser.xlsx', 'สายฉลองรัชธรรม')
-# df = pd.read_excel('harmful30jun2020.xls')
-df = pd.read_excel('sampledatafoodsales.xlsx', 'FoodSales')
+df = pd.read_excel('harmful30jun2020.xls')
+# df = pd.read_excel('sampledatafoodsales.xlsx', 'FoodSales')
 dft = df.copy()
 digitdf = df.select_dtypes(include=[np.number])
 
@@ -35,6 +34,18 @@ dft_columns = set(df.columns).difference(digitdf.columns)
 # print(dft[dft_columns].head())
 dft = dft[dft_columns]
 
+# Iterate to get all column names.
+nameindigitdf = list()
+for (columnName, columnData) in digitdf.iteritems():
+    nameindigitdf.append(columnName)
+digitc = ", ".join(nameindigitdf)
+
+nameindft = list()
+for (columnName, columnData) in dft.iteritems():
+    nameindft.append(columnName)
+dftc = ", ".join(nameindft)
+# ************************************************** #
+
 #iterate over columns
 i = 0
 index = df.shape[0]
@@ -48,33 +59,24 @@ for (columnName, columnData) in digitdf.iteritems():
             CDNN.append(a)
         min_count = CDNN.count(columnData.min())
         data = df.reset_index()
-        # plt.rcParams['font.family'] = 'Tahoma'
-        fig = px.scatter(data, x= 'index', y = columnName)
+        fig = px.scatter(data, x= 'index', y = columnName, title="How " + columnName + " relate with " + dftc + " (index)")
         if(max_count < 2):
-            fig = px.scatter(digitdf.idxmax()[0], columnData.max(), color = 'blue')
-            fig = px.annotate('Max: '+ str(columnData.max()), (digitdf.idxmax()[i], columnData.max()), color="blue")
+            fig.add_trace(go.Scatter(x= [digitdf.idxmax()[i]], y =[columnData.max()], 
+                                        marker=dict(color='red', size=10), mode="markers+text", name="Max",
+                                        text="Max : " + str(columnData.max()), textposition="top center"))
         if(min_count < 2):
-            plt.scatter(digitdf.idxmin()[i], columnData.min(), color = 'red')
-            plt.annotate('Min: '+ str(columnData.min()), (digitdf.idxmin()[i], columnData.min()), color="red")
-        plt.text(index/2, columnData.mean(), 'Mean: '+ str(round(columnData.mean(),2)), fontsize=10, va='center', ha='center', backgroundcolor='w')
-        plt.axhline(columnData.mean(), color = 'gray', linestyle = '--', linewidth = .5)
+            fig.add_trace(go.Scatter(x= [digitdf.idxmin()[i]], y =[columnData.min()], 
+                                        marker=dict(color='green', size=10), mode="markers+text", name="Min",
+                                        text="Min : " + str(columnData.min()), textposition="bottom center"))
+
+        fig.add_trace(go.Scatter(x=[0, index/2, index], 
+                                    y=[columnData.mean(),columnData.mean(),columnData.mean()], 
+                                    mode="lines+text", name="Mean", text=["", "", 'Mean: '+ str(round(columnData.mean(),2))], 
+                                    textposition="top center"))
         i+=1
         # save graph
-        # fig.savefig(__file__ + columnName +'.png')
-        # plt.show()
+        fig.write_image(__file__ + columnName +'.png')
         fig.show()
-
-# Iterate to get all column names.
-nameindigitdf = list()
-for (columnName, columnData) in digitdf.iteritems():
-    nameindigitdf.append(columnName)
-digitc = ", ".join(nameindigitdf)
-
-nameindft = list()
-for (columnName, columnData) in dft.iteritems():
-    nameindft.append(columnName)
-dftc = ", ".join(nameindft)
-# ************************************************** #
 
 # Question #
 ques = ("How do Max, Min, Mean of " + digitc + " relate with " + dftc )
