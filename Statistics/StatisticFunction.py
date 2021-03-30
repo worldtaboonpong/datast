@@ -52,11 +52,6 @@ def statistics(df):
     i = 0
     index = df.shape[0]
     for (columnName, columnData) in digitdf.iteritems():
-        # print('Column Name : ', columnName)
-        # print('Column Mean : ', columnData.mean())
-        # print('Column Min : ', columnData.min())
-        # print('Column Max : ', columnData.max())
-        # print('\n')
         CDNX = list()
         for a in columnData:
             CDNX.append(a)
