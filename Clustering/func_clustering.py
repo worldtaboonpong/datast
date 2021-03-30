@@ -10,10 +10,11 @@ from operator import xor
 import os
 import numpy as np
 from IPython.display import HTML
+import plotly.express as px
 
 my_path = 'static/'
 
-# df = pd.read_excel('MRTuser.xlsx')
+df = pd.read_excel('MRTuser.xlsx')
 
 
 def clustering(df_beforecut):
@@ -72,60 +73,28 @@ def clustering(df_beforecut):
                 df_kmeans = new_df.copy(deep=True)
                 df_kmeans['Group'] = pd.Series(predict, index=df_kmeans.index)
                 dfForDetail['Group'] = pd.Series(predict,index=dfForDetail.index)
+                col_name = list(df_kmeans)
+                first_col = col_name[0]
+                second_col = col_name[1]
                 result = dfForDetail.to_html()
-                # print(result)
-                # print(dfForDetail)
-                # Try to gert more detail to explain
-                # detailToExplain = ''
-                # for k in range(best_cluster):
-                #     dfForGroupI = dfForDetail.loc[df_kmeans['Group'] == k]
-                #     # dfForGroupI['Group'] = pd.Series(k,index=dfForGroupI.index)
-                #     # print(dfForGroupI)
-                #     detailToExplain += ('Group #' + str(k) + ' include ')
-                #     for l in range(dfForGroupI.shape[0]):
-                #         for m in range(dfForGroupI.shape[1]):
-                #             detailToExplain += dfForGroupI.columns.values[m] +': ' +str(
-                #                 dfForGroupI.iat[l, m]) + ' '
-                #         detailToExplain += ', '
-                colormap = np.array(['r','g','b'])
-                # group = df_kmeans['Group']
+                df_kmeans['Group'] = df_kmeans['Group'].astype(str)
 
-                plt.rcParams['font.family'] = 'Tahoma'
-            
-                for group in range(best_cluster):
-                    dfToVisualize = df_kmeans.loc[(df_kmeans['Group'] == group)]
-                    col_name = list(dfToVisualize)
-                    first_col = col_name[0]
-                    second_col = col_name[1]
-                    list_first_col = dfToVisualize[first_col].tolist()
-                    list_second_col = dfToVisualize[second_col].tolist()
-        
-                    # plt.figure()
-                    plt.scatter(list_first_col,list_second_col, c=colormap[group] , label=group)
-                    plt.xlabel(first_col)
-                    plt.ylabel(second_col)
-                    # df_kmeans.plot.scatter(new.columns.values[0],new.columns.values[1], c=colormap[group] , label=group)
-
-                # df_kmeans.plot.scatter(new.columns.values[0],new.columns.values[1], c=colormap[group] )
-                
+                #create scatter plot using plotly
+                fig = px.scatter(df_kmeans, x=first_col, y=second_col, color='Group')
+                fig.write_image(my_path+'cluster'+str(i)+str(j)+'.png')
                
-                plt.legend(title = 'Group')
-                plt.title('Clustering by' + ' ' +new.columns.values[0] + ' ' + 'and' + ' ' + new.columns.values[1])
-                plt.savefig(my_path+'cluster'+str(i)+str(j)+'.png')
-                plt.figure()
-                # plt.close()
-                # plt.show()
+               
 
                 qa_clustering['How can we cluster between '+ new.columns.values[0] +' and '+ new.columns.values[1]] = list()
                 qa_clustering['How can we cluster between '+ new.columns.values[0] +' and '+ new.columns.values[1]].append(str(my_path)+'cluster'+str(i)+str(j)+'.png')
                 qa_clustering['How can we cluster between '+ new.columns.values[0] +' and '+ new.columns.values[1]].append(result)
-                # print(scores)                                                                           
+                                                                                       
 
     return qa_clustering
 
 
 
 
-# print(clustering(df))
+clustering(df)
 
 
