@@ -2,22 +2,21 @@
 content %}
 <div class="home-container">
   <div class="home-text-container">
-    <p class="home-header">Datast</p>
+    <!-- <p class="home-header">Datast</p> -->
+    <p class="home-detail-header">
+      We are auto-data-science web apllication which will help you 
+      
+    </p>
     <p class="home-detail">
-      We are auto-data-science web apllication which will help you analyze and
-      predict the data in .xls, .xlsx and .csv format
+      - analyze and generate the question that might be interesting
+    
+    </p>
+    <p class="home-detail">
+      - predict the data from your input
     </p>
     <div class="home-button-container">
-      <button onclick="location.href = '/upload'">Start Now!</p>
-    </div>
-    <div class="home-data">
-      <p class="home-data-header">
-          Why data is so important
-      </p>
-      <p class="home-data-detail">
-          Helloooooo
-      </p>
-    </div>
+      <button class='button custom-button' onclick="location.href = '/upload'">Start Now!</p>
+    </div>  
   </div>
   <div class="image-container">
     <img
@@ -26,6 +25,26 @@ content %}
       class="responsive"
     />
   </div>
-</div>
 
+</div>
+<div class="data-explain-container">
+  Why data is so important
+</div>
+<div class="home-data-container">
+  <div class="home-data-text-container">
+    <p class="home-data-header">
+      Why data is so important
+  </p>
+  <p class="home-data-detail">
+      Helloooooo
+  </p>
+  </div>
+  
+  <div class="image2-container">
+    <img
+      src="static/pexels-pixabay-265087.jpg"
+      alt="background"
+    />
+  </div>
+</div>
 {% endblock %}

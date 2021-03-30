@@ -1,6 +1,5 @@
 .navbar-container {
   position: relative;
-
 }
 
 .navbar-custom {
@@ -21,10 +20,11 @@
   background: none;
 }
 
-/* .home-container {
+.home-container {
+  display: block;
+}
 
- display: flex;
-} */
+
 
 .footer {
   /* position: fixed; */
@@ -51,11 +51,13 @@
 
 .responsive {
   width: 100%;
-  height: auto;
+  height: 500px;
   /* float: right; */
   z-index: -1;
-  position: absolute;
+  /* position: absolute; */
   filter: brightness(50%);
+  display: flex;
+  object-fit: cover;
 }
 
 .content {
@@ -63,41 +65,102 @@
   position: relative;
 }
 
-.home-text-container{
-  text-align: center;
+.home-text-container {
+
   width: 100%;
   z-index: 1;
   position: absolute;
   /* float: left; */
 }
 
-.home-text-container .home-header{
+.home-text-container .home-detail-header {
   margin-top: 50px;
-  font-size: 50px;
+  font-size: 40px;
   display: block;
   color: white;
+  padding-left: 20px;
 }
-.home-text-container .home-detail{
-  align-items: center;
-  justify-content: center;
-  margin-top: 50px;
+.home-text-container .home-detail {
+  left: 20%;
+  /* margin-top: 50px; */
   display: block;
+  padding-left: 20px;
+  color: white;
   /* width: 100px; */
   /* width: 50%; */
   /* float: right; */
-  background-color: aqua;
 }
 
-.home-text-container .home-button-container{
+.home-text-container .home-button-container {
   float: right;
   display: block;
-  margin-right: 20px;
+  margin-right: 50px;
+  margin-top: 100px;
 }
 
-.home-text-container .home-data{
-  display: block;
-  margin-top: 70px;
+.home-data-container {
+  /* display: flex; */
+
+  /* padding-top: 20px; */
+
+  /* height: 50%; */
+  /* position: absolute; */
+/* 
+  display: inline-block; */
+}
+
+.home-data-container .home-data-text-container {
   background-color: black;
   color: white;
-  height: 50%;
+  float: left;
+  width: 30%;
+}
+
+.home-data-container .home-data-header {
+  /* display: block; */
+}
+
+.home-data-container .home-data-detail {
+  /* display: block; */
+}
+
+.image2-container img {
+  /* float: right; */
+  width: 70%;
+  height: auto;
+  object-fit: cover;
+  /* position: absolute; */
+  display: inline-block;
+  /* right: 0px; */
+}
+
+.data-explain-container{
+  text-align: center;
+  
+  padding-top: 50px;
+  font-size: 40px;
+}
+
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+.custom-button {
+  background-color: white;
+  color: black;
+  border: 2px solid #555555;
+}
+
+.custom-button:hover {
+  background-color: #555555;
+  color: white;
 }
