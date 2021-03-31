@@ -7,7 +7,7 @@ from apyori import apriori
 
 #dataframe = pd.read_excel("./AssociationRule/covid19.xls")
 #dataframe = pd.read_excel('./MRTuser.xlsx' , 'สายฉลองรัชธรรม'  )
-dataframe = pd.read_excel('./sampledatafoodsales.xlsx', 'FoodSales'  )
+# dataframe = pd.read_excel('./sampledatafoodsales.xlsx', 'FoodSales'  )
 
 def association(dataframe, min_support=0.01, min_confidence=0.2, min_lift=2, min_length=2) :
     image_path = "static"
@@ -118,4 +118,4 @@ def association(dataframe, min_support=0.01, min_confidence=0.2, min_lift=2, min
 
     return qa
 
-association(dataframe)
+# association(dataframe)
