@@ -8,7 +8,7 @@ import os
 import plotly.express as px
 import plotly.graph_objects as go
 
-my_path = os.path.abspath(__file__)
+my_path = 'static/'
 
 # dftest = pd.read_excel('harmful30jun2020.xls')
 # dftest = pd.read_excel('MRTuser.xlsx', 'สายฉลองรัชธรรม')
@@ -77,7 +77,7 @@ def statistics(df):
                                     textposition="top center"))
         i+=1
         # save graph
-        fig.write_image(__file__ + columnName +'.png')
+        fig.write_image(my_path+'statistic'+ columnName +'.png')
         # fig.show()
     # ************************************************** #
 
@@ -114,7 +114,7 @@ def statistics(df):
         ans += ("Mean of " + columnName + " is " + str(columnData.mean().round(2)))
         # ************************************************** #
         # Combine Q&A
-        QA[ques] = [ans, __file__ + columnName +'.png']
+        QA[ques] = [ans, my_path+'statistic'+ columnName +'.png']
         # ************************************************** #
 
     # Return Q&A
