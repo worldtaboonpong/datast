@@ -12,10 +12,11 @@ import numpy as np
 from IPython.display import HTML
 import plotly.express as px
 import dataframe_image as dfi
+from pandas.plotting import table
 
 my_path = 'static/'
 
-df = pd.read_excel('MRTuser.xlsx')
+# df = pd.read_excel('MRTuser.xlsx')
 
 
 def clustering(df_beforecut):
@@ -74,15 +75,19 @@ def clustering(df_beforecut):
                 df_kmeans = new_df.copy(deep=True)
                 df_kmeans['Group'] = pd.Series(predict, index=df_kmeans.index)
                 dfForDetail['Group'] = pd.Series(predict,index=dfForDetail.index)
-                col_name = list(df_kmeans)
+                col_name = list(df_kmeans) #list of col name
                 first_col = col_name[0]
                 second_col = col_name[1]
                 result = dfForDetail.to_html()
                 df_kmeans['Group'] = df_kmeans['Group'].astype(str)
-                table_pic = '/static/df'+str(i)+str(j)+'.png'
-                dfForDetail.dfi.export('df.png')
+                col_for_detail_name = list(dfForDetail)
+                row_data = list(dfForDetail.values.tolist())
+                # print(row_data)
 
-                #create scatter plot using plotly
+                list_to_graph = []
+                list_to_graph.append(col_for_detail_name)
+                list_to_graph.append(row_data)
+                # print(list_to_graph)
                 fig = px.scatter(df_kmeans, x=first_col, y=second_col, color='Group')
                 fig.write_image(my_path+'cluster'+str(i)+str(j)+'.png')
                
@@ -90,6 +95,7 @@ def clustering(df_beforecut):
 
                 qa_clustering['How can we cluster between '+ new.columns.values[0] +' and '+ new.columns.values[1]] = list()
                 qa_clustering['How can we cluster between '+ new.columns.values[0] +' and '+ new.columns.values[1]].append(str(my_path)+'cluster'+str(i)+str(j)+'.png')
+                qa_clustering['How can we cluster between '+ new.columns.values[0] +' and '+ new.columns.values[1]].append(list_to_graph)
 
                                                                                        
 
@@ -98,6 +104,6 @@ def clustering(df_beforecut):
 
 
 
-clustering(df)
+# clustering(df)
 
 

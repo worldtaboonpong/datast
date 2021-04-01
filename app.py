@@ -74,13 +74,13 @@ def analyze():
             question_answer.append(answer)
             # question_answer.append(answer[1])
         qx[list_number_of_item[i]] = question_answer
-        print(question_answer[1:])
+        # print(question_answer[1:])
         i=i+1
 
     msg = 'This page will analyze data from your uploaded file '+ file_to_be_analyze
     if (request.method == 'POST'):
         # print(qx)
-        return render_template('analyze.html',  msg=msg, qa=qx)
+        return render_template('analyze.html',  msg=msg, qa=qx, zip=zip)
     # else:
     #     return render_template('answers.html',  msg=msg, qa=qa)
 

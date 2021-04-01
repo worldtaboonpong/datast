@@ -19,15 +19,13 @@
         var top = this.scrollY;
         var navbar = document.getElementsByClassName("navbar-custom");
         var navbar_brand = document.getElementById("header");
-        var navbar_nav = document.querySelectorAll("A");
-        console.log(navbar_nav);
+        var navbar_nav = document.querySelectorAll("A")
         if (top > 60) {
           document.getElementsByClassName("navbar-custom")[0].style.cssText =
             "background-color:black";
           navbar_brand.style.color = "white";
           // navbar_nav[0].style.color = "rgb(219, 217, 217)";
           navbar_nav.forEach((item) => {
-            console.log(item);
             item.style.color = "white";
           });
         } else {

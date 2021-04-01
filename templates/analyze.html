@@ -10,10 +10,19 @@
         function showAnswer(id){
             var checkBox = document.getElementById(id)
             var answer_id = document.getElementById("anwer-for-"+id)
+            var table = document.getElementById("table-for-"+id)
+            var image = document.getElementById("picture-for-"+id)
             if (checkBox.checked == true){
+                console.log('checked')
+                console.log(table)
                 answer_id.style.display = 'block'
+                // table.style.display = 'block'
+                // image.style.display = 'block'
             } else {
+                console.log('unchecked')
                 answer_id.style.display = 'none'
+                // table.style.display = 'none'
+                // image.style.display = 'none'
             }       
         } 
     </script>   
@@ -88,11 +97,32 @@
                 <p id="anwer-for-{{id}}" style="display: none;">
                     <!-- {{question_answer[1:]}} -->
                     {% for each_answer in question_answer[1:] %}
-                        {% if '.png' not in each_answer  %}
-                            {{each_answer}}
+                        {% if each_answer is iterable  %}
+                            <table id="table-for-{{id}}" >
+                                <thead>
+                                    <tr>
+                                        {% for col in each_answer[0] %}
+                                            <th>
+                                                {{col}}
+                                            </th>
+                                        {% endfor %}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for row in each_answer[1] %}
+                                    <tr>
+                                        {% for col,row_ in zip(each_answer[0],row) %}
+                                            <td>
+                                                {{row_}}
+                                            </td>
+                                        {% endfor %}
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
                         {% endif %}
                         {% if '.png' in each_answer %}
-                            <img src="{{each_answer}}">
+                            <img id="picture-for-{{id}}" src="{{each_answer}}" >
                         {% endif %}
                         
                     {% endfor %}
