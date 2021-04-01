@@ -11,10 +11,11 @@ import os
 import numpy as np
 from IPython.display import HTML
 import plotly.express as px
+import dataframe_image as dfi
 
 my_path = 'static/'
 
-# df = pd.read_excel('MRTuser.xlsx')
+df = pd.read_excel('MRTuser.xlsx')
 
 
 def clustering(df_beforecut):
@@ -78,6 +79,8 @@ def clustering(df_beforecut):
                 second_col = col_name[1]
                 result = dfForDetail.to_html()
                 df_kmeans['Group'] = df_kmeans['Group'].astype(str)
+                table_pic = '/static/df'+str(i)+str(j)+'.png'
+                dfForDetail.dfi.export('df.png')
 
                 #create scatter plot using plotly
                 fig = px.scatter(df_kmeans, x=first_col, y=second_col, color='Group')
@@ -87,7 +90,7 @@ def clustering(df_beforecut):
 
                 qa_clustering['How can we cluster between '+ new.columns.values[0] +' and '+ new.columns.values[1]] = list()
                 qa_clustering['How can we cluster between '+ new.columns.values[0] +' and '+ new.columns.values[1]].append(str(my_path)+'cluster'+str(i)+str(j)+'.png')
-                qa_clustering['How can we cluster between '+ new.columns.values[0] +' and '+ new.columns.values[1]].append(result)
+
                                                                                        
 
     return qa_clustering
@@ -95,6 +98,6 @@ def clustering(df_beforecut):
 
 
 
-# clustering(df)
+clustering(df)
 
 

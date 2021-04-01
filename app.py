@@ -79,7 +79,7 @@ def analyze():
 
     msg = 'This page will analyze data from your uploaded file '+ file_to_be_analyze
     if (request.method == 'POST'):
-        print(qx)
+        # print(qx)
         return render_template('analyze.html',  msg=msg, qa=qx)
     # else:
     #     return render_template('answers.html',  msg=msg, qa=qa)
