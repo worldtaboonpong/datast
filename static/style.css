@@ -107,6 +107,19 @@
   width: 30%;
 }
 
+.home-data-text-container .home-data-header {
+  display: block;
+  margin: 30px 0px;
+  padding-left: 20px;
+  font-size: 20px;
+}
+
+.home-data-text-container .home-data-detail {
+  display: block;
+  padding: 3px 15px 3px 40px;
+  font-size: 16px;
+}
+
 .image2-container img {
   /* float: right; */
   width: 70%;
