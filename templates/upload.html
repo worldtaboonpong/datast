@@ -8,12 +8,14 @@
     class="submit-form"
   >
     <input
+      id="file-input"
       class="file-input"
       type="file"
       name="file"
       accept=".xls,.xlsx,.csv"
+      onchange="changeText()"
     />
-    <p class="file-input-text">
+    <p class="file-input-text" id="file-input-text">
       Drag your csv, xls or xlsx file here or click in this area.
     </p>
 
