@@ -75,16 +75,18 @@
 
 .home-text-container .home-detail-header {
   margin-top: 50px;
-  font-size: 40px;
+  margin-bottom: 50px;
+  font-size: 48px;
   display: block;
   color: white;
   padding-left: 20px;
 }
 .home-text-container .home-detail {
   left: 20%;
+  font-size: 20px;
   /* margin-top: 50px; */
   display: block;
-  padding-left: 20px;
+  padding-left: 60px;
   color: white;
   /* width: 100px; */
   /* width: 50%; */
@@ -111,13 +113,13 @@
   display: block;
   margin: 30px 0px;
   padding-left: 20px;
-  font-size: 20px;
+  font-size: 28px;
 }
 
 .home-data-text-container .home-data-detail {
   display: block;
   padding: 3px 15px 3px 40px;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .image2-container img {
@@ -148,32 +150,33 @@
   margin: 4px 2px;
   transition-duration: 0.4s;
   cursor: pointer;
-  max-width: 200px;
-  max-height: 70px;
+  width: 200px;
+  height: 70px;
   font-size: 25px;
 }
 .custom-button {
   background-color: white;
   color: black;
   border: 1px solid #555555;
-  border-radius: 30px;
+  border-radius: 60px;
 }
 
 .custom-button:hover {
   background-color: #555555;
   color: white;
   border: 1px solid white;
-  border-radius: 30px;
+  border-radius: 60px;
 }
 
-/*.button-close {
+/*.button-cancel {
+  position: absolute;
   text-align: center;
   color: #fff;
   background: #fd3c3c;
   border: none;
   border-radius: 100%;
   size: 100px;
-  outline: none;
+  font-size: 16px;
 }*/
 
 .upload-body {
@@ -214,15 +217,20 @@
   cursor: pointer;
 }
 
+.submit-form .button-container {
+  margin-top: 25px;
+  clear: both;
+}
+
 .submit-form .submit-button {
   margin: 0;
   color: #fff;
   background: #16a085;
   border: none;
-  width: 508px;
+  width: 339px;
   height: 35px;
   margin-top: -20px;
-  margin-left: -4px;
+  margin-right: -4px;
   border-radius: 4px;
   border-bottom: 4px solid #117a60;
   transition: all 0.2s ease;
@@ -236,6 +244,32 @@
 }
 
 .submit-form .submit-button:active {
+  border: 0px;
+}
+
+.submit-form .cancel-button {
+  margin: 0;
+  color: #fff;
+  background: #dd2828;
+  border: none;
+  width: 160px;
+  height: 35px;
+  margin-top: -20px;
+  margin-left: -4px;
+  margin-right: 1px;
+  border-radius: 4px;
+  border-bottom: 4px solid #7a1111;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.submit-form .cancel-button:hover {
+  background: #d41e1e;
+  color: #560c0c;
+  cursor: pointer;
+}
+
+.submit-form .cancel-button:active {
   border: 0px;
 }
 
@@ -299,11 +333,13 @@
   background-color: white;
   color: black;
   border: 2px solid #555555;
+  border-radius: 30px;
 }
 
 .analyze-predict-button:hover {
   background-color: #555555;
   color: white;
+  border-radius: 30px;
 }
 
 
