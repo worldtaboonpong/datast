@@ -102,7 +102,7 @@ def association(dataframe, min_support=0.01, min_confidence=0.2, min_lift=2, min
         fig.update_layout(barmode="stack")
         fig.update_traces(textposition='outside')
         fig.update_layout(uniformtext_minsize=11, uniformtext_mode='hide')
-        fig.write_image(image_path + "/asso" + str(i['No']) + ".png")
+        fig.write_image(image_path + "/asso" + str(i['No']) + ".png", width= 560, height= 400, scale=2.0)
 
     qa = {}
     for item in data_dict :

@@ -9,7 +9,7 @@
         }      
         function showAnswer(id){
             var checkBox = document.getElementById(id)
-            var answer_id = document.getElementById("anwer-for-"+id)
+            var answer_id = document.getElementById("answer-for-"+id)
             var table = document.getElementById("table-for-"+id)
             var image = document.getElementById("picture-for-"+id)
             if (checkBox.checked == true){
@@ -94,7 +94,7 @@
                     <span class="checkmark"></span>
                 </label> 
                 
-                <p id="anwer-for-{{id}}" style="display: none;">
+                <p id="answer-for-{{id}}" style="display: none;">
                     <!-- {{question_answer[1:]}} -->
                     {% for each_answer in question_answer[1:] %}
                         {% if each_answer is iterable  %}
