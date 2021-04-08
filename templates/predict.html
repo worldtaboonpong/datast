@@ -3,11 +3,11 @@ content %}
 <html>
   <script type="text/javascript">
     function showSelection(col) {
-      let columns = "{{columns_values|safe}}";
-    //   list_of_columns = ','.join(columns)
-      console.log(columns)
+      var columns = "{{columns_values|tojson}}";
+      //   list_of_columns = ','.join(columns)
+      console.log(columns);
       console.log(columns.length);
-      console.log(typeof columns)
+      console.log(typeof columns);
 
       //   console.log(columns)
       //   console.log('--')
