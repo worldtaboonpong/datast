@@ -7,6 +7,8 @@ from werkzeug.utils import secure_filename
 import os
 import pandas as pd
 from flask_cors import CORS
+from decisiontree.func_cleanexcel import cleanDataframe
+import json
 
 app = Flask(__name__,static_folder = "static")
 CORS(app)
@@ -87,9 +89,22 @@ def analyze():
 
 @app.route('/predict' , methods=['POST'])
 def predict():
+    file = 'Files/'+ file_to_be_analyze
+    df_before_clean = pd.read_excel(file)
+    df_after_clean = cleanDataframe(df_before_clean)
+
+    columns = list(df_after_clean)
+    columns_values = {}
+    for col in columns:
+        value_of_col = set(df_after_clean[col])
+        # print(col)
+        # print(value_of_col)
+        columns_values[col] = value_of_col
+    print(columns_values)
+
 
     msg = 'This page will predict data from your uploaded file'
-    return render_template('predict.html',  msg=msg)
+    return render_template('predict.html',  msg=msg, columns_values=columns_values,columns=columns)
 
 
 if __name__ == '__main__':

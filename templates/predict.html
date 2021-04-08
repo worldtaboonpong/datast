@@ -1,7 +1,40 @@
+{% extends "base.html" %} {% block head%} {{super()}} {% endblock %} {% block
+content %}
 <html>
-    <body>
-        <p>
-            {{msg}}
-        </p>   
-    </body>
+  <script type="text/javascript">
+    function showSelection(col) {
+      let columns = "{{columns_values|safe}}";
+    //   list_of_columns = ','.join(columns)
+      console.log(columns)
+      console.log(columns.length);
+      console.log(typeof columns)
+
+      //   console.log(columns)
+      //   console.log('--')
+      //   console.log(col)
+      //   console.log('-------')
+      //   for (var i = 0; i<columns.length; i++){
+      //       if (columns[i] == col){
+      //           columns.splice(i,1)
+      //       }
+      //       console.log(columns[i])
+      //   }
+      //   console.log(columns)
+    }
+  </script>
+  <body>
+    <div>
+      <h1>What do you want to predict</h1>
+    </div>
+    <div>
+      {% for col,val in columns_values.items() %}
+      <p id="{{col}}" onclick="showSelection(this.id)">{{col}}</p>
+      {% endfor %} {% for col,val in columns_values.items() %}
+      <p id="{{col}}-for-select" style="display: none">{{col}}</p>
+      {% for v in val %}
+      <p id="selection-of-{{col}}" style="display: none">{{v}}</p>
+      {% endfor %} {% endfor %}
+    </div>
+  </body>
 </html>
+{% endblock %}
