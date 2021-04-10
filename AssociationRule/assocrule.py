@@ -101,8 +101,8 @@ def association(dataframe, min_support=0.01, min_confidence=0.2, min_lift=2, min
         fig.add_bar(x=x, y=yn, name='No', text=y)
         fig.update_layout(barmode="stack")
         fig.update_traces(textposition='outside')
-        fig.update_layout(uniformtext_minsize=11, uniformtext_mode='hide')
-        fig.write_image(image_path + "/asso" + str(i['No']) + ".png", width= 560, height= 400, scale=2.0)
+        fig.update_layout(uniformtext_minsize=11, uniformtext_mode='hide', margin=dict(l=10,r=10,t=40,b=20))
+        fig.write_image(image_path + "/asso" + str(i['No']) + ".png", width= 700, height= 500, scale=1.5)
 
     qa = {}
     for item in data_dict :
