@@ -2,24 +2,18 @@
 content %}
 <html>
   <script type="text/javascript">
-    function showSelection(col) {
-      var columns = "{{columns_values|tojson}}";
-      //   list_of_columns = ','.join(columns)
-      console.log(columns);
-      console.log(columns.length);
-      console.log(typeof columns);
-
-      //   console.log(columns)
-      //   console.log('--')
-      //   console.log(col)
-      //   console.log('-------')
-      //   for (var i = 0; i<columns.length; i++){
-      //       if (columns[i] == col){
-      //           columns.splice(i,1)
-      //       }
-      //       console.log(columns[i])
-      //   }
-      //   console.log(columns)
+    function showSelection(col) {  
+      console.log(col);
+      // var columns = '{{columns|tojson}}'
+      // console.log(columns)
+      // console.log(typeof columns)
+      var selector = document.getElementById("selector");    
+      if (selector.style.display == "block"){
+        window.location.reload()
+      }
+      selector.style.display = "block";
+      var target_col = document.getElementById(col+"-for-select")
+      target_col.style.display = "none"
     }
   </script>
   <body>
@@ -28,12 +22,17 @@ content %}
     </div>
     <div>
       {% for col,val in columns_values.items() %}
-      <p id="{{col}}" onclick="showSelection(this.id)">{{col}}</p>
-      {% endfor %} {% for col,val in columns_values.items() %}
-      <p id="{{col}}-for-select" style="display: none">{{col}}</p>
-      {% for v in val %}
-      <p id="selection-of-{{col}}" style="display: none">{{v}}</p>
-      {% endfor %} {% endfor %}
+        <p id="{{col}}" onclick="showSelection(this.id)">{{col}}</p>
+      {% endfor %} 
+      <div id="selector" style="display: none;">
+        {% for col,val in columns_values.items() %}
+        <p id="{{col}}-for-select" >{{col}}
+        {% for v in val %} 
+          {{v}} 
+        {% endfor %} 
+        </p>
+      {% endfor %}
+      </div>     
     </div>
   </body>
 </html>
