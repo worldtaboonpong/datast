@@ -20,20 +20,28 @@ content %}
     <div>
       <h1>What do you want to predict</h1>
     </div>
-    <div>
-      {% for col,val in columns_values.items() %}
-        <p id="{{col}}" onclick="showSelection(this.id)">{{col}}</p>
-      {% endfor %} 
-      <div id="selector" style="display: none;">
+    <form action="/showoutput" method="POST">
+      <div>
         {% for col,val in columns_values.items() %}
-        <p id="{{col}}-for-select" >{{col}}
-        {% for v in val %} 
-          {{v}} 
+          <p id="{{col}}" onclick="showSelection(this.id)">{{col}}</p>
         {% endfor %} 
-        </p>
-      {% endfor %}
-      </div>     
-    </div>
+        <div id="selector" style="display: none;">
+          {% for col,val in columns_values.items() %}
+          <p id="{{col}}-for-select" >{{col}}
+          {% for v in val %} 
+            {{v}} 
+          {% endfor %} 
+          </p>
+        {% endfor %}
+        </div>     
+      </div>
+      <div>
+        <button id="buton" type="submit" >
+          Predict
+        </button>
+      </div>
+    </form>
+    
   </body>
 </html>
 {% endblock %}
