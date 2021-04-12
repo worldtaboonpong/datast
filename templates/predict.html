@@ -2,46 +2,61 @@
 content %}
 <html>
   <script type="text/javascript">
-    function showSelection(col) {  
+    function showSelection(col) {
       console.log(col);
       // var columns = '{{columns|tojson}}'
       // console.log(columns)
       // console.log(typeof columns)
-      var selector = document.getElementById("selector");    
-      if (selector.style.display == "block"){
-        window.location.reload()
-      }
+
+      
+      var selector = document.getElementById("selector");
       selector.style.display = "block";
-      var target_col = document.getElementById(col+"-for-select")
-      target_col.style.display = "none"
+      var target_col = document.getElementById(col + "-for-select");
+      target_col.style.display = "none";
+      var target_col_setter = document.getElementById("target_column") 
+      target_col_setter.value = col
+    }
+    function refresh() {
+      window.location.reload();
     }
   </script>
   <body>
     <div>
       <h1>What do you want to predict</h1>
     </div>
+    <div>
+      <button id="buton" onclick="refresh()">Refresh</button>
+    </div>
     <form action="/showoutput" method="POST">
       <div>
         {% for col,val in columns_values.items() %}
-          <p id="{{col}}" onclick="showSelection(this.id)">{{col}}</p>
-        {% endfor %} 
-        <div id="selector" style="display: none;">
-          {% for col,val in columns_values.items() %}
-          <p id="{{col}}-for-select" >{{col}}
-          {% for v in val %} 
-            {{v}} 
-          {% endfor %} 
-          </p>
+        <p id="{{col}}" onclick="showSelection(this.id)">{{col}}</p>
         {% endfor %}
-        </div>     
+
+        <!-- test how to send selector to python flask -->
+        <!-- <select id="selector" name="selector">
+          <option id="1">test1</option>
+          <option id="2">test2</option>
+          <option id="3">test3</option>
+        </select> -->
+        <input type="hidden" name="target_column" id="target_column" name="target_column" value="">
+
+        <div id="selector" style="display: none">
+          {% for col,val in columns_values.items() %}
+          <label for="selector-for-{{col}}" id="{{col}}-for-select">{{col}}
+            <select id="selector-for-{{col}}" name="selector-for-{{col}}">
+              {% for v in val %}
+              <option id="{{v}}">{{v}}</option>
+              {% endfor %}
+            </select>
+          </label>
+          {% endfor %}
+        </div>
       </div>
       <div>
-        <button id="buton" type="submit" >
-          Predict
-        </button>
+        <button id="buton" type="submit">Predict</button>
       </div>
     </form>
-    
   </body>
 </html>
 {% endblock %}

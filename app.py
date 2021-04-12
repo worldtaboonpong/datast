@@ -108,5 +108,27 @@ def predict():
     return render_template('predict.html',  msg=msg, columns_values=columns_values,columns=columns)
 
 
+@app.route('/showoutput', methods=['POST'])
+def showOutput():
+
+    # test = request.form.get("selector")
+    # print(test)
+
+    file = 'Files/'+ file_to_be_analyze
+    df_before_clean = pd.read_excel(file)
+    df_after_clean = cleanDataframe(df_before_clean)
+    columns = list(df_after_clean)
+    #col_val_selector is the user's inputs
+    col_val_selector = {}
+    #target_column will be the last column of dataframe
+    target_column = request.form.get("target_column")
+    print(target_column)
+    for col in columns:
+        if col != target_column:
+            col_val_selector[col] = request.form.get("selector-for-"+col)
+    print(col_val_selector)
+    return render_template('predict-answer.html', target_column=target_column)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
