@@ -25,6 +25,20 @@
                 // image.style.display = 'none'
             }       
         } 
+        function showAnswerAsso() {
+            var answer = document.getElementById("answerTest")
+            var question = document.getElementById("questionTest")
+            var button = document.getElementById("btnTest")
+            if(answer.style.display === 'block'){
+                button.innerHTML = "Show"
+                answer.style.display = 'none'
+                question.scrollIntoView({ block: 'center',  behavior: 'smooth' });
+            } else {
+                button.innerHTML = "Hide"
+                answer.style.display = 'block'
+                answer.scrollIntoView({ block: 'center',  behavior: 'smooth' });
+            }
+        }
     </script>   
     <style>
         .container {
@@ -79,6 +93,7 @@
             -ms-transform: rotate(45deg);
             transform: rotate(45deg);
         }
+        /* TEST FOR ME ONLY*/
         .container-asso {
             display: block;
             padding-left: 35px;
@@ -87,19 +102,31 @@
         .container-asso .header {
             text-align: center;
             font-size: 24px;
+            margin-bottom: 50px;
         }
-        .container-asso .image-container {
-            margin: 40px;
+        .container-asso .btn-show {
+            text-align: center;
+            margin-left: 30%;
+            width: 100px;
+            height: 40px;
+        }
+        .container-asso .container-answer {
+            text-align: center;
+            display: none;
+        }
+        .container-answer .image-container {
+            margin: 30px;
             text-align: center;
         }
         img {
             width: 50%;
             height: 50%;
         }
-        .container-asso .details {
+        .container-answer .details {
             text-align: center;
             font-size: 16px;
         }
+        
     </style>
     <body>
         <p>
@@ -158,11 +185,14 @@
         </button>
         <form name='select_question' >
             <div class="container-asso">
-                <div class="header">Asso #1</div>
-                <div class="image-container">
-                    <img src="static/testasso.jpg" />
-                </div>
-                <div class="details">Never gonna give you up. Never gonna let you down. Never gonna run around and desert you.</div>
+                <div class="header" id="questionTest">What is the difference between computer science and computer engineering student</div>
+                <button class="btn-show" type="button" id="btnTest" onclick="showAnswerAsso()">Show</button>
+                <div class="container-answer" id="answerTest" >
+                    <div class="image-container">
+                        <img src="static/testasso.jpg" />
+                    </div>
+                    <div class="details">Never gonna give you up. Never gonna let you down. Never gonna run around and desert you.</div>
+                </div>    
             </div>
         </form>
     </body>
