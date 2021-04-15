@@ -379,5 +379,20 @@
   border: 2px solid #c5c5c5;
 }
 
+.predict-body{
+  margin-left: 20px;
+  padding-top: 20px;
+}
+
+.select-target-column-container{
+  display: grid;
+  grid-auto-flow: column;
+  grid-column-gap: 10px
+}
+
+.refresh-button{
+  float: right;
+  margin-right: 20px;
+}
 
 

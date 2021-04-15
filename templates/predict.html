@@ -3,35 +3,33 @@ content %}
 <html>
   <script type="text/javascript">
     function showSelection(col) {
-      console.log(col);
-      // var columns = '{{columns|tojson}}'
-      // console.log(columns)
-      // console.log(typeof columns)
-
-      
+      console.log(col);  
       var selector = document.getElementById("selector");
       selector.style.display = "block";
       var target_col = document.getElementById(col + "-for-select");
       target_col.style.display = "none";
       var target_col_setter = document.getElementById("target_column") 
       target_col_setter.value = col
+      var selected_col = document.getElementById(col)
     }
     function refresh() {
       window.location.reload();
     }
   </script>
-  <body>
+  <body class="predict-body">
     <div>
       <h1>What do you want to predict</h1>
     </div>
-    <div>
-      <button id="buton" onclick="refresh()">Refresh</button>
-    </div>
     <form action="/showoutput" method="POST">
-      <div>
-        {% for col,val in columns_values.items() %}
-        <p id="{{col}}" onclick="showSelection(this.id)">{{col}}</p>
-        {% endfor %}
+      <div class="select-target-column-container" >
+        <p >
+          {% for col,val in columns_values.items() %}
+          <p class="selected-target-column" id="{{col}}" onclick="showSelection(this.id)">
+            {{col}}
+          </p>      
+          {% endfor %}
+          <button class="refresh-button" id="buton" onclick="refresh()" type="button">Refresh</button>
+        </p>
 
         <!-- test how to send selector to python flask -->
         <!-- <select id="selector" name="selector">
