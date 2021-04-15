@@ -1,7 +1,60 @@
+{% extends "base.html" %} {% block head%} {{super()}} {% endblock %} {% block
+content %}
 <html>
-    <body>
-        <p>
-            {{msg}}
-        </p>   
-    </body>
+  <script type="text/javascript">
+    function showSelection(col) {
+      console.log(col);  
+      var selector = document.getElementById("selector");
+      selector.style.display = "block";
+      var target_col = document.getElementById(col + "-for-select");
+      target_col.style.display = "none";
+      var target_col_setter = document.getElementById("target_column") 
+      target_col_setter.value = col
+      var selected_col = document.getElementById(col)
+    }
+    function refresh() {
+      window.location.reload();
+    }
+  </script>
+  <body class="predict-body">
+    <div>
+      <h1>What do you want to predict</h1>
+    </div>
+    <form action="/showoutput" method="POST">
+      <div class="select-target-column-container" >
+        <p >
+          {% for col,val in columns_values.items() %}
+          <p class="selected-target-column" id="{{col}}" onclick="showSelection(this.id)">
+            {{col}}
+          </p>      
+          {% endfor %}
+          <button class="refresh-button" id="buton" onclick="refresh()" type="button">Refresh</button>
+        </p>
+
+        <!-- test how to send selector to python flask -->
+        <!-- <select id="selector" name="selector">
+          <option id="1">test1</option>
+          <option id="2">test2</option>
+          <option id="3">test3</option>
+        </select> -->
+        <input type="hidden" name="target_column" id="target_column" name="target_column" value="">
+
+        <div id="selector" style="display: none">
+          {% for col,val in columns_values.items() %}
+          <label for="selector-for-{{col}}" id="{{col}}-for-select">{{col}}
+            <select id="selector-for-{{col}}" name="selector-for-{{col}}">
+              {% for v in val %}
+              <option id="{{v}}">{{v}}</option>
+              {% endfor %}
+            </select>
+          </label>
+          {% endfor %}
+        </div>
+      </div>
+      <div>
+        <button id="buton" type="submit">Predict</button>
+      </div>
+    </form>
+  </body>
 </html>
+{% endblock %}

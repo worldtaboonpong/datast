@@ -7,6 +7,8 @@ from werkzeug.utils import secure_filename
 import os
 import pandas as pd
 from flask_cors import CORS
+from decisiontree.func_cleanexcel import cleanDataframe
+import json
 
 app = Flask(__name__,static_folder = "static")
 CORS(app)
@@ -87,9 +89,45 @@ def analyze():
 
 @app.route('/predict' , methods=['POST'])
 def predict():
+    file = 'Files/'+ file_to_be_analyze
+    df_before_clean = pd.read_excel(file)
+    df_after_clean = cleanDataframe(df_before_clean)
+
+    columns = list(df_after_clean)
+    columns_values = {}
+    for col in columns:
+        value_of_col = list(set(df_after_clean[col]))
+        # print(col)
+        # print(value_of_col)
+        columns_values[col] = value_of_col
+    # print(columns_values)
+  
+
 
     msg = 'This page will predict data from your uploaded file'
-    return render_template('predict.html',  msg=msg)
+    return render_template('predict.html',  msg=msg, columns_values=columns_values,columns=columns)
+
+
+@app.route('/showoutput', methods=['POST'])
+def showOutput():
+
+    # test = request.form.get("selector")
+    # print(test)
+
+    file = 'Files/'+ file_to_be_analyze
+    df_before_clean = pd.read_excel(file)
+    df_after_clean = cleanDataframe(df_before_clean)
+    columns = list(df_after_clean)
+    #col_val_selector is the user's inputs
+    col_val_selector = {}
+    #target_column will be the last column of dataframe
+    target_column = request.form.get("target_column")
+    print(target_column)
+    for col in columns:
+        if col != target_column:
+            col_val_selector[col] = request.form.get("selector-for-"+col)
+    print(col_val_selector)
+    return render_template('predict-answer.html', target_column=target_column)
 
 
 if __name__ == '__main__':
