@@ -1,18 +1,35 @@
-<html>
-    <body>
-        <p>
-            {{msg}}
-        </p>
-    </body>
+{% extends "base.html" %} {% block title %} Choose {% endblock %} {% block
+head%} {{super()}} {% endblock %} {% block content %}
+
+<body class="submit-container">
+  <div class="analyze-form">
+    <div class="analyze-text">
+      <p class="analyze-header">Analyze</p>
+      <p class="analyze-detail">
+        This method will analyze the file which you upload and then give you a
+        set of questions which might be interested you so that you can select
+        the question and it will show you an answer of that question.
+      </p>
+    </div>
 
     <form action="/analyze" method="POST">
-        <button>
-            Analyze
-        </button>
+      <button class="analyze-predict-button">Analyze</button>
     </form>
+  </div>
+
+  <div class="predict-form">
+    <div class="predict-text">
+      <p class="predict-header">Predict</p>
+      <p class="predict-detail">
+        This method will analyze the file which you upload and then give you a
+        set of questions which might be interested you so that you can select
+        the question and it will show you an answer of that question.
+      </p>
+    </div>
     <form action="/predict" method="POST">
-        <button>
-            Predict
-        </button>
+      <button class="analyze-predict-button">Predict</button>
     </form>
-</html>
+  </div>
+</body>
+
+{% endblock %}

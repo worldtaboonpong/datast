@@ -1,19 +1,61 @@
-{% extends "base.html" %}
-{% block title %} Home {% endblock %}
-{% block head%}
-    {{super()}}
-{% endblock %}
-{% block content %}
-    <body>
-        <h3> Hello </h3>
-        <p> We are Datast</p>
-    </body>
-    <form action="/submit" method="POST" enctype='multipart/form-data'>
-        <p>
-            <input type="file" name="file" accept=".xls,.xlsx,.csv" >
-        </p>
-        <p>
-            <input type="submit" value="submit">
-        </p>
-    </form>
+{% extends "base.html" %} {% block head %}{{super()}}{% endblock %} {% block
+content %}
+<div class="home-container">
+  <div class="home-text-container">
+    <!-- <p class="home-header">Datast</p> -->
+    <p class="home-detail-header">
+      We are auto-data-science web apllication which will help you 
+      
+    </p>
+    <p class="home-detail">
+      - analyze and generate the question that might be interesting
+    </p>
+    <p class="home-detail">
+      - predict the data from your input
+    </p>
+    <div class="home-button-container">
+      <button class='button custom-button' onclick="location.href = '/upload'">Start Now!</p>
+    </div>  
+  </div>
+  <div class="image-container">
+    <img
+      src="static/pexels-pixabay-259006.jpg"
+      alt="background"
+      class="responsive"
+    />
+  </div>
+
+</div>
+<div class="data-explain-container">
+  Why data is so important
+</div>
+<div class="home-data-container">
+  <div class="home-data-text-container">
+    <p class="home-data-header">
+      Why data is so important
+    </p>
+    <p class="home-data-detail">
+      - Helloooooo
+    </p>
+    <p class="home-data-detail">
+      - Data makes the world go round
+    </p>
+    <p class="home-data-detail">
+      - Procrastination is fun
+    </p>
+    <p class="home-data-detail">
+      - I dont wanna do this anymore
+    </p>
+    <p class="home-data-detail">
+      - Free me from this suffering
+    </p>
+  </div>
+  
+  <div class="image2-container">
+    <img
+      src="static/pexels-pixabay-265087.jpg"
+      alt="background"
+    />
+  </div>
+</div>
 {% endblock %}

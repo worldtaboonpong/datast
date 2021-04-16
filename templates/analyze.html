@@ -1,41 +1,203 @@
-<html>
+{% extends "base.html" %}
+{% block head%}
+    {{super()}}
+{% endblock %}
+{% block content %}
     <script>
         function goBack(){
             window.history.back();
-        }       
-    </script>    
+        }      
+        function showAnswer(id){
+            var checkBox = document.getElementById(id)
+            var answer_id = document.getElementById("answer-for-"+id)
+            var table = document.getElementById("table-for-"+id)
+            var image = document.getElementById("picture-for-"+id)
+            if (checkBox.checked == true){
+                console.log('checked')
+                console.log(table)
+                answer_id.style.display = 'block'
+                // table.style.display = 'block'
+                // image.style.display = 'block'
+            } else {
+                console.log('unchecked')
+                answer_id.style.display = 'none'
+                // table.style.display = 'none'
+                // image.style.display = 'none'
+            }       
+        } 
+        function showAnswerAsso() {
+            var answer = document.getElementById("answerTest")
+            var question = document.getElementById("questionTest")
+            var button = document.getElementById("btnTest")
+            if(answer.style.display === 'block'){
+                button.innerHTML = "Show"
+                answer.style.display = 'none'
+                question.scrollIntoView({ block: 'center',  behavior: 'smooth' });
+            } else {
+                button.innerHTML = "Hide"
+                answer.style.display = 'block'
+                answer.scrollIntoView({ block: 'center',  behavior: 'smooth' });
+            }
+        }
+    </script>   
+    <style>
+        .container {
+            display: block;
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            /* font-size: 22px; */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        .container input {
+            position: absolute;
+            /* opacity: 50; */
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            background-color: #eee;
+        }
+        .container:hover input ~ .checkmark {
+            background-color: #ccc;
+        }
+        .container input:checked ~ .checkmark {
+            background-color: #2196F3;
+        }
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+        .container input:checked ~ .checkmark:after {
+            display: block;
+        }
+        .container .checkmark:after {
+            left: 9px;
+            top: 5px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+        /* TEST FOR ME ONLY*/
+        .container-asso {
+            display: block;
+            padding-left: 35px;
+            margin-bottom: 30px;
+            margin-left: 10%;
+            margin-right: 10%;
+        }
+        .container-asso .header {
+            font-size: 24px;
+            margin-bottom: 40px;
+        }
+        .container-asso .btn-show { 
+            margin-left: 5%;
+            width: 100px;
+            height: 40px;
+        }
+        .container-asso .container-answer {
+            text-align: center;
+            display: none;
+        }
+        .container-answer .image-container {
+            margin: 30px;
+            text-align: center;
+        }
+        img {
+            max-width: 60%;
+            height: auto;
+            min-width: 385px;
+        }
+        .container-answer .details {
+            font-size: 16px;
+        }
+        
+    </style>
     <body>
         <p>
             {{msg}}
         </p>
-        <!-- <table>
-            {% for questions , answers in qa.items() %}
-            <tr>
-                <th>
-                    {{questions}}
-                </th>
-                <td>
-                    {% for answer in answers %}
-                        {{answer[0]}}  
-                        <p>
-                            {{answer[1]}}
-                            <img src="Clustering/testpic.jpg">
-                            
-                        </p>                       
-                    {% endfor %}            
-                </td>
-            </tr>
+
+        <form name='select_question' >
+            {% for id,question_answer in qa.items()%}
+                
+                <label class="container">{{question_answer[0]}}
+                    <input name="questions" type="checkbox" 
+                    id="{{id}}" onclick="showAnswer(this.id)"> 
+                    <span class="checkmark"></span>
+                </label> 
+                
+                <p id="answer-for-{{id}}" style="display: none;">
+                    <!-- {{question_answer[1:]}} -->
+                    {% for each_answer in question_answer[1:] %}
+                        {% if each_answer is iterable  %}
+                            <table id="table-for-{{id}}" >
+                                <thead>
+                                    <tr>
+                                        {% for col in each_answer[0] %}
+                                            <th>
+                                                {{col}}
+                                            </th>
+                                        {% endfor %}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for row in each_answer[1] %}
+                                    <tr>
+                                        {% for col,row_ in zip(each_answer[0],row) %}
+                                            <td>
+                                                {{row_}}
+                                            </td>
+                                        {% endfor %}
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        {% endif %}
+                        {% if '.png' in each_answer %}
+                            <img id="picture-for-{{id}}" src="{{each_answer}}" >
+                        {% endif %}
+                        
+                    {% endfor %}
+                </p>
+                
             {% endfor %}
-        </table> -->
-        <select name="questions" id="questions" multiple>
-            {% for questions,answers in qa.items()%}
-                <option value="{{questions}}"> {{questions}} </option>
-            {% endfor %}
-        </select>
+            <input type="submit" value="Submit" onclick="showAnswers()">
+        </form>
 
         <button onclick="goBack()">
             Back
         </button>
-        
+        <form name='select_question' >
+            <div class="container-asso">
+                <div class="header" id="questionTest">What is the difference between computer science and computer engineering student</div>
+                <button class="btn-show" type="button" id="btnTest" onclick="showAnswerAsso()">Show</button>
+                <div class="container-answer" id="answerTest" >
+                    <div class="image-container">
+                        <img src="static/testasso.jpg" />
+                    </div>
+                    <div class="details">Never gonna give you up. Never gonna let you down. Never gonna run around and desert you.</div>
+                </div>    
+            </div>
+        </form>
     </body>
-</html>
+
+  
+
+
+{% endblock %}

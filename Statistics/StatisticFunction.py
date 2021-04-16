@@ -5,8 +5,10 @@ matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 from operator import xor
 import os
+import plotly.express as px
+import plotly.graph_objects as go
 
-my_path = os.path.abspath(__file__)
+my_path = 'static/'
 
 # dftest = pd.read_excel('harmful30jun2020.xls')
 # dftest = pd.read_excel('MRTuser.xlsx', 'สายฉลองรัชธรรม')
@@ -30,41 +32,6 @@ def statistics(df):
     dft = dft[dft_columns]
     # ************************************************** #
 
-    #iterate over columns
-    i = 0
-    index = df.shape[0]
-    for (columnName, columnData) in digitdf.iteritems():
-        # print('Column Name : ', columnName)
-        # print('Column Mean : ', columnData.mean())
-        # print('Column Min : ', columnData.min())
-        # print('Column Max : ', columnData.max())
-        # print('\n')
-        CDNX = list()
-        for a in columnData:
-            CDNX.append(a)
-        max_count = CDNX.count(columnData.max())
-        CDNN = list()
-        for a in columnData:
-            CDNN.append(a)
-        min_count = CDNN.count(columnData.min())
-        plt.rcParams['font.family'] = 'Tahoma'
-        df.reset_index().plot.scatter( x= 'index', y = columnName, color = 'black')
-        if(max_count < 2):
-            plt.scatter(digitdf.idxmax()[0], columnData.max(), color = 'blue')
-            plt.annotate('Max: '+ str(columnData.max()), (digitdf.idxmax()[i], columnData.max()), color="blue")
-        if(min_count < 2):
-            plt.scatter(digitdf.idxmin()[i], columnData.min(), color = 'red')
-            plt.annotate('Min: '+ str(columnData.min()), (digitdf.idxmin()[i], columnData.min()), color="red")
-        plt.text(index/2, columnData.mean(), 'Mean: '+ str(columnData.mean().round(2)), fontsize=10, va='center', ha='center', backgroundcolor='w')
-        plt.axhline(columnData.mean(), color = 'gray', linestyle = '--', linewidth = .5)
-        i+=1
-        # save graph
-        plt.savefig(__file__ + columnName +'.png')
-        plt.figure()
-        # plt.close()
-        # plt.show()
-    # ************************************************** #
-
     # Iterate to get all column names.
     nameindigitdf = list()
     i = 0
@@ -81,14 +48,46 @@ def statistics(df):
     dftc = ", ".join(nameindft)
     # ************************************************** #
 
-    # Question #
-    ques = ("How do Max, Min, Mean of " + digitc + " relate with " + dftc )
+    #iterate over columns
+    i = 0
+    index = df.shape[0]
+    for (columnName, columnData) in digitdf.iteritems():
+        CDNX = list()
+        for a in columnData:
+            CDNX.append(a)
+        max_count = CDNX.count(columnData.max())
+        CDNN = list()
+        for a in columnData:
+            CDNN.append(a)
+        min_count = CDNN.count(columnData.min())
+        data = df.reset_index()
+        fig = px.scatter(data, x= 'index', y = columnName, title="How " + columnName + " relate with " + dftc + " (index)")
+        if(max_count < 2):
+            fig.add_trace(go.Scatter(x= [digitdf.idxmax()[i]], y =[columnData.max()], 
+                                        marker=dict(color='red', size=10), mode="markers+text", name="Max",
+                                        text="Max : " + str(columnData.max()), textposition="top center"))
+        if(min_count < 2):
+            fig.add_trace(go.Scatter(x= [digitdf.idxmin()[i]], y =[columnData.min()], 
+                                        marker=dict(color='green', size=10), mode="markers+text", name="Min",
+                                        text="Min : " + str(columnData.min()), textposition="bottom center"))
+
+        fig.add_trace(go.Scatter(x=[0, index/2, index], 
+                                    y=[columnData.mean(),columnData.mean(),columnData.mean()], 
+                                    mode="lines+text", name="Mean", text=["", "", 'Mean: '+ str(round(columnData.mean(),2))], 
+                                    textposition="top center"))
+        i+=1
+        # save graph
+        fig.write_image(my_path+'statistic'+ columnName +'.png')
+        # fig.show()
     # ************************************************** #
 
-    QA = {ques:[]}
+    QA = dict()
 
-    # Answer
     for (columnName, columnData) in digitdf.iteritems():
+        # Question #
+        ques = "How do Max, Min, Mean of " + columnName + " relate with " + dftc
+        # ************************************************** #
+        # Answer
         CDNX = list()
         for a in columnData:
             CDNX.append(a)
@@ -113,8 +112,10 @@ def statistics(df):
         else :
             ans += ("There are more than one Min in " + columnName + " ")
         ans += ("Mean of " + columnName + " is " + str(columnData.mean().round(2)))
-        QA[ques].append((ans,__file__ + columnName +'.png'))
-    # ************************************************** #
+        # ************************************************** #
+        # Combine Q&A
+        QA[ques] = [ans, my_path+'statistic'+ columnName +'.png']
+        # ************************************************** #
 
     # Return Q&A
     return QA

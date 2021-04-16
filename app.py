@@ -7,8 +7,10 @@ from werkzeug.utils import secure_filename
 import os
 import pandas as pd
 from flask_cors import CORS
+from decisiontree.func_cleanexcel import cleanDataframe
+import json
 
-app = Flask(__name__)
+app = Flask(__name__,static_folder = "static")
 CORS(app)
 app.config['UPLOAD_EXTENSION'] = ['.xls','.xlsx','.csv']
 app.config['UPLOAD_PATH'] = 'Files'
@@ -17,8 +19,24 @@ file_to_be_analyze = ''
 
 @app.route('/')
 def hello():
+    files_dir = 'Files'
+    for root, dirs, files in os.walk(files_dir):
+        for name in files:
+            if (name == file_to_be_analyze):
+                os.remove(os.path.join(root,name))
+
+    files_dir_2 = 'static'
+    for root,dirs,files in os.walk(files_dir_2):
+        for name in files:
+            if ('.png' in name):
+                os.remove(os.path.join(root,name))
 
     return render_template('index.html')
+
+
+@app.route('/upload')
+def upload():
+    return render_template('upload.html')
 
 
 @app.route('/submit', methods=['POST'])
@@ -38,7 +56,7 @@ def submitFile():
     return render_template('submit.html', msg=msg)
 
 
-@app.route('/analyze', methods=['POST'])
+@app.route('/analyze', methods=['GET','POST'])
 def analyze():
  
     file = 'Files/'+ file_to_be_analyze
@@ -46,16 +64,70 @@ def analyze():
     qa_clustering = clustering(df)
     qa_statistic = statistics(df)
     qa_assoocrule = association(df)
-    qa={**qa_clustering,**qa_statistic,**qa_assoocrule}
+    qa={**qa_clustering,**qa_assoocrule,**qa_statistic}
+    number_of_item = len(qa)
+    list_number_of_item = list(range(0,number_of_item))
+    i = 0
+    qx = {}
+
+    for question in qa:
+        question_answer = [question]
+        for answer in qa[question]:
+            question_answer.append(answer)
+            # question_answer.append(answer[1])
+        qx[list_number_of_item[i]] = question_answer
+        # print(question_answer[1:])
+        i=i+1
+
     msg = 'This page will analyze data from your uploaded file '+ file_to_be_analyze
-    return render_template('analyze.html',  msg=msg, qa=qa)
+    if (request.method == 'POST'):
+        # print(qx)
+        return render_template('analyze.html',  msg=msg, qa=qx, zip=zip)
+    # else:
+    #     return render_template('answers.html',  msg=msg, qa=qa)
 
 
 @app.route('/predict' , methods=['POST'])
 def predict():
+    file = 'Files/'+ file_to_be_analyze
+    df_before_clean = pd.read_excel(file)
+    df_after_clean = cleanDataframe(df_before_clean)
+
+    columns = list(df_after_clean)
+    columns_values = {}
+    for col in columns:
+        value_of_col = list(set(df_after_clean[col]))
+        # print(col)
+        # print(value_of_col)
+        columns_values[col] = value_of_col
+    # print(columns_values)
+  
+
 
     msg = 'This page will predict data from your uploaded file'
-    return render_template('predict.html',  msg=msg)
+    return render_template('predict.html',  msg=msg, columns_values=columns_values,columns=columns)
+
+
+@app.route('/showoutput', methods=['POST'])
+def showOutput():
+
+    # test = request.form.get("selector")
+    # print(test)
+
+    file = 'Files/'+ file_to_be_analyze
+    df_before_clean = pd.read_excel(file)
+    df_after_clean = cleanDataframe(df_before_clean)
+    columns = list(df_after_clean)
+    #col_val_selector is the user's inputs
+    col_val_selector = {}
+    #target_column will be the last column of dataframe
+    target_column = request.form.get("target_column")
+    print(target_column)
+    for col in columns:
+        if col != target_column:
+            col_val_selector[col] = request.form.get("selector-for-"+col)
+    print(col_val_selector)
+    return render_template('predict-answer.html', target_column=target_column)
 
 
 if __name__ == '__main__':

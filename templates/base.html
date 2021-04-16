@@ -1,24 +1,70 @@
-<htmml>
-    <head>
-        {% block head %}
-            <meta charset="UTF-8">
-            <link rel='stylesheet' type="text/css" href="style.css">
-            <title>
-                {% block title %}
-                    Datast
-                {% endblock %}
-            </title>
-        {% endblock %}
-    </head>
-    <body>
-        <div class='navbar'>
-            <h1>
-                Datast
-            </h1>
+<!DOCTYPE html>
+<html>
+  <head>
+    {% block head %}
+    <meta charset="UTF-8" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="../static/style.css" />
+    <script src="../static/function.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script>
+      function goHome() {
+        location.href = "/";
+      }
+      window.addEventListener("scroll", function (e) {
+        var top = this.scrollY;
+        var navbar = document.getElementsByClassName("navbar-custom");
+        var navbar_brand = document.getElementById("header");
+        var navbar_nav = document.querySelectorAll("A")
+        if (top > 60) {
+          document.getElementsByClassName("navbar-custom")[0].style.cssText =
+            "background-color:#596e79";
+          navbar_brand.style.color = "white";
+          // navbar_nav[0].style.color = "rgb(219, 217, 217)";
+          navbar_nav.forEach((item) => {
+            item.style.color = "white";
+          });
+        } else {
+          document.getElementsByClassName(
+            "navbar-custom"
+          )[0].style.backgroundColor = "#fbf1f1";
+          navbar_brand.style.color = "black";
+          navbar_nav.forEach((item) => {
+            item.style.color = "rgb(73, 72, 72)";
+          });
+        }
+      });
+    </script>
+
+    <title>Datast</title>
+    {% endblock %}
+  </head>
+
+  <!--This is Navbar-->
+  <body>
+    <div class="navbar-container">
+      <nav class="navbar navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a id="header" class="navbar-brand" href="/"> Datast </a>
+          </div>
+          <div class="vl"></div>
+          <ul class="nav navbar-nav">
+            <li><a id="home" href="/">Home</a></li>
+            <li><a id="about" href="/about">About Us</a></li>
+            <li><a id="about" href="/guide">Guide</a></li>
+          </ul>
         </div>
-        {% block content%}{% endblock %}
-        <div class='foot'>
-            Have a good day
-        </div>
-    </body>   
-</htmml>
+      </nav>
+    </div>
+
+    <div class="content" >{% block content%} {% endblock %}</div>
+
+    <div class="footer">Have a good day</div>
+  </body>
+</html>

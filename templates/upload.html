@@ -1,0 +1,28 @@
+{% extends "base.html" %} {% block title %} Home {% endblock %} {% block head%}
+{{super()}} {% endblock %} {% block content %}
+<body class="upload-body">
+  <form
+    action="/submit"
+    method="POST"
+    enctype="multipart/form-data"
+    class="submit-form"
+  >
+    <input
+      id="file-input"
+      class="file-input"
+      type="file"
+      name="file"
+      accept=".xls,.xlsx,.csv"
+      onchange="changeText()"
+    />
+    <p class="file-input-text" id="file-input-text">
+      Drag your csv, xls or xlsx file here or click in this area.
+    </p>
+    <div class="button-container">
+      <button class="cancel-button" type="reset" style="float: left;" onclick="location.href = '/'">Cancel</button>
+      <button class="submit-button" type="submit" style="float: left;">Upload</button>
+    </div>
+  </form>
+</body>
+
+{% endblock %}

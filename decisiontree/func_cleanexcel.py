@@ -6,7 +6,7 @@ import numpy as np
 import csv
 
 
-df = pd.read_excel('./MRTuser.xlsx','สายฉลองรัชธรรม')
+# df = pd.read_excel('./MRTuser.xlsx','สายฉลองรัชธรรม')
 
 def cleanDataframe(dfToClean):
     cleandf = dfToClean.copy(deep=True)
@@ -45,4 +45,4 @@ def cleanDataframe(dfToClean):
         return
     return cleandf
 
-print(cleanDataframe(df))
+# print(cleanDataframe(df))
