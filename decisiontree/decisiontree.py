@@ -19,7 +19,7 @@ class DecisionTree():
         Dataframe = Df[:len(Df)-1]
         Input = Df[len(Df)-1:]
         return Dataframe, Tg, Input
-    def decisiontree(self,Dataframe, Target, input_n):
+    def decisiontree(self, Dataframe, Target, input_n):
         model = tree.DecisionTreeClassifier()
         model.fit(Dataframe,Target)
         model.score(Dataframe,Target)
@@ -28,16 +28,24 @@ class DecisionTree():
     def getanswer(self,x):
         return x #return here
     def __init__(self,df,ip):
+        s=df.columns.tolist()
+        d=[]
         predict=[]
         for i in ip:
             predict.append(ip[i])
+            d.append(i)
+        tg=list(set(s)-set(d))[0]
+        column = df.pop(tg)
+        df.insert(len(d), tg, column)
         Dataframe,Target,Input=self.cleandata(df,predict)
         answer=str(back[self.decisiontree(Dataframe,Target,Input.values.tolist())])
         self.getanswer(answer)
 
+
 #Df=pd.read_csv(str(input("File : ")))
 #Dict={}
-#for i in range(len(list(Df))-1):
-#    n=input(str(Df.columns[i])+" : ")
-#    Dict[Df.columns[i]]=n
+#Dict['temp']='hot'
+#Dict['humidity']='high'
+#Dict['windy']=False
+#Dict['play']='yes'
 DecisionTree(Df,Dict)
