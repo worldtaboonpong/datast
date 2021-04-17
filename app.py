@@ -129,9 +129,9 @@ def showOutput():
             col_val_selector[col] = request.form.get("selector-for-"+col)
     # print(col_val_selector)
     DecisionTree = DecisionTree()
-    DecisionTree.showAnswer(df_after_clean,col_val_selector)
+    answer = DecisionTree.showAnswer(df_after_clean,col_val_selector)
 
-    return render_template('predict-answer.html', target_column=target_column)
+    return render_template('predict-answer.html', target_column=target_column, answer=answer)
 
 
 if __name__ == '__main__':
