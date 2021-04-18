@@ -7,31 +7,14 @@
         function goBack(){
             window.history.back();
         }      
-        function showAnswer(id){
-            var checkBox = document.getElementById(id)
-            var answer_id = document.getElementById("answer-for-"+id)
-            var table = document.getElementById("table-for-"+id)
-            var image = document.getElementById("picture-for-"+id)
-            if (checkBox.checked == true){
-                console.log('checked')
-                console.log(table)
-                answer_id.style.display = 'block'
-                // table.style.display = 'block'
-                // image.style.display = 'block'
-            } else {
-                console.log('unchecked')
-                answer_id.style.display = 'none'
-                // table.style.display = 'none'
-                // image.style.display = 'none'
-            }       
-        } 
-        function showAnswerAsso(btnid) {
+        function showAnswerAnalyze(btnid) {
             var id = btnid.slice(4);
             //console.log(id)
             var container = document.getElementById("container-"+id)
             var answer = document.getElementById("answer-"+id)
             var question = document.getElementById("question-"+id)
             var button = document.getElementById("btn-"+id)
+            var table = document.getElementById("table-"+id)
             if(answer.style.display === 'block'){
                 button.innerHTML = "Show"
                 answer.style.display = 'none'
@@ -97,25 +80,25 @@
             transform: rotate(45deg);
         }
         /* TEST FOR ME ONLY*/
-        .container-asso {
+        .container-analyze {
             display: block;
             padding-left: 35px;
             margin-left: 10%;
             margin-right: 10%;
         }
-        .container-asso .seperator {
+        .container-analyze .seperator {
             height: 70px
         }
-        .container-asso .header {
+        .container-analyze .header {
             font-size: 24px;
             margin-bottom: 30px;
         }
-        .container-asso .btn-show { 
+        .container-analyze .btn-show { 
             margin-left: 5%;
             width: 100px;
             height: 40px;
         }
-        .container-asso .container-answer {
+        .container-analyze .container-answer {
             text-align: center;
             display: none;
         }
@@ -140,60 +123,10 @@
 
         <form name='select_question' >
             {% for id,question_answer in qa.items()%}
-                
-                <label class="container">{{question_answer[0]}}
-                    <input name="questions" type="checkbox" 
-                    id="{{id}}" onclick="showAnswer(this.id)"> 
-                    <span class="checkmark"></span>
-                </label> 
-                
-                <p id="answer-for-{{id}}" style="display: none;">
-                    <!-- {{question_answer[1:]}} -->
-                    {% for each_answer in question_answer[1:] %}
-                        {% if each_answer is iterable  %}
-                            <table id="table-for-{{id}}" >
-                                <thead>
-                                    <tr>
-                                        {% for col in each_answer[0] %}
-                                            <th>
-                                                {{col}}
-                                            </th>
-                                        {% endfor %}
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for row in each_answer[1] %}
-                                    <tr>
-                                        {% for col,row_ in zip(each_answer[0],row) %}
-                                            <td>
-                                                {{row_}}
-                                            </td>
-                                        {% endfor %}
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        {% endif %}
-                        {% if '.png' in each_answer %}
-                            <img id="picture-for-{{id}}" src="{{each_answer}}" >
-                        {% endif %}
-                        
-                    {% endfor %}
-                </p>
-                
-            {% endfor %}
-        </form>
-
-        <button onclick="goBack()">
-            Back
-        </button>
-        <!-- Test -->
-        <form name='select_question' >
-            {% for id,question_answer in qa.items()%}
-                <div class="container-asso" id="container-{{id}}">
+                <div class="container-analyze" id="container-{{id}}">
                     <div class="seperator"></div>
                     <div class="header" id="question-{{id}}">{{question_answer[0]}}</div>
-                    <button class="btn-show" type="button" id="btn-{{id}}" onclick="showAnswerAsso(this.id)">Show</button>
+                    <button class="btn-show" type="button" id="btn-{{id}}" onclick="showAnswerAnalyze(this.id)">Show</button>
                     <div class="container-answer" id="answer-{{id}}" >
                         {% for each_answer in question_answer[1:] %}    
                             {% if '.png' in each_answer %}
@@ -202,15 +135,43 @@
                                 </div>    
                             {% endif %}
                         {% endfor %}
-                        {% for each_answer in question_answer[1:] %}    
+                        {% for each_answer in question_answer[1:] %}
                             {% if not '.png' in each_answer %}
-                                <div class="details">{{each_answer}}</div>
+                                {% if each_answer is iterable and (each_answer is not string and each_answer is not mapping) %}
+                                    <table id="table-{{id}}" >
+                                        <thead>
+                                            <tr>
+                                                {% for col in each_answer[0] %}
+                                                    <th>
+                                                        {{col}}
+                                                    </th>
+                                                {% endfor %}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for row in each_answer[1] %}
+                                            <tr>
+                                                {% for col,row_ in zip(each_answer[0],row) %}
+                                                    <td>
+                                                        {{row_}}
+                                                    </td>
+                                                {% endfor %}
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                {% elif each_answer is string %}    
+                                    <div class="details">{{each_answer}}</div>
+                                {% endif %}
                             {% endif %}
                         {% endfor %}  
                     </div> 
                 </div>
             {% endfor %}
         </form>
+        <button onclick="goBack()">
+            Back
+        </button>
         <div style="height: 70px;"></div>
     </body>
 
