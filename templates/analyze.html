@@ -182,7 +182,6 @@
                 </p>
                 
             {% endfor %}
-            <input type="submit" value="Submit" onclick="showAnswers()">
         </form>
 
         <button onclick="goBack()">
@@ -196,14 +195,18 @@
                     <div class="header" id="question-{{id}}">{{question_answer[0]}}</div>
                     <button class="btn-show" type="button" id="btn-{{id}}" onclick="showAnswerAsso(this.id)">Show</button>
                     <div class="container-answer" id="answer-{{id}}" >
-                        <div class="image-container">
-                            {% for each_answer in question_answer[1:] %}
-                                {% if '.png' in each_answer %}
+                        {% for each_answer in question_answer[1:] %}    
+                            {% if '.png' in each_answer %}
+                                <div class="image-container">
                                     <img src="{{each_answer}}" />
-                                {% endif %}
-                            {% endfor %}  
-                        </div>
-                        <div class="details">Sample Text.</div>
+                                </div>    
+                            {% endif %}
+                        {% endfor %}
+                        {% for each_answer in question_answer[1:] %}    
+                            {% if not '.png' in each_answer %}
+                                <div class="details">{{each_answer}}</div>
+                            {% endif %}
+                        {% endfor %}  
                     </div> 
                 </div>
             {% endfor %}
