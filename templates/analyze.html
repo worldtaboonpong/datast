@@ -25,6 +25,11 @@
                 container.scrollIntoView({ block: 'start',  behavior: 'smooth' });
             }
         }
+        function gototop(btnid) {
+            var id = btnid.slice(8);
+            var container = document.getElementById("container-"+id)
+            container.scrollIntoView({ block: 'start',  behavior: 'smooth' });
+        }
     </script>   
     <style>
         .container {
@@ -83,27 +88,46 @@
         .container-analyze {
             display: block;
             padding-left: 35px;
-            margin-left: 10%;
-            margin-right: 10%;
+            margin-left: 15%;
+            margin-right: 15%;
         }
         .container-analyze .seperator {
             height: 70px
         }
-        .container-analyze .header {
-            font-size: 24px;
-            margin-bottom: 30px;
+        .container-analyze .tab {
+            background-color: #596e79;
+            display: flex;
+            align-items: center;
+            border-radius: 15px 0px 15px 0px;
         }
-        .container-analyze .btn-show { 
-            margin-left: 5%;
+        .tab .header {
+            margin-left: 2%; 
+            margin-right: 2%; 
+            font-size: 20px;
+            color: white;
+        }
+        .tab .btn-show { 
+            margin-left: auto; 
+            margin-right: 0;
             width: 100px;
             height: 40px;
+            background-color: #eeeeee;
+            border-width: 2px;
+            border-color: #596e79;
+            border-radius: 15px 0px 15px 0px;
         }
         .container-analyze .container-answer {
             text-align: center;
             display: none;
+            margin-top: -15px;
+            padding-bottom: 10px;
+            border-style: outset;
+            border-color: #596e79;
+            border-width: 1px;
+            border-radius: 0px 0px 15px 0px;
         }
         .container-answer .image-container {
-            margin: 20px;
+            padding: 20px;
             text-align: center;
         }
         img {
@@ -113,6 +137,35 @@
         }
         .container-answer .details {
             font-size: 16px;
+            padding: 10px;
+        }
+        .container-answer .btn-top {
+            position: absolute;
+            right: 15%;
+            margin-right: 6px;
+            margin-top: -30px;
+            width: 80px;
+            height: 35px;
+            background-color: #eeeeee;
+            /*border-width: 3px 1px 1px 3px;*/
+            border-color: #596e79;
+            border-radius: 15px 0px 15px 0px;
+        }
+        .center {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        table, th, td {
+            border: 1px solid #596e79;
+            padding: 5px;
+        }
+        th {
+            margin-left: -1px;
+            margin-right: -1px;
+            border: 1px solid white;
+            color: white;
+            background-color: #788c97;
+            padding: 5px;
         }
         
     </style>
@@ -125,8 +178,10 @@
             {% for id,question_answer in qa.items()%}
                 <div class="container-analyze" id="container-{{id}}">
                     <div class="seperator"></div>
-                    <div class="header" id="question-{{id}}">{{question_answer[0]}}</div>
-                    <button class="btn-show" type="button" id="btn-{{id}}" onclick="showAnswerAnalyze(this.id)">Show</button>
+                    <div class="tab">
+                        <div class="header" id="question-{{id}}">{{question_answer[0]}}</div>
+                        <button class="btn-show" type="button" id="btn-{{id}}" onclick="showAnswerAnalyze(this.id)">Show</button>
+                    </div>
                     <div class="container-answer" id="answer-{{id}}" >
                         {% for each_answer in question_answer[1:] %}    
                             {% if '.png' in each_answer %}
@@ -138,11 +193,11 @@
                         {% for each_answer in question_answer[1:] %}
                             {% if not '.png' in each_answer %}
                                 {% if each_answer is iterable and (each_answer is not string and each_answer is not mapping) %}
-                                    <table id="table-{{id}}" >
+                                    <table id="table-{{id}}" class="center">
                                         <thead>
                                             <tr>
                                                 {% for col in each_answer[0] %}
-                                                    <th>
+                                                    <th style="text-align: center;">
                                                         {{col}}
                                                     </th>
                                                 {% endfor %}
@@ -160,6 +215,7 @@
                                             {% endfor %}
                                         </tbody>
                                     </table>
+                                    <button class="btn-top" type="button" id="btn-top-{{id}}" onclick="gototop(this.id)">Top</button>
                                 {% elif each_answer is string %}    
                                     <div class="details">{{each_answer}}</div>
                                 {% endif %}
