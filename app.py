@@ -97,7 +97,7 @@ def predict():
     columns = list(df_after_clean)
     columns_values = {}
     for col in columns:
-        value_of_col = list(set(df_after_clean[col]))
+        value_of_col = sorted(list(set(df_after_clean[col])))
         # print(col)
         # print(value_of_col)
         columns_values[col] = value_of_col
