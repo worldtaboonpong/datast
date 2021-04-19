@@ -4,6 +4,7 @@ content %}
   <script type="text/javascript">
     function showSelection(col) {
       console.log(col);  
+      
       var selector = document.getElementById("selector");
       selector.style.display = "block";
       var target_col = document.getElementById(col + "-for-select");
@@ -21,9 +22,9 @@ content %}
           non_selected_target.onclick = null
           non_selected_target.style.background = 'grey'      
         }        
-      }
-      
+      }   
     }
+
     function refresh() {
       window.location.reload();
     }
@@ -35,7 +36,7 @@ content %}
     <form action="/showoutput" method="POST">
       <div id="all-target-column" class="select-target-column-container" >
           {% for col,val in columns_values.items() %}
-          <p class="selected-target-column selected-target-column-hover" id="{{col}}" onclick="showSelection(this.id)">
+          <p class="selected-target-column" id="{{col}}" onclick="showSelection(this.id)">
             {{col}}
           </p>      
           {% endfor %}
@@ -63,11 +64,12 @@ content %}
             </label>
           </div>        
           {% endfor %}
+          <div>
+            <button class="predict-button" id="buton" type="submit" >Predict</button>
+          </div>
         </div>
       </div>
-      <div>
-        <button id="buton" type="submit">Predict</button>
-      </div>
+      
     </form>
   </body>
 </html>

@@ -422,7 +422,7 @@
   transition: 0.3s;
 }
 
-.selected-target-column-hover:hover{
+.selected-target-column:hover{
   cursor: pointer;
   opacity: 1;
 }
