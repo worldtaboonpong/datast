@@ -9,6 +9,7 @@ import pandas as pd
 from flask_cors import CORS
 from decisiontree.func_cleanexcel import cleanDataframe
 import json
+from decisiontree.decisiontree import DecisionTree
 
 app = Flask(__name__,static_folder = "static")
 CORS(app)
@@ -122,12 +123,15 @@ def showOutput():
     col_val_selector = {}
     #target_column will be the last column of dataframe
     target_column = request.form.get("target_column")
-    print(target_column)
+    # print(target_column)
     for col in columns:
         if col != target_column:
             col_val_selector[col] = request.form.get("selector-for-"+col)
-    print(col_val_selector)
-    return render_template('predict-answer.html', target_column=target_column)
+    # print(col_val_selector)
+    x = DecisionTree()
+    answer = x.getanswer(df_after_clean,col_val_selector)
+
+    return render_template('predict-answer.html', target_column=target_column, answer=answer)
 
 
 if __name__ == '__main__':

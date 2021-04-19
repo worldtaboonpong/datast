@@ -1,9 +1,20 @@
 {% extends "base.html" %} {% block head%} {{super()}} {% endblock %} {% block content %}
 <html>
+    <script>
+        function goBack(){
+            window.history.back();
+        }   
+    </script>
     <body>
         <div>
-            {{target_column}} is Na Hee
+            {{target_column}} is {{answer}}
         </div>
+        <div class="predict-back-button">
+            <button onclick="goBack()">
+                Back
+            </button>
+        </div>
+        
     </body>
     
 </html>
