@@ -11,45 +11,57 @@ content %}
       var target_col_setter = document.getElementById("target_column") 
       target_col_setter.value = col
       var selected_col = document.getElementById(col)
+      var ancestor = document.getElementById('all-target-column')
+      console.log(ancestor)
+      var descendents = ancestor.getElementsByTagName('*')
+      console.log(descendents)
+      for (let i = 0; i<descendents.length; i++){
+        if (descendents[i].id != col){
+          var non_selected_target = document.getElementById(descendents[i].id)
+          non_selected_target.onclick = null
+          non_selected_target.style.background = 'grey'      
+        }        
+      }
+      
     }
     function refresh() {
       window.location.reload();
     }
   </script>
   <body class="predict-body">
-    <div>
+    <div class="predict-header">
       <h1>What do you want to predict</h1>
     </div>
     <form action="/showoutput" method="POST">
-      <div class="select-target-column-container" >
-        <p >
+      <div id="all-target-column" class="select-target-column-container" >
           {% for col,val in columns_values.items() %}
-          <p class="selected-target-column" id="{{col}}" onclick="showSelection(this.id)">
+          <p class="selected-target-column selected-target-column-hover" id="{{col}}" onclick="showSelection(this.id)">
             {{col}}
           </p>      
           {% endfor %}
-          <button class="refresh-button" id="buton" onclick="refresh()" type="button">Refresh</button>
-        </p>
       </div>
       <div>
-
-        <!-- test how to send selector to python flask -->
-        <!-- <select id="selector" name="selector">
-          <option id="1">test1</option>
-          <option id="2">test2</option>
-          <option id="3">test3</option>
-        </select> -->
+          <button class="refresh-button" id="buton" onclick="refresh()" type="button">Refresh</button>
+      </div>
+      <div class="selecter-body">
         <input type="hidden" name="target_column" id="target_column" name="target_column" value="">
 
         <div id="selector" style="display: none">
+          <div class="selecter-header">
+            <h1>
+              Select value
+            </h1>
+          </div>
           {% for col,val in columns_values.items() %}
-          <label for="selector-for-{{col}}" id="{{col}}-for-select">{{col}}
-            <select id="selector-for-{{col}}" name="selector-for-{{col}}">
-              {% for v in val %}
-              <option id="{{v}}">{{v}}</option>
-              {% endfor %}
-            </select>
-          </label>
+          <div>
+            <label for="selector-for-{{col}}" id="{{col}}-for-select">{{col}}
+              <select id="selector-for-{{col}}" name="selector-for-{{col}}">
+                {% for v in val %}
+                <option id="{{v}}">{{v}}</option>
+                {% endfor %}
+              </select>
+            </label>
+          </div>        
           {% endfor %}
         </div>
       </div>

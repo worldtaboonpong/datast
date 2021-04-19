@@ -83,14 +83,9 @@ def cleanDataframe(dfToClean):
         return
     return cleandf
 
-#Df=pd.read_csv(str(input("File : ")))
-#Dict={}
-#Dict['temp']='hot'
-#Dict['humidity']='high'
-#Dict['windy']=False
-#Dict['play']='yes'
-df = pd.read_excel('MRTuser.xlsx')
-df_after_clean = cleanDataframe(df)
-dict = {'จำนวนผู้โดยสารรวม': 'ช่วง 1231255 ถึง 1429320', 'จำนวนผู้โดยสารเฉลี่ยรายวัน': 'ช่วง 46300 ถึง 52632', 'จำนวนผู้โดยสารเฉลี่ยรายวันธรรมดา': 'ช่วง 40333 ถึง 47777', 'จำนวนผู้โดยสารเฉลี่ยรายวันหยุด': 'ช่วง 11956 ถึง 17115'}
-DecisionTree = DecisionTree()
-print(DecisionTree.getanswer(df_after_clean,dict))
+
+# df = pd.read_excel('MRTuser.xlsx')
+# df_after_clean = cleanDataframe(df)
+# dict = {'จำนวนผู้โดยสารรวม': 'ช่วง 1231255 ถึง 1429320', 'จำนวนผู้โดยสารเฉลี่ยรายวัน': 'ช่วง 46300 ถึง 52632', 'จำนวนผู้โดยสารเฉลี่ยรายวันธรรมดา': 'ช่วง 40333 ถึง 47777', 'จำนวนผู้โดยสารเฉลี่ยรายวันหยุด': 'ช่วง 11956 ถึง 17115'}
+# DecisionTree = DecisionTree()
+# print(DecisionTree.getanswer(df_after_clean,dict))
