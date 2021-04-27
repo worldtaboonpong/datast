@@ -32,74 +32,22 @@
         }
     </script>   
     <style>
-        .container {
-            display: block;
-            position: relative;
-            padding-left: 35px;
-            margin-bottom: 12px;
-            cursor: pointer;
-            /* font-size: 22px; */
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-        .container input {
-            position: absolute;
-            /* opacity: 50; */
-            cursor: pointer;
-            height: 0;
-            width: 0;
-        }
-        .checkmark {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 25px;
-            width: 25px;
-            background-color: #eee;
-        }
-        .container:hover input ~ .checkmark {
-            background-color: #ccc;
-        }
-        .container input:checked ~ .checkmark {
-            background-color: #2196F3;
-        }
-        .checkmark:after {
-            content: "";
-            position: absolute;
-            display: none;
-        }
-        .container input:checked ~ .checkmark:after {
-            display: block;
-        }
-        .container .checkmark:after {
-            left: 9px;
-            top: 5px;
-            width: 5px;
-            height: 10px;
-            border: solid white;
-            border-width: 0 3px 3px 0;
-            -webkit-transform: rotate(45deg);
-            -ms-transform: rotate(45deg);
-            transform: rotate(45deg);
-        }
-        /* TEST FOR ME ONLY*/
         .container-analyze {
             display: block;
             padding-left: 35px;
             margin-left: 15%;
             margin-right: 15%;
+            margin-bottom: 40px;
         }
         .container-analyze .seperator {
-            height: 110px;
+            height: 80px;
         }
         .container-analyze .tab {
             text-align: left;
         }
         .tab .header {
             background-color: #596e79;
-            width: calc(100% - 80px);
+            width: calc(100% - 70px);
             min-height: 45px;
             display: flex;
             float: left;
@@ -111,13 +59,13 @@
             margin-left: 2%; 
             margin-right: 2%;
             margin-bottom: 8px; 
-            font-size: 18px;
+            font-size: 19px;
             color: white;
         }
         .tab .button-container{
             background-color: #596e79;
             float: right;
-            min-width: 80px;
+            min-width: 70px;
             height: 30px;
             border-radius: 0px 0px 15px 0px;
         }
@@ -164,14 +112,20 @@
         .container-answer .btn-top {
             position: absolute;
             right: 15%;
-            margin-right: 6px;
-            margin-top: -30px;
-            width: 80px;
-            height: 35px;
+            margin-right: 15px;
+            margin-top: -25px;
+            width: 70px;
+            height: 30px;
             background-color: #eeeeee;
+            transition-duration: 0.4s;
             /*border-width: 3px 1px 1px 3px;*/
             border-color: #596e79;
-            border-radius: 15px 0px 15px 0px;
+            border-radius: 10px 0px 10px 0px;
+        }
+        .btn-top:hover {
+            background-color: #393e46;
+            color: white;
+            border-radius: 10px 0px 10px 0px;
         }
         .center {
             margin-left: auto;
@@ -189,24 +143,27 @@
             background-color: #788c97;
             padding: 5px;
         }
-        .btn-back {
+        .back-container {
+            text-align: center;
             margin-top: 50px;
             margin-bottom: 50px;
+        }
+        .btn-back {
+            margin-top: 50px;
             text-align: center;
             width: 100px;
             height: 40px;
             transition-duration: 0.4s;
             background-color: #393e46;
             color: white;
-            border: 2px solid white;
-            border-radius: 10px;
+            border-radius: 10px 0px 10px 0px;
         }
 
         .btn-back:hover {
             background-color: white;
             color: black;
             border: 2px solid black;
-            border-radius: 15px 0px 15px 0px;
+            border-radius: 20px 0px 20px 0px;
         }
         
     </style>
@@ -215,7 +172,7 @@
             {{msg}}
         </p>
 
-        <form name='select_question' >
+        <form name='select_question'>
             {% for id,question_answer in qa.items()%}
                 <div class="container-analyze" id="container-{{id}}">
                     <div class="seperator"></div>
@@ -270,9 +227,9 @@
                 </div>
             {% endfor %}
         </form>
-        <button class="btn-back" onclick="goBack()">
-            Back
-        </button>
+        <div class="back-container">
+            <button class="btn-back" onclick="goBack()">Back</button>
+        </div>        
     </body>
 
   
