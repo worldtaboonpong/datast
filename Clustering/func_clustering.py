@@ -1,10 +1,6 @@
 import pandas as pd
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
-import seaborn as sns
-import matplotlib
-matplotlib.use('Agg')
-from matplotlib import pyplot as plt
 from sklearn.decomposition import PCA
 from operator import xor
 import os
@@ -16,7 +12,7 @@ from pandas.plotting import table
 
 my_path = 'static/'
 
-# df = pd.read_excel('MRTuser.xlsx')
+df = pd.read_excel('sampledatafoodsales.xlsx')
 
 
 def clustering(df_beforecut):
@@ -36,7 +32,7 @@ def clustering(df_beforecut):
             or (key == 'Id')
             or ((key == 'Year') or (key == 'YEAR') or (key == 'year') or (key == 'ปี'))  # check if column is year
             or ((key == 'Month') or  (key == 'MONTH') or (key == 'month') or (key == 'เดือน')) # check if column is month
-            or (('รวม' in key) or ('total' in key))):
+            or (('รวม' in key) or ('total' in key) or ('Total' in key))):
             df.drop(key, inplace=True, axis=1)
 
     # print(df.head())
@@ -55,19 +51,26 @@ def clustering(df_beforecut):
             for j in range(i+1, len(df.columns)):
                 scores = []
                 new_df = df.iloc[:, [i, j]]
-
+                best_cluster = 0
+                prev_silhouette_score = 0.0
+                print(new_df)
                 # Do Silhouette Method to find best K to fit
                 for n_cluster in range_n_clusters:
                     if n_cluster > new_df.shape[0]-1:
                         break
                     kmeans = KMeans(n_clusters=n_cluster)
-                    new = new_df._get_numeric_data()
-                    kmeans.fit(new)
-                    predict = kmeans.fit_predict(new)
-                    score = silhouette_score(new, predict)
-                    scores.append(score)
+                    # new = new_df._get_numeric_data()
+                    predict = kmeans.fit_predict(new_df)
+                    score = silhouette_score(new_df, predict)
+                    if score > prev_silhouette_score:
+                        prev_silhouette_score = score
+                        best_cluster = n_cluster
+                    print(best_cluster)
+                    print(prev_silhouette_score)
+                    # scores.append(score)
                 # Choose best score to cluster data
-                best_cluster = range_n_clusters[scores.index(max(scores))]
+                # best_cluster = range_n_clusters[scores.index(max(scores))]
+                
                 kmeans = KMeans(n_clusters=best_cluster)
                 new = new_df._get_numeric_data()
                 kmeans.fit(new)
@@ -104,6 +107,6 @@ def clustering(df_beforecut):
 
 
 
-# clustering(df)
+clustering(df)
 
 
