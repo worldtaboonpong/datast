@@ -12,7 +12,7 @@ from pandas.plotting import table
 
 my_path = 'static/'
 
-df = pd.read_excel('sampledatafoodsales.xlsx')
+df = pd.read_excel('MRTuser.xlsx')
 
 
 def clustering(df_beforecut):
