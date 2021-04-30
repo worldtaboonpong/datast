@@ -4,7 +4,7 @@ import os
 import plotly.express as px
 
 my_path = 'static/'
-df = pd.read_excel('sampledatafoodsales.xlsx')
+# df = pd.read_excel('sampledatafoodsales.xlsx')
 
 def grouping(df_beforecut):
 
@@ -38,8 +38,8 @@ def grouping(df_beforecut):
     for group in str_col:
         data = df.groupby(group).sum()
 
-        # fig = px.bar(data,x=list(set(df[group])),y=num_col,barmode='group',labels={'x':str(group)})
-        # fig.write_image(my_path+'group'+group+'.png')
+        fig = px.bar(data,x=list(set(df[group])),y=num_col,barmode='group',labels={'x':str(group)})
+        fig.write_image(my_path+'group'+group+'.png')
         qa_grouping['What is the sum of the values in each ' + group] = list()
         qa_grouping['What is the sum of the values in each ' + group].append(my_path+'group'+group+'.png')
     
@@ -47,4 +47,3 @@ def grouping(df_beforecut):
 
 
 
-print(grouping(df))

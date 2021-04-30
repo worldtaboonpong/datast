@@ -1,15 +1,16 @@
 from flask import Flask
 from flask import render_template,request
-from Clustering.func_clustering import clustering 
-from Statistics.StatisticFunction import statistics
-from AssociationRule.assocrule import association
+from utils.func_clustering import clustering
+from utils.StatisticFunction import statistics
+from utils.func_cleanexcel import cleanDataframe
+from utils.decisiontree import DecisionTree
+from utils.func_grouping import grouping
+from utils.assocrule import association
 from werkzeug.utils import secure_filename
 import os
 import pandas as pd
 from flask_cors import CORS
-from decisiontree.func_cleanexcel import cleanDataframe
 import json
-from decisiontree.decisiontree import DecisionTree
 
 app = Flask(__name__,static_folder = "static")
 CORS(app)
@@ -23,8 +24,8 @@ def hello():
     files_dir = 'Files'
     for root, dirs, files in os.walk(files_dir):
         for name in files:
-            if (name == file_to_be_analyze):
-                os.remove(os.path.join(root,name))
+            # if (name == file_to_be_analyze):
+            os.remove(os.path.join(root,name))
 
     files_dir_2 = 'static'
     for root,dirs,files in os.walk(files_dir_2):
@@ -65,7 +66,8 @@ def analyze():
     qa_clustering = clustering(df)
     qa_statistic = statistics(df)
     qa_assoocrule = association(df)
-    qa={**qa_clustering,**qa_assoocrule,**qa_statistic}
+    qa_grouping = grouping(df)
+    qa={**qa_clustering,**qa_assoocrule,**qa_statistic,**qa_grouping}
     number_of_item = len(qa)
     list_number_of_item = list(range(0,number_of_item))
     i = 0

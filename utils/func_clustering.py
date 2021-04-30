@@ -12,7 +12,7 @@ from pandas.plotting import table
 
 my_path = 'static/'
 
-df = pd.read_excel('MRTuser.xlsx')
+# df = pd.read_excel('MRTuser.xlsx')
 
 
 def clustering(df_beforecut):
@@ -53,7 +53,7 @@ def clustering(df_beforecut):
                 new_df = df.iloc[:, [i, j]]
                 best_cluster = 0
                 prev_silhouette_score = 0.0
-                print(new_df)
+                
                 # Do Silhouette Method to find best K to fit
                 for n_cluster in range_n_clusters:
                     if n_cluster > new_df.shape[0]-1:
@@ -65,8 +65,7 @@ def clustering(df_beforecut):
                     if score > prev_silhouette_score:
                         prev_silhouette_score = score
                         best_cluster = n_cluster
-                    print(best_cluster)
-                    print(prev_silhouette_score)
+                    
                     # scores.append(score)
                 # Choose best score to cluster data
                 # best_cluster = range_n_clusters[scores.index(max(scores))]
@@ -107,6 +106,6 @@ def clustering(df_beforecut):
 
 
 
-clustering(df)
+
 
 
