@@ -16,18 +16,20 @@ app = Flask(__name__,static_folder = "static")
 CORS(app)
 app.config['UPLOAD_EXTENSION'] = ['.xls','.xlsx','.csv']
 app.config['UPLOAD_PATH'] = 'Files'
+app.config['STATIC_PATH'] = 'static'
+MYDIR = os.path.dirname(__file__)
 
 file_to_be_analyze = ''
 
 @app.route('/')
 def hello():
-    files_dir = 'Files'
+    files_dir = app.config['UPLOAD_PATH']
     for root, dirs, files in os.walk(files_dir):
         for name in files:
             # if (name == file_to_be_analyze):
             os.remove(os.path.join(root,name))
 
-    files_dir_2 = 'static'
+    files_dir_2 = app.config['STATIC_PATH']
     for root,dirs,files in os.walk(files_dir_2):
         for name in files:
             if ('.png' in name):
@@ -50,7 +52,7 @@ def submitFile():
         file_ext = os.path.splitext(filename)[1]
         if file_ext not in app.config['UPLOAD_EXTENSION']:
             return
-        uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'],filename))
+        uploaded_file.save(os.path.join(MYDIR + '/' + app.config['UPLOAD_PATH'],filename))
         global file_to_be_analyze
         file_to_be_analyze = filename   
     msg = "Your file is uploaded , the file is" + file_to_be_analyze
@@ -61,7 +63,7 @@ def submitFile():
 @app.route('/analyze', methods=['GET','POST'])
 def analyze():
  
-    file = 'Files/'+ file_to_be_analyze
+    file = app.config['UPLOAD_PATH']+'/'+ file_to_be_analyze
     df = pd.read_excel(file)
     qa_clustering = clustering(df)
     qa_statistic = statistics(df)
@@ -92,7 +94,7 @@ def analyze():
 
 @app.route('/predict' , methods=['POST'])
 def predict():
-    file = 'Files/'+ file_to_be_analyze
+    file = app.config['UPLOAD_PATH']+'/' + file_to_be_analyze
     df_before_clean = pd.read_excel(file)
     df_after_clean = cleanDataframe(df_before_clean)
 
@@ -117,7 +119,7 @@ def showOutput():
     # test = request.form.get("selector")
     # print(test)
 
-    file = 'Files/'+ file_to_be_analyze
+    file = app.config['UPLOAD_PATH']+'/'+ file_to_be_analyze
     df_before_clean = pd.read_excel(file)
     df_after_clean = cleanDataframe(df_before_clean)
     columns = list(df_after_clean)
@@ -137,5 +139,6 @@ def showOutput():
 
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port = port)
+    # port = int(os.environ.get('PORT', 5000))
+    # app.run(host='0.0.0.0', port = port)
+    app.run(debug=True)
