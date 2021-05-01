@@ -13,7 +13,10 @@ from flask_cors import CORS
 import json
 import gunicorn
 import xlrd
-
+import openpyxl
+import psutil
+from operator import xor
+import math 
 
 app = Flask(__name__,static_folder = "static")
 CORS(app)
@@ -150,6 +153,4 @@ def showOutput():
 
 
 if __name__ == '__main__':
-    # port = int(os.environ.get('PORT', 5000))
-    # app.run(host='0.0.0.0', port = port)
-    app.run(debug=True)
+    app.run(host="0.0.0.0", debug=True)
