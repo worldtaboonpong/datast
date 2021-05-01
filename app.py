@@ -12,6 +12,7 @@ import pandas as pd
 from flask_cors import CORS
 import json
 import gunicorn
+import xldr
 
 app = Flask(__name__,static_folder = "static")
 CORS(app)
