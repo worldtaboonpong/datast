@@ -106,7 +106,8 @@ def predict():
         # print(value_of_col)
         columns_values[col] = value_of_col
     # print(columns_values)
-  
+    
+    print('We gonna predict '+app.config['UPLOAD_PATH']+'/' + file_to_be_analyze)
 
 
     msg = 'This page will predict data from your uploaded file'
