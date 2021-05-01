@@ -33,15 +33,15 @@ def hello():
         for name in files:
             # if (name == file_to_be_analyze):
             os.remove(os.path.join(root,name))
+            print('We gonna remove' + os.path.join(root,name))
 
     files_dir_2 = app.config['STATIC_PATH']
     for root,dirs,files in os.walk(files_dir_2):
         for name in files:
             if ('.png' in name):
                 os.remove(os.path.join(root,name))
+                print('We gonna remove' + os.path.join(root,name))
 
-    print(files_dir)
-    print(files_dir_2)
 
     return render_template('index.html')
 
