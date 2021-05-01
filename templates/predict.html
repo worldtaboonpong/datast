@@ -12,6 +12,9 @@ content %}
       var target_col_setter = document.getElementById("target_column");
       target_col_setter.value = col;
       var selected_col = document.getElementById(col);
+      selected_col.style.backgroundColor = "#596e79";
+      selected_col.style.color = "white";
+      selected_col.style.borderRadius = "20px 0px 20px 0px";
       var ancestor = document.getElementById("all-target-column");
       console.log(ancestor);
       var descendents = ancestor.getElementsByTagName("*");
@@ -20,7 +23,8 @@ content %}
         if (descendents[i].id != col) {
           var non_selected_target = document.getElementById(descendents[i].id);
           non_selected_target.onclick = null;
-          non_selected_target.style.background = "grey";
+          non_selected_target.style.background = "rgb(180, 180, 180)";
+          non_selected_target.style.pointerEvents = "none"; 
         }
       }
     }
@@ -90,8 +94,18 @@ content %}
     }
   </style>
   <body class="predict-body">
+    <div>
+      <button
+        class="refresh-button"
+        id="buton"
+        onclick="refresh()"
+        type="button"
+      >
+        Refresh
+      </button>
+    </div>
     <div class="predict-header">
-      <h1>What do you want to predict</h1>
+      <h1>Choose your target column</h1>
     </div>
     <form action="/showoutput" method="POST">
       <div id="all-target-column" class="select-target-column-container">
@@ -104,17 +118,7 @@ content %}
           {{col}}
         </p>
         {% endfor %}
-      </div>
-      <div>
-        <button
-          class="refresh-button"
-          id="buton"
-          onclick="refresh()"
-          type="button"
-        >
-          Refresh
-        </button>
-      </div>
+      </div> 
       <div class="selecter-body">
         <input
           type="hidden"
