@@ -12,7 +12,7 @@ import pandas as pd
 from flask_cors import CORS
 import json
 import gunicorn
-import xldr
+
 
 app = Flask(__name__,static_folder = "static")
 CORS(app)
@@ -86,7 +86,8 @@ def analyze():
         # print(question_answer[1:])
         i=i+1
 
-    msg = 'This page will analyze data from your uploaded file '+ file_to_be_analyze
+    msg = 'This page will analyze data from your uploaded file '+ app.config['UPLOAD_PATH']+'/' + file_to_be_analyze
+    print(msg)
     if (request.method == 'POST'):
         # print(qx)
         return render_template('analyze.html',  msg=msg, qa=qx, zip=zip)
@@ -137,6 +138,7 @@ def showOutput():
     # print(col_val_selector)
     x = DecisionTree()
     answer = x.getanswer(df_after_clean,col_val_selector)
+    print('We gonna show output for  '+app.config['UPLOAD_PATH']+'/' + file_to_be_analyze)
 
     return render_template('predict-answer.html', target_column=target_column, answer=answer)
 
