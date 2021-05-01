@@ -7,7 +7,6 @@ import os
 import numpy as np
 from IPython.display import HTML
 import plotly.express as px
-import dataframe_image as dfi
 from pandas.plotting import table
 
 my_path = 'static/'
