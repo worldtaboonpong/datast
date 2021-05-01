@@ -34,14 +34,20 @@ class DecisionTree():
     def getanswer(self,df,ip):
         s=df.columns.tolist()
         d=[]
+        k=[]
         predict=[]
+        df2=pd.DataFrame()
         for i in ip:
-            predict.append(ip[i])
             d.append(i)
-        tg=list(set(s)-set(d))[0]
+            predict.append(ip[i])
+            k.append(i)
+        tg=list(set(s)-set(k))[0]
+        for j in range(len(d)):
+            column = df.pop(d[j])
+            df2.insert(j, d[j], column)
         column = df.pop(tg)
-        df.insert(len(d), tg, column)
-        Dataframe,Target,Input=self.cleandata(df,predict)
+        df2.insert(len(d), tg, column)
+        Dataframe,Target,Input=self.cleandata(df2,predict)
         answer=str(back[self.decisiontree(Dataframe,Target,Input.values.tolist())])
         # self.getanswer(answer)
         return answer
@@ -84,8 +90,10 @@ def cleanDataframe(dfToClean):
     return cleandf
 
 
-# df = pd.read_excel('MRTuser.xlsx')
-# df_after_clean = cleanDataframe(df)
-# dict = {'จำนวนผู้โดยสารรวม': 'ช่วง 1231255 ถึง 1429320', 'จำนวนผู้โดยสารเฉลี่ยรายวัน': 'ช่วง 46300 ถึง 52632', 'จำนวนผู้โดยสารเฉลี่ยรายวันธรรมดา': 'ช่วง 40333 ถึง 47777', 'จำนวนผู้โดยสารเฉลี่ยรายวันหยุด': 'ช่วง 11956 ถึง 17115'}
-# DecisionTree = DecisionTree()
-# print(DecisionTree.getanswer(df_after_clean,dict))
+df = pd.read_excel('sampledatafoodsales.xlsx')
+df_after_clean = cleanDataframe(df)
+#print(df_after_clean.loc[0])
+dict = {'City':'Boston', 'Category': 'Bars','TotalPrice':'ช่วง 33.6 ถึง 121.6', 'Quantity': 'ช่วง 20 ถึง 52','Region':'East','UnitPrice':'ช่วง 1.35 ถึง 2.35'}
+DecisionTree = DecisionTree()
+print(DecisionTree.getanswer(df_after_clean,dict))
+# City,Boston Category,Bars Product,Carrot Quantity,ช่วง 20 ถึง 52 UnitPrice,ช่วง 1.35 ถึง 2.35 TotalPrice,ช่วง 33.6 ถึง 121.6
