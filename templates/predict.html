@@ -67,6 +67,7 @@ content %}
       border: 1px solid var(--select-border);
       border-radius: 0.25em;
       padding: 0.25em 0.5em;
+      margin-top: 40px;
       font-size: 1.25rem;
       cursor: pointer;
       line-height: 1.1;
@@ -104,19 +105,32 @@ content %}
         Refresh
       </button>
     </div>
-    <div class="predict-header">
+    <div class="predict-main">
       <h1>Choose your target column</h1>
     </div>
     <form action="/showoutput" method="POST">
-      <div id="all-target-column" class="select-target-column-container">
+      <div id="all-target-column" class="all-target-column-container">
         {% for col,val in columns_values.items() %}
-        <p
-          class="selected-target-column"
-          id="{{col}}"
-          onclick="showSelection(this.id)"
-        >
-          {{col}}
-        </p>
+        <!--Editing-->
+        <div class= "select-target-column-container">
+          <p
+            class="selected-target-column"
+            id="{{col}}"
+            onclick="showSelection(this.id)"
+          >
+            {{col}}
+          </p>
+          <div class="select-body">
+            <div id="predict-{{col}}" class="select" >
+              <select id="selector-for-{{col}}" name="selector-for-{{col}}" >
+                {% for v in val %}
+                <option id="{{v}}">{{v}}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+        </div>
+        <!--End editing-->
         {% endfor %}
       </div> 
       <div class="selecter-body">
