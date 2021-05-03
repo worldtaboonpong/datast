@@ -6,6 +6,13 @@
         }   
     </script>
     <body>
+        {% for col,selector in col_val_selector.items() %}
+        <div>
+            <p>
+                {{col}} : {{selector}}
+            </p>
+        </div>
+        {% endfor %}
         <div>
             {{target_column}} is {{answer}}
         </div>
