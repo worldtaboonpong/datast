@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import render_template,request
+from flask import render_template,request,make_response
 from utils.func_clustering import clustering
 from utils.StatisticFunction import statistics
 from utils.func_cleanexcel import cleanDataframe
@@ -17,6 +17,7 @@ import openpyxl
 import psutil
 from operator import xor
 import math 
+import requests
 
 app = Flask(__name__,static_folder = "static")
 CORS(app)
@@ -98,8 +99,11 @@ def analyze():
     msg = 'This page will analyze data from your uploaded file '+ app.config['UPLOAD_PATH']+'/' + file_to_be_analyze
     print(msg)
     if (request.method == 'POST'):
+        response = make_response(render_template('analyze.html',  msg=msg, qa=qx, zip=zip))
+        response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+        response.headers['Pragma'] = 'no-cache'
         # print(qx)
-        return render_template('analyze.html',  msg=msg, qa=qx, zip=zip)
+        return response
     # else:
     #     return render_template('answers.html',  msg=msg, qa=qa)
 
@@ -149,7 +153,7 @@ def showOutput():
     answer = x.getanswer(df_after_clean,col_val_selector)
     print('We gonna show output for  '+app.config['UPLOAD_PATH']+'/' + file_to_be_analyze)
 
-    return render_template('predict-answer.html', target_column=target_column, answer=answer)
+    return render_template('predict-answer.html', target_column=target_column, answer=answer, col_val_selector=col_val_selector)
 
 
 if __name__ == '__main__':

@@ -33,7 +33,7 @@ def grouping(df_beforecut):
             str_col.append(col_name)
 
     if (len(str_col)) <1 or (len(num_col) <1) :
-        return
+        return qa_grouping
     
     for group in str_col:
         data = df.groupby(group).sum()
