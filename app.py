@@ -153,7 +153,7 @@ def showOutput():
     answer = x.getanswer(df_after_clean,col_val_selector)
     print('We gonna show output for  '+app.config['UPLOAD_PATH']+'/' + file_to_be_analyze)
 
-    return render_template('predict-answer.html', target_column=target_column, answer=answer)
+    return render_template('predict-answer.html', target_column=target_column, answer=answer, col_val_selector=col_val_selector)
 
 
 if __name__ == '__main__':
