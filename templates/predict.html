@@ -3,6 +3,9 @@ content %}
 <html>
   <script type="text/javascript">
     function showSelection(col) {
+      document.getElementById("predictheadertext").innerHTML = "Select the value for each columns"
+      document.getElementById("predictcontainer").style.display = "block";
+
       console.log(col);
       var selectors = document.getElementById("selects");
       console.log(selectors);
@@ -24,10 +27,11 @@ content %}
       for (let i = 0; i < descendents.length; i++) {
         if (descendents[i].id != col) {
           var non_selected_target = document.getElementById(descendents[i].id);
-
           non_selected_target.onclick = null;
           non_selected_target.style.background = "rgb(180, 180, 180)";
           non_selected_target.style.pointerEvents = "none";
+          var non_selected_predict = document.getElementById("predict-" + descendents[i].id);
+          non_selected_predict.style.display = "grid";
         }
       }
     }
@@ -70,13 +74,15 @@ content %}
       border: 1px solid var(--select-border);
       border-radius: 0.25em;
       padding: 0.25em 0.5em;
-      margin-top: 40px;
+      margin-top: 50px;
+      margin-left: 0px;
+      margin-right: auto;
       font-size: 1.25rem;
       cursor: pointer;
       line-height: 1.1;
       background-color: #fff;
       background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
-      display: grid;
+      display: none;
       grid-template-areas: "select";
       align-items: center;
       position: relative;
@@ -93,8 +99,32 @@ content %}
       grid-area: select;
       justify-self: end;
     }
+    .predict-button-container {
+      text-align: center;
+      display: none;
+      margin-top: 150px;
+      margin-bottom: 150px;
+    }
     .predict-button {
-      margin-top: 20px;
+      text-align: center;
+      font-size: 18px;
+      background-color: #596e79;
+      color: white;
+      height: 50px;
+      width: 120px;
+      transition: 0.4s;
+      border-style: solid;
+      border-color: #596e79;
+      border-width: 1px;
+      border-radius: 15px 0px 15px 0px;
+    }
+    
+    .predict-button:hover{
+      background-color: #edeef7;
+      color: black;
+      border-color: #596e79;
+      border-width: 2px;
+      border-radius: 25px 0px 25px 0px;
     }
   </style>
   <body class="predict-body">
@@ -109,7 +139,7 @@ content %}
       </button>
     </div>
     <div class="predict-main">
-      <h1>Choose your target column</h1>
+      <h1 id="predictheadertext">Choose your target column</h1>
     </div>
     <form action="/showoutput" method="POST">
       <div id="all-target-column" class="all-target-column-container">
@@ -145,8 +175,8 @@ content %}
           value=""
         />
       </div>
-      <div>
-        <button class="predict-button" id="buton" type="submit">Predict</button>
+      <div class="predict-button-container" id="predictcontainer" >
+        <button class="predict-button" type="submit">Predict</button>
       </div>
     </form>
   </body>
