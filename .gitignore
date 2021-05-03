@@ -8,3 +8,7 @@ AssociationRule/__pycache__/assocrule.cpython-38.pyc
 AssociationRule/testTuple.py
 
 Statistics/__pycache__/__init__.cpython-38.pyc
+
+static/**
+
+__pycache__/

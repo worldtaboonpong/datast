@@ -3,58 +3,169 @@ content %}
 <html>
   <script type="text/javascript">
     function showSelection(col) {
-      console.log(col);  
+      console.log(col);
+
       var selector = document.getElementById("selector");
       selector.style.display = "block";
       var target_col = document.getElementById(col + "-for-select");
       target_col.style.display = "none";
-      var target_col_setter = document.getElementById("target_column") 
-      target_col_setter.value = col
-      var selected_col = document.getElementById(col)
+      var target_col_setter = document.getElementById("target_column");
+      target_col_setter.value = col;
+      var selected_col = document.getElementById(col);
+      selected_col.style.backgroundColor = "#596e79";
+      selected_col.style.color = "white";
+      selected_col.style.borderRadius = "20px 0px 20px 0px";
+      var ancestor = document.getElementById("all-target-column");
+      console.log(ancestor);
+      var descendents = ancestor.getElementsByTagName("*");
+      console.log(descendents);
+      for (let i = 0; i < descendents.length; i++) {
+        if (descendents[i].id != col) {
+          var non_selected_target = document.getElementById(descendents[i].id);
+          non_selected_target.onclick = null;
+          non_selected_target.style.background = "rgb(180, 180, 180)";
+          non_selected_target.style.pointerEvents = "none"; 
+        }
+      }
     }
+
     function refresh() {
       window.location.reload();
     }
   </script>
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+    :root {
+      --select-border: #777;
+      --select-focus: blue;
+      --select-arrow: var(--select-border);
+    }
+    select {
+      appearance: none;
+      background-color: transparent;
+      border: none;
+      padding: 0 1em 0 0;
+      margin: 0;
+      width: 100%;
+      font-family: inherit;
+      font-size: inherit;
+      cursor: inherit;
+      line-height: inherit;
+      outline: none;
+    }
+    select::-ms-expand {
+      display: none;
+    }
+    .select {
+      width: 100%;
+      min-width: 15ch;
+      max-width: 30ch;
+      border: 1px solid var(--select-border);
+      border-radius: 0.25em;
+      padding: 0.25em 0.5em;
+      margin-top: 40px;
+      font-size: 1.25rem;
+      cursor: pointer;
+      line-height: 1.1;
+      background-color: #fff;
+      background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
+      display: grid;
+      grid-template-areas: "select";
+      align-items: center;
+      position: relative;
+    }
+    .select::after {
+      content: "";
+      width: 0.8em;
+      height: 0.5em;
+      background-color: var(--select-arrow);
+      clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+    }
+    select,
+    .select:after {
+      grid-area: select;
+      justify-self: end;
+    }
+    .predict-button{
+      margin-top: 20px;
+    }
+  </style>
   <body class="predict-body">
     <div>
-      <h1>What do you want to predict</h1>
+      <button
+        class="refresh-button"
+        id="buton"
+        onclick="refresh()"
+        type="button"
+      >
+        Refresh
+      </button>
+    </div>
+    <div class="predict-main">
+      <h1>Choose your target column</h1>
     </div>
     <form action="/showoutput" method="POST">
-      <div class="select-target-column-container" >
-        <p >
-          {% for col,val in columns_values.items() %}
-          <p class="selected-target-column" id="{{col}}" onclick="showSelection(this.id)">
+      <div id="all-target-column" class="all-target-column-container">
+        {% for col,val in columns_values.items() %}
+        <!--Editing-->
+        <div class= "select-target-column-container">
+          <p
+            class="selected-target-column"
+            id="{{col}}"
+            onclick="showSelection(this.id)"
+          >
             {{col}}
-          </p>      
-          {% endfor %}
-          <button class="refresh-button" id="buton" onclick="refresh()" type="button">Refresh</button>
-        </p>
-      </div>
-      <div>
-
-        <!-- test how to send selector to python flask -->
-        <!-- <select id="selector" name="selector">
-          <option id="1">test1</option>
-          <option id="2">test2</option>
-          <option id="3">test3</option>
-        </select> -->
-        <input type="hidden" name="target_column" id="target_column" name="target_column" value="">
+          </p>
+          <div class="select-body">
+            <div id="predict-{{col}}" class="select" >
+              <select id="selector-for-{{col}}" name="selector-for-{{col}}" >
+                {% for v in val %}
+                <option id="{{v}}">{{v}}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+        </div>
+        <!--End editing-->
+        {% endfor %}
+      </div> 
+      <div class="selecter-body">
+        <input
+          type="hidden"
+          name="target_column"
+          id="target_column"
+          name="target_column"
+          value=""
+        />
 
         <div id="selector" style="display: none">
+          <div class="selecter-header">
+            <h1>Select value</h1>
+          </div>
           {% for col,val in columns_values.items() %}
-          <label for="selector-for-{{col}}" id="{{col}}-for-select">{{col}}
-            <select id="selector-for-{{col}}" name="selector-for-{{col}}">
-              {% for v in val %}
-              <option id="{{v}}">{{v}}</option>
-              {% endfor %}
-            </select>
-          </label>
+          <div class="select-body">
+            <label for="selector-for-{{col}}" id="{{col}}-for-select"
+              >{{col}}
+              <div class="select">
+                <select id="selector-for-{{col}}" name="selector-for-{{col}}">
+                  {% for v in val %}
+                  <option id="{{v}}">{{v}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </label>
+          </div>
           {% endfor %}
+          <div>
+            <button class="predict-button" id="buton" type="submit">
+              Predict
+            </button>
+          </div>
         </div>
-      </div>
-      <div>
-        <button id="buton" type="submit">Predict</button>
       </div>
     </form>
   </body>
