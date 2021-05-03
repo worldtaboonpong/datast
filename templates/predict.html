@@ -4,10 +4,12 @@ content %}
   <script type="text/javascript">
     function showSelection(col) {
       console.log(col);
-
-      var selector = document.getElementById("selector");
+      var selectors = document.getElementById("selects");
+      console.log(selectors);
+      var selector = document.getElementById("select-body");
+      console.log(selector);
       selector.style.display = "block";
-      var target_col = document.getElementById(col + "-for-select");
+      var target_col = document.getElementById("predict-" + col);
       target_col.style.display = "none";
       var target_col_setter = document.getElementById("target_column");
       target_col_setter.value = col;
@@ -16,15 +18,16 @@ content %}
       selected_col.style.color = "white";
       selected_col.style.borderRadius = "20px 0px 20px 0px";
       var ancestor = document.getElementById("all-target-column");
-      console.log(ancestor);
-      var descendents = ancestor.getElementsByTagName("*");
-      console.log(descendents);
+      // console.log(ancestor);
+      var descendents = ancestor.getElementsByTagName("p");
+
       for (let i = 0; i < descendents.length; i++) {
         if (descendents[i].id != col) {
           var non_selected_target = document.getElementById(descendents[i].id);
+
           non_selected_target.onclick = null;
           non_selected_target.style.background = "rgb(180, 180, 180)";
-          non_selected_target.style.pointerEvents = "none"; 
+          non_selected_target.style.pointerEvents = "none";
         }
       }
     }
@@ -90,7 +93,7 @@ content %}
       grid-area: select;
       justify-self: end;
     }
-    .predict-button{
+    .predict-button {
       margin-top: 20px;
     }
   </style>
@@ -112,7 +115,7 @@ content %}
       <div id="all-target-column" class="all-target-column-container">
         {% for col,val in columns_values.items() %}
         <!--Editing-->
-        <div class= "select-target-column-container">
+        <div class="select-target-column-container">
           <p
             class="selected-target-column"
             id="{{col}}"
@@ -120,20 +123,20 @@ content %}
           >
             {{col}}
           </p>
-          <div class="select-body">
-            <div id="predict-{{col}}" class="select" >
-              <select id="selector-for-{{col}}" name="selector-for-{{col}}" >
-                {% for v in val %}
-                <option id="{{v}}">{{v}}</option>
-                {% endfor %}
-              </select>
+          <div>
+            <div id="select-body" class="select-body">
+              <div id="predict-{{col}}" class="select">
+                <select id="selector-for-{{col}}" name="selector-for-{{col}}">
+                  {% for v in val %}
+                  <option id="{{v}}">{{v}}</option>
+                  {% endfor %}
+                </select>
+              </div>
             </div>
           </div>
         </div>
         <!--End editing-->
         {% endfor %}
-      </div> 
-      <div class="selecter-body">
         <input
           type="hidden"
           name="target_column"
@@ -141,31 +144,9 @@ content %}
           name="target_column"
           value=""
         />
-
-        <div id="selector" style="display: none">
-          <div class="selecter-header">
-            <h1>Select value</h1>
-          </div>
-          {% for col,val in columns_values.items() %}
-          <div class="select-body">
-            <label for="selector-for-{{col}}" id="{{col}}-for-select"
-              >{{col}}
-              <div class="select">
-                <select id="selector-for-{{col}}" name="selector-for-{{col}}">
-                  {% for v in val %}
-                  <option id="{{v}}">{{v}}</option>
-                  {% endfor %}
-                </select>
-              </div>
-            </label>
-          </div>
-          {% endfor %}
-          <div>
-            <button class="predict-button" id="buton" type="submit">
-              Predict
-            </button>
-          </div>
-        </div>
+      </div>
+      <div>
+        <button class="predict-button" id="buton" type="submit">Predict</button>
       </div>
     </form>
   </body>
