@@ -11,7 +11,7 @@ from pandas.plotting import table
 
 my_path = 'static/'
 
-# df = pd.read_excel('MRTuser.xlsx')
+df = pd.read_excel('test_files/MRTuser.xlsx')
 
 
 def clustering(df_beforecut):
@@ -76,6 +76,7 @@ def clustering(df_beforecut):
                 df_kmeans = new_df.copy(deep=True)
                 df_kmeans['Group'] = pd.Series(predict, index=df_kmeans.index)
                 dfForDetail['Group'] = pd.Series(predict,index=dfForDetail.index)
+                dfForDetail.sort_values(['Group'],inplace=True)
                 col_name = list(df_kmeans) #list of col name
                 first_col = col_name[0]
                 second_col = col_name[1]
@@ -103,7 +104,7 @@ def clustering(df_beforecut):
     return qa_clustering
 
 
-
+clustering(df)
 
 
 
