@@ -11,7 +11,7 @@ from pandas.plotting import table
 
 my_path = 'static/'
 
-df = pd.read_excel('test_files/MRTuser.xlsx')
+# df = pd.read_excel('test_files/MRTuser.xlsx')
 
 
 def clustering(df_beforecut):
@@ -104,7 +104,7 @@ def clustering(df_beforecut):
     return qa_clustering
 
 
-clustering(df)
+# clustering(df)
 
 
 
