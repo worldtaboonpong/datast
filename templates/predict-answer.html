@@ -12,15 +12,129 @@ block content %}
       window.history.back();
     }
   </script>
-  <body>
-    {% for col,selector in col_val_selector.items() %}
-    <div>
-      <p>{{col}} : {{selector}}</p>
-    </div>
-    {% endfor %}
-    <div>{{target_column}} is {{answer}}</div>
-    <div class="predict-back-button">
-      <button class="btn-back" onclick="goBack()">Back</button>
+  <style>
+    .predict-answer-body {
+      width: 100%;
+      height: 100%;
+    }
+    .predict-answer-container {
+      margin-left: calc(15% - 60px);
+      margin-right: calc(15% - 60px);
+      display: flex;
+    }
+    .predict-answer-container .container-all-selector {
+      display: inline-block;
+      width: 60%;
+      height: 100%;
+      margin-top: 5vh;
+      margin-bottom: 5vh;
+      margin-left: auto;
+      margin-right: calc(55% - 60px);
+    }
+    .container-all-selector .container-selector{
+      text-align: left;
+      overflow: auto;
+      font-size: 18px;
+      width: 100%;
+      margin-top: calc(5vh + 15px);
+      margin-bottom: calc(5vh + 15px);
+      /*min-width: 250px;*/
+      min-height: 50px;
+      border-radius: 15px;
+      animation: 2s ease 0s normal forwards 1 fadein;
+      -moz-animation: 2s ease 0s normal forwards 1 fadein; /* Firefox */
+      -webkit-animation: 2s ease 0s normal forwards 1 fadein; /* Safari and Chrome */
+      -o-animation: 2s ease 0s normal forwards 1 fadein; /* Opera */
+    }
+    .container-selector .container-column{
+      color: white;
+      width: 45%;
+      float: left;
+      padding-top: 10px;
+      padding-left: 3%;
+      padding-right: 3%;
+      padding-bottom: 10px;
+      background-color: #596e79;
+      border-style: solid;
+      border-color: #596e79;
+      border-width: 1px;
+      border-radius: 15px 0px 0px 15px;
+    }
+    .container-selector .container-value{
+      color: black;
+      height: 100%;
+      width: 60%;
+      float: right;
+      margin-left: -5%;
+      padding-top: 10px;
+      padding-left: 3%;
+      padding-right: 3%;
+      padding-bottom: 10px;
+      background-color: white;
+      border-style: solid;
+      border-color: #596e79;
+      border-width: 1px;
+      border-radius: 15px 15px 15px 15px;
+    }
+    .predict-answer-container .container-answer {
+      position: fixed;
+      text-align: center;
+      margin-top: 40vh;
+      margin-left: calc(38% + 100px);
+      width: 40%;
+      height: 100%;
+      animation: 4s ease 0s normal forwards 1 fadein;
+      -moz-animation: 4s ease 0s normal forwards 1 fadein; /* Firefox */
+      -webkit-animation: 4s ease 0s normal forwards 1 fadein; /* Safari and Chrome */
+      -o-animation: 4s ease 0s normal forwards 1 fadein; /* Opera */
+    }
+    .container-answer .answer-text {
+      font-size: 20px;
+    }
+    @keyframes fadein {
+      0% { opacity:0; }
+      66% { opacity:0; }
+      100% { opacity:1; }
+    }
+    @-moz-keyframes fadein { /* Firefox */
+      0% { opacity:0; }
+      66% { opacity:0; }
+      100% { opacity:1; }
+    }
+    @-webkit-keyframes fadein { /* Safari and Chrome */
+      0% { opacity:0; }
+      66% { opacity:0; }
+      100% { opacity:1; }
+    }
+    @-o-keyframes fadein { /* Opera */
+      0% { opacity:0; }
+      66% { opacity:0; }
+      100% { opacity:1; }
+    }
+
+  </style>
+  <body class="body">
+    <div class="predict-answer-container">
+      <div class="container-all-selector">
+        {% for col,selector in col_val_selector.items() %}
+        <div class="container-selector">
+          <div class="container-column">
+            {{col}}
+          </div>
+          <div class="container-value">
+            {{selector}}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="container-answer">
+        <div class="answer-text">
+          {{target_column}} is {{answer}}
+        </div>
+        <div class="predict-back-button">
+            <button class="btn-back" onclick="goBack()">Back</button>
+        </div>
+      </div>
     </div>
   </body>
 </html>
