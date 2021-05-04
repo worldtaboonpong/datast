@@ -90,12 +90,12 @@ def clustering(df_beforecut):
                 list_to_graph.append(row_data)
                 # print(list_to_graph)
                 fig = px.scatter(df_kmeans, x=first_col, y=second_col, color='Group')
-                fig.write_image(my_path+'cluster'+str(i)+str(j)+'.png')
+                fig.write_image(my_path+'cluster'+first_col+second_col+'.png')
                
                
 
                 qa_clustering['How can we cluster between '+ new.columns.values[0] +' and '+ new.columns.values[1]] = list()
-                qa_clustering['How can we cluster between '+ new.columns.values[0] +' and '+ new.columns.values[1]].append(str(my_path)+'cluster'+str(i)+str(j)+'.png')
+                qa_clustering['How can we cluster between '+ new.columns.values[0] +' and '+ new.columns.values[1]].append(str(my_path)+'cluster'+first_col+second_col+'.png')
                 qa_clustering['How can we cluster between '+ new.columns.values[0] +' and '+ new.columns.values[1]].append(list_to_graph)
 
                                                                                        

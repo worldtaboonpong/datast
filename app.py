@@ -3,7 +3,8 @@ from flask import render_template,request,make_response
 from utils.func_clustering import clustering
 from utils.StatisticFunction import statistics
 from utils.func_cleanexcel import cleanDataframe
-from utils.decisiontree import DecisionTree
+# from utils.decisiontree import DecisionTree
+from utils.decisiontree import getanswer
 from utils.func_grouping import grouping
 from utils.assocrule import association
 from werkzeug.utils import secure_filename
@@ -139,6 +140,12 @@ def showOutput():
     file = app.config['UPLOAD_PATH']+'/'+ file_to_be_analyze
     df_before_clean = pd.read_excel(file)
     df_after_clean = cleanDataframe(df_before_clean)
+    print('------')
+    print(df_before_clean)
+    print('------')
+    print(df_after_clean)
+    print('------')
+    copy_df_after_clean = df_after_clean.copy(deep=True)
     columns = list(df_after_clean)
     #col_val_selector is the user's inputs
     col_val_selector = {}
@@ -149,9 +156,15 @@ def showOutput():
         if col != target_column:
             col_val_selector[col] = request.form.get("selector-for-"+col)
     # print(col_val_selector)
-    x = DecisionTree()
-    answer = x.getanswer(df_after_clean,col_val_selector)
+    # x = DecisionTree()
+    answer = getanswer(copy_df_after_clean,col_val_selector)
+   
+    # print(type(df_after_clean))
+    # print(columns)
     print('We gonna show output for  '+app.config['UPLOAD_PATH']+'/' + file_to_be_analyze)
+    print(target_column)
+    print(col_val_selector)
+    print(answer)
 
     return render_template('predict-answer.html', target_column=target_column, answer=answer, col_val_selector=col_val_selector)
 
@@ -159,3 +172,4 @@ def showOutput():
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host="0.0.0.0", port=port,debug=True)
+    # app.run(host="0.0.0.0",debug=True)
