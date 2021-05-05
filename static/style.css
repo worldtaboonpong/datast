@@ -170,24 +170,6 @@
   border-radius: 32px 0px 32px 0px;
 }
 
-.btn-back {
-  margin-top: 50px;
-  text-align: center;
-  width: 100px;
-  height: 40px;
-  transition-duration: 0.4s;
-  background-color: #393e46;
-  color: white;
-  border-radius: 10px 0px 10px 0px;
-}
-
-.btn-back:hover {
-  background-color: white;
-  color: black;
-  border: 2px solid black;
-  border-radius: 20px 0px 20px 0px;
-}
-
 /*.button-cancel {
   position: absolute;
   text-align: center;
@@ -474,14 +456,14 @@
   border-style: solid;
   border-color: #596e79;
   border-width: 1px;
-  border-radius: 12px 0px 12px 0px;
+  border-radius: 12px 12px 12px 12px;
 }
 
 .selected-target-column:hover{
   cursor: pointer;
   background-color: #596e79;
   color: white;
-  border-radius: 20px 0px 20px 0px;
+  border-radius: 16px 16px 16px 16px;
 }
 
 .refresh-button{
