@@ -88,27 +88,26 @@ def association(dataframe, min_support=0.01, min_confidence=0.2, min_lift=2, min
             continue
         os.remove(os.path.join(image_path, f))
 
+    qa = {}
     for i in output_dict['Data'] :
         fig = go.Figure()
         supp = i["Support"]
         conf = i["Confidence"]
-        lift = i["Lift"]
         x = ["Confidence", "Support"]
         y = [conf, supp]
         yn = [1-conf, 1-supp]
+        image_loc = image_path + "/asso" + str(i['No']) + str(i['From']).replace(" ", "") + str(i['To']).replace(" ", "") + ".png"
 
         fig.add_bar(x=x, y=y, name='Occurrence')
         fig.add_bar(x=x, y=yn, name='Non-occurrence', text=y)
         fig.update_layout(barmode="stack")
         fig.update_traces(textposition='outside')
         fig.update_layout(uniformtext_minsize=11, uniformtext_mode='hide', margin=dict(l=10,r=10,t=40,b=20))
-        fig.write_image(image_path + "/asso" + str(i['No']) + ".png", width= 700, height= 500, scale=1.5)
-
-    qa = {}
-    for item in data_dict :
-        q = "What is the connection between " + str(item['To']) + " and " + str(item['From'])
-        qa[q] = ["The probability of " + str(item['To']) + " happening together with " + str(item['From']) + " is " + str("{:.2f}".format(100 * item['Lift'] / (item['Lift'] + 1))) + " %",
-                  image_path + "/asso" + str(item['No']) + ".png"]
+        fig.write_image(image_loc, width= 700, height= 500, scale=1.5)
+        
+        q = "What is the connection between " + str(i['From']) + " and " + str(i['To'])
+        qa[q] = ["The probability of " + str(i['From']) + " happening together with " + str(i['To']) + " is " + str("{:.2f}".format(100 * i['Lift'] / (i['Lift'] + 1))) + " %",
+                  image_loc]        
 
     return qa
 
