@@ -2,6 +2,15 @@ function changeText(){
     console.log('change text')
     var textToChange = document.getElementById('file-input-text')
     textToChange.innerHTML = 'Your file is uploaded. Press Upload to continue.'
+    var submit_button = document.getElementById('upload-submitted-file')
+
+    console.log(submit_button)
+    submit_button.disabled = false
+    submit_button.style.background = "#16a085"
+    submit_button.style.borderBottom = "4px solid #117a60"
+    // submit_button.appendChild(document.createTextNode(" background: #149174; color: #0c5645; "))
+    // background: #16a085;
+    // border-bottom: 4px solid #117a60;
 }
 
 // window.onload = function(){

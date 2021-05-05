@@ -245,21 +245,21 @@
 .submit-form .submit-button {
   margin: 0;
   color: #fff;
-  background: #16a085;
+  background: grey;
   border: none;
   width: 339px;
   height: 35px;
   margin-top: -20px;
   margin-right: -4px;
   border-radius: 4px;
-  border-bottom: 4px solid #117a60;
+  border-bottom: 4px solid grey;
   transition: all 0.2s ease;
   outline: none;
 }
 
 .submit-form .submit-button:hover {
-  background: #149174;
-  color: #0c5645;
+  /* background: #149174;
+  color: #0c5645; */
   cursor: pointer;
 }
 
