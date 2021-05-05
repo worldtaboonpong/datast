@@ -48,6 +48,10 @@ block content %}
     function refresh() {
       window.location.reload();
     }
+
+    function goBack(){
+      window.history.back();
+    }
   </script>
   <style>
     *,
@@ -153,6 +157,14 @@ block content %}
         type="button"
       >
         Refresh
+      </button>
+      <button
+        class="refresh-button"
+        id="buton"
+        onclick="goBack()"
+        type="button"
+      >
+        Back
       </button>
     </div>
     <div class="predict-main">
