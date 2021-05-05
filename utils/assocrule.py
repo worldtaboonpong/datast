@@ -97,8 +97,8 @@ def association(dataframe, min_support=0.01, min_confidence=0.2, min_lift=2, min
         y = [conf, supp]
         yn = [1-conf, 1-supp]
 
-        fig.add_bar(x=x, y=y, name='Yes')
-        fig.add_bar(x=x, y=yn, name='No', text=y)
+        fig.add_bar(x=x, y=y, name='Occurrence')
+        fig.add_bar(x=x, y=yn, name='Non-occurrence', text=y)
         fig.update_layout(barmode="stack")
         fig.update_traces(textposition='outside')
         fig.update_layout(uniformtext_minsize=11, uniformtext_mode='hide', margin=dict(l=10,r=10,t=40,b=20))
@@ -107,14 +107,8 @@ def association(dataframe, min_support=0.01, min_confidence=0.2, min_lift=2, min
     qa = {}
     for item in data_dict :
         q = "What is the connection between " + str(item['To']) + " and " + str(item['From'])
-        qa[q] = ["Probability of " + str(item['To']) + " happening together with " + str(item['From']) + " is " + str(item['Lift']) + " times more likely than to happen by itself",
+        qa[q] = ["The probability of " + str(item['To']) + " happening together with " + str(item['From']) + " is " + str("{:.2f}".format(100 * item['Lift'] / (item['Lift'] + 1))) + " %",
                   image_path + "/asso" + str(item['No']) + ".png"]
-
-    #with open("assocqa.txt", "w", encoding="utf-8-sig") as text_file:
-        #text_file.write(json.dumps(qa, ensure_ascii=False, indent = 4))
-
-    #with open("output.txt", "w", encoding="utf-8-sig") as text_file:
-        #text_file.write(json.dumps(output_dict, ensure_ascii=False, indent = 4))
 
     return qa
 
