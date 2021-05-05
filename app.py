@@ -78,6 +78,10 @@ def analyze():
  
     file = app.config['UPLOAD_PATH']+'/'+ file_to_be_analyze
     df = pd.read_excel(file)
+
+    # for column in df:
+    #     df[column] = df[column].fillna(0)
+    
     qa_clustering = clustering(df)
     qa_statistic = statistics(df)
     qa_assoocrule = association(df)

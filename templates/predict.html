@@ -12,6 +12,7 @@ block content %}
       document.getElementById("predictheadertext").innerHTML =
         "Select the value for each columns";
       document.getElementById("predictcontainer").style.display = "block";
+      document.getElementById("predictbackcontainer").style.display = "block";
 
       console.log(col);
       var selectors = document.getElementById("selects");
@@ -47,6 +48,9 @@ block content %}
 
     function refresh() {
       window.location.reload();
+    }
+    function goBack() {
+      window.history.back();
     }
   </script>
   <style>
@@ -143,6 +147,7 @@ block content %}
       border-width: 2px;
       border-radius: 25px 0px 25px 0px;
     }
+
   </style>
   <body class="predict-body">
     <div>
@@ -154,6 +159,7 @@ block content %}
       >
         Refresh
       </button>
+      <button class="refresh-button" id="button" onclick="goBack()">Back</button>
     </div>
     <div class="predict-main">
       <h1 id="predictheadertext">Choose your target column</h1>
