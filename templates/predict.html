@@ -26,7 +26,7 @@ block content %}
       var selected_col = document.getElementById(col);
       selected_col.style.backgroundColor = "#596e79";
       selected_col.style.color = "white";
-      selected_col.style.borderRadius = "16px";
+      selected_col.style.borderRadius = "25px";
       var ancestor = document.getElementById("all-target-column");
       // console.log(ancestor);
       var descendents = ancestor.getElementsByTagName("p");
@@ -95,6 +95,10 @@ block content %}
       grid-template-areas: "select";
       align-items: center;
       position: relative;
+      animation: 1s ease 0s normal forwards 1 fadein;
+      -moz-animation: 1s ease 0s normal forwards 1 fadein; /* Firefox */
+      -webkit-animation: 1s ease 0s normal forwards 1 fadein; /* Safari and Chrome */
+      -o-animation: 1s ease 0s normal forwards 1 fadein; /* Opera */
     }
     .select::after {
       content: "";
@@ -113,6 +117,10 @@ block content %}
       display: none;
       margin-top: 150px;
       margin-bottom: 150px;
+      animation: 3s ease 0s normal forwards 1 fadein;
+      -moz-animation: 3s ease 0s normal forwards 1 fadein; /* Firefox */
+      -webkit-animation: 3s ease 0s normal forwards 1 fadein; /* Safari and Chrome */
+      -o-animation: 3s ease 0s normal forwards 1 fadein; /* Opera */
     }
     .predict-button {
       text-align: center;
@@ -153,7 +161,6 @@ block content %}
     <form action="/showoutput" method="POST">
       <div id="all-target-column" class="all-target-column-container">
         {% for col,val in columns_values.items() %}
-        <!--Editing-->
         <div class="select-target-column-container">
           <p
             class="selected-target-column"
@@ -174,7 +181,6 @@ block content %}
             </div>
           </div>
         </div>
-        <!--End editing-->
         {% endfor %}
         <input
           type="hidden"
