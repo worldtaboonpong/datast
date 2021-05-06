@@ -1,235 +1,244 @@
-{% extends "base.html" %}
-{% block head%}
-    {{super()}}
-{% endblock %}
-{% block content %}
-    <script>
-        function goBack(){
-            window.history.back();
-        }      
-        function showAnswerAnalyze(btnid) {
-            var id = btnid.slice(4);
-            //console.log(id)
-            var container = document.getElementById("container-"+id)
-            var answer = document.getElementById("answer-"+id)
-            var question = document.getElementById("question-"+id)
-            var button = document.getElementById("btn-"+id)
-            var table = document.getElementById("table-"+id)
-            if(answer.style.display === 'block'){
-                button.innerHTML = "Show"
-                answer.style.display = 'none'
-                container.scrollIntoView({ block: 'start',  behavior: 'smooth' });
-            } else {
-                button.innerHTML = "Hide"
-                answer.style.display = 'block'
-                container.scrollIntoView({ block: 'start',  behavior: 'smooth' });
-            }
-        }
-        function gototop(btnid) {
-            var id = btnid.slice(8);
-            var container = document.getElementById("container-"+id)
-            container.scrollIntoView({ block: 'start',  behavior: 'smooth' });
-        }
-    </script>   
-    <style>
-        .container-analyze {
-            display: block;
-            padding-left: 35px;
-            margin-left: 15%;
-            margin-right: 15%;
-            margin-bottom: 40px;
-        }
-        .container-analyze .seperator {
-            height: 80px;
-        }
-        .container-analyze .tab {
-            text-align: left;
-        }
-        .tab .header {
-            background-color: #596e79;
-            width: calc(100% - 70px);
-            min-height: 45px;
-            display: flex;
-            float: left;
-            border-radius: 15px 0px 15px 0px;
-        }
-        .header .question {
-            text-align: left;
-            margin-top: 8px;
-            margin-left: 2%; 
-            margin-right: 2%;
-            margin-bottom: 8px; 
-            font-size: 19px;
-            color: white;
-        }
-        .tab .button-container{
-            background-color: #596e79;
-            float: right;
-            min-width: 70px;
-            height: 30px;
-            border-radius: 0px 0px 15px 0px;
-        }
-        .btn-show { 
-            margin-left: 0; 
-            margin-right: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #eeeeee;
-            transition-duration: 0.4s;
-            border-width: 2px 2px 2px 1px;
-            border-color: #596e79;
-            border-radius: 15px 0px 15px 0px;
-        }
-        .btn-show:hover {
-            background-color: #393e46;
-            color: white;
-            border: 2px solid white;
-            border-radius: 15px 0px 15px 0px;
-        }
-        .container-analyze .container-answer {
-            text-align: center;
-            display: none;
-            margin-top: 15px;
-            padding-bottom: 20px;
-            border-style: outset;
-            border-color: #596e79;
-            border-width: 1px;
-            border-radius: 0px 0px 15px 0px;
-        }
-        .container-answer .image-container {
-            padding: 20px;
-            text-align: center;
-        }
-        img {
-            max-width: 60%;
-            height: auto;
-            min-width: 385px;
-        }
-        .container-answer .details {
-            font-size: 16px;
-            padding: 10px;
-        }
-        .container-answer .btn-top {
-            position: absolute;
-            right: 15%;
-            margin-right: 15px;
-            margin-top: -25px;
-            width: 70px;
-            height: 30px;
-            background-color: #eeeeee;
-            transition-duration: 0.4s;
-            /*border-width: 3px 1px 1px 3px;*/
-            border-color: #596e79;
-            border-radius: 10px 0px 10px 0px;
-        }
-        .btn-top:hover {
-            background-color: #393e46;
-            color: white;
-            border-radius: 10px 0px 10px 0px;
-        }
-        .center {
-            margin-left: auto;
-            margin-right: auto;
-        }
-        table, th, td {
-            border: 1px solid #596e79;
-            padding: 5px;
-        }
-        th {
-            margin-left: -1px;
-            margin-right: -1px;
-            border: 1px solid white;
-            color: white;
-            background-color: #788c97;
-            padding: 5px;
-        }
-        .back-container {
-            text-align: center;
-            margin-top: 50px;
-            margin-bottom: 50px;
-        }
-        .btn-back {
-            margin-top: 50px;
-            text-align: center;
-            width: 100px;
-            height: 40px;
-            transition-duration: 0.4s;
-            background-color: #393e46;
-            color: white;
-            border-radius: 10px 0px 10px 0px;
-        }
+{% extends "base.html" %} {% block head%} {{super()}} {% endblock %} {% block
+content %}
 
-        .btn-back:hover {
-            background-color: white;
-            color: black;
-            border: 2px solid black;
-            border-radius: 20px 0px 20px 0px;
-        }
-        
-    </style>
-    <body>
+<script>
+//   window.onload = function () {
+//     if (!window.location.hash) {
+//       window.location = window.location + "#loaded";
+//       window.location.href = window.location.href
+//     }
+//   };
+  function goBack() {
+    window.history.back();
+  }
+  function showAnswerAnalyze(btnid) {
+    var id = btnid.slice(4);
+    //console.log(id)
+    var container = document.getElementById("container-" + id);
+    var answer = document.getElementById("answer-" + id);
+    var question = document.getElementById("question-" + id);
+    var button = document.getElementById("btn-" + id);
+    var table = document.getElementById("table-" + id);
+    if (answer.style.display === "block") {
+      button.innerHTML = "Show";
+      answer.style.display = "none";
+      container.scrollIntoView({ block: "start", behavior: "smooth" });
+    } else {
+      button.innerHTML = "Hide";
+      answer.style.display = "block";
+      container.scrollIntoView({ block: "start", behavior: "smooth" });
+    }
+  }
+  function gototop(btnid) {
+    var id = btnid.slice(8);
+    var container = document.getElementById("container-" + id);
+    container.scrollIntoView({ block: "start", behavior: "smooth" });
+  }
+</script>
+<style>
+  .container-analyze {
+    display: block;
+    padding-left: 35px;
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-bottom: 40px;
+  }
+  .container-analyze .seperator {
+    height: 80px;
+  }
+  .container-analyze .tab {
+    text-align: left;
+  }
+  .tab .header {
+    background-color: #596e79;
+    width: calc(100% - 70px);
+    min-height: 45px;
+    display: flex;
+    float: left;
+    border-radius: 15px 0px 15px 0px;
+  }
+  .header .question {
+    text-align: left;
+    margin-top: 8px;
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-bottom: 8px;
+    font-size: 19px;
+    color: white;
+  }
+  .tab .button-container {
+    background-color: #596e79;
+    float: right;
+    min-width: 70px;
+    height: 30px;
+    border-radius: 0px 0px 15px 0px;
+  }
+  .btn-show {
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #eeeeee;
+    transition-duration: 0.4s;
+    border-width: 2px 2px 2px 1px;
+    border-color: #596e79;
+    border-radius: 15px 0px 15px 0px;
+  }
+  .btn-show:hover {
+    background-color: #393e46;
+    color: white;
+    border: 2px solid white;
+    border-radius: 15px 0px 15px 0px;
+  }
+  .container-analyze .container-answer {
+    text-align: center;
+    display: none;
+    margin-top: 15px;
+    padding-bottom: 20px;
+    border-style: outset;
+    border-color: #596e79;
+    border-width: 1px;
+    border-radius: 0px 0px 15px 0px;
+  }
+  .container-answer .image-container {
+    padding: 20px;
+    text-align: center;
+  }
+  img {
+    max-width: 60%;
+    height: auto;
+    min-width: 385px;
+  }
+  .container-answer .details {
+    font-size: 16px;
+    padding: 10px;
+  }
+  .container-answer .btn-top {
+    position: absolute;
+    right: 15%;
+    margin-right: 15px;
+    margin-top: -25px;
+    width: 70px;
+    height: 30px;
+    background-color: #eeeeee;
+    transition-duration: 0.4s;
+    /*border-width: 3px 1px 1px 3px;*/
+    border-color: #596e79;
+    border-radius: 10px 0px 10px 0px;
+  }
+  .btn-top:hover {
+    background-color: #393e46;
+    color: white;
+    border-radius: 10px 0px 10px 0px;
+  }
+  .center {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  table,
+  th,
+  td {
+    border: 1px solid #596e79;
+    padding: 5px;
+  }
+  th {
+    margin-left: -1px;
+    margin-right: -1px;
+    border: 1px solid white;
+    color: white;
+    background-color: #788c97;
+    padding: 5px;
+  }
+  .back-container {
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
+  .btn-back {
+    margin-top: 50px;
+    text-align: center;
+    width: 100px;
+    height: 40px;
+    transition-duration: 0.4s;
+    background-color: #393e46;
+    color: white;
+    border-radius: 10px 0px 10px 0px;
+  }
 
-        <form name='select_question'>
-            {% for id,question_answer in qa.items()%}
-                <div class="container-analyze" id="container-{{id}}">
-                    <div class="seperator"></div>
-                    <div class="tab">
-                        <div class="header">
-                        <div class="question" id="question-{{id}}">{{question_answer[0]}}</div>
-                    </div>
-                    <div class="button-container">
-                        <button class="btn-show" type="button" id="btn-{{id}}" onclick="showAnswerAnalyze(this.id)">Show</button>
-                    </div>
-                    </div>
-                    <div class="container-answer" id="answer-{{id}}" >
-                        {% for each_answer in question_answer[1:] %}    
-                            {% if '.png' in each_answer %}
-                                <div class="image-container">
-                                    <img src="{{each_answer}}" />
-                                </div>    
-                            {% endif %}
-                        {% endfor %}
-                        {% for each_answer in question_answer[1:] %}
-                            {% if not '.png' in each_answer %}
-                                {% if each_answer is iterable and (each_answer is not string and each_answer is not mapping) %}
-                                    <table id="table-{{id}}" class="center">
-                                        <thead>
-                                            <tr>
-                                                {% for col in each_answer[0] %}
-                                                    <th style="text-align: center;">
-                                                        {{col}}
-                                                    </th>
-                                                {% endfor %}
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for row in each_answer[1] %}
-                                            <tr>
-                                                {% for col,row_ in zip(each_answer[0],row) %}
-                                                    <td>
-                                                        {{row_}}
-                                                    </td>
-                                                {% endfor %}
-                                            </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-                                    <button class="btn-top" type="button" id="btn-top-{{id}}" onclick="gototop(this.id)">Top</button>
-                                {% elif each_answer is string %}    
-                                    <div class="details">{{each_answer}}</div>
-                                {% endif %}
-                            {% endif %}
-                        {% endfor %}  
-                    </div> 
-                </div>
+  .btn-back:hover {
+    background-color: white;
+    color: black;
+    border: 2px solid black;
+    border-radius: 20px 0px 20px 0px;
+  }
+</style>
+<body>
+  <form name="select_question">
+    {% for id,question_answer in qa.items()%}
+    <div class="container-analyze" id="container-{{id}}">
+      <div class="seperator"></div>
+      <div class="tab">
+        <div class="header">
+          <div class="question" id="question-{{id}}">
+            {{question_answer[0]}}
+          </div>
+        </div>
+        <div class="button-container">
+          <button
+            class="btn-show"
+            type="button"
+            id="btn-{{id}}"
+            onclick="showAnswerAnalyze(this.id)"
+          >
+            Show
+          </button>
+        </div>
+      </div>
+      <div class="container-answer" id="answer-{{id}}">
+        {% for each_answer in question_answer[1:] %} {% if '.png' in each_answer
+        %}
+        <div class="image-container">
+          <img src="{{each_answer}}" />
+        </div>
+        {% endif %} {% endfor %} {% for each_answer in question_answer[1:] %} {%
+        if not '.png' in each_answer %} {% if each_answer is iterable and
+        (each_answer is not string and each_answer is not mapping) %}
+        <table id="table-{{id}}" class="center">
+          <thead>
+            <tr>
+              {% for col in each_answer[0] %}
+              <th style="text-align: center">{{col}}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in each_answer[1] %}
+            <tr>
+              {% for col,row_ in zip(each_answer[0],row) %}
+              <td>{{row_}}</td>
+              {% endfor %}
+            </tr>
             {% endfor %}
-        </form>
-        <div class="back-container">
-            <button class="btn-back" onclick="goBack()">Back</button>
-        </div>        
-    </body>
-
-  
-
+          </tbody>
+        </table>
+        <button
+          class="btn-top"
+          type="button"
+          id="btn-top-{{id}}"
+          onclick="gototop(this.id)"
+        >
+          Top
+        </button>
+        {% elif each_answer is string %}
+        <div class="details">{{each_answer}}</div>
+        {% endif %} {% endif %} {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </form>
+  <div class="back-container">
+    <button class="btn-back" onclick="goBack()">Back</button>
+  </div>
+</body>
 
 {% endblock %}
