@@ -26,9 +26,9 @@ class DecisionTree():
     def decisiontree(self, Dataframe, Target, input_n):
         model = tree.DecisionTreeClassifier()
         model.fit(Dataframe,Target)
-        model.score(Dataframe,Target)
+        score=model.score(Dataframe,Target)
         result=model.predict(input_n)
-        return result[0]
+        return [result[0],round(score*100,2)]
     # def getanswer(self,x):
     #     return x #return here
     def getanswer(self,df,ip):
@@ -48,9 +48,10 @@ class DecisionTree():
         column = df.pop(tg)
         df2.insert(len(d), tg, column)
         Dataframe,Target,Input=self.cleandata(df2,predict)
-        answer=str(back[self.decisiontree(Dataframe,Target,Input.values.tolist())])
+        answer=str(back[self.decisiontree(Dataframe,Target,Input.values.tolist())[0]])
+        score=self.decisiontree(Dataframe,Target,Input.values.tolist())[1]
         # self.getanswer(answer)
-        return answer
+        return [answer,score]
 
 def cleanDataframe(dfToClean):
     cleandf = dfToClean.copy(deep=True)
