@@ -16,9 +16,9 @@ def grouping(df_beforecut):
     for key in dataTypeDict:
         if ((df[key].is_monotonic and (('ลำดับ' in key) or (key == 'id' or key == 'Id')))
             or (key == 'Id')
-            or ((key == 'Year') or (key == 'YEAR') or (key == 'year') or (key == 'ปี'))  # check if column is year
-            or ((key == 'Month') or  (key == 'MONTH') or (key == 'month') or (key == 'เดือน')) # check if column is month
-            or (('รวม' in key) or ('total' in key) or ('Total' in key))
+            # or ((key == 'Year') or (key == 'YEAR') or (key == 'year') or (key == 'ปี'))  # check if column is year
+            # or ((key == 'Month') or  (key == 'MONTH') or (key == 'month') or (key == 'เดือน')) # check if column is month
+            # or (('รวม' in key) or ('total' in key) or ('Total' in key))
             or len(set(df[key]))==1 
             or ((key == 'day') or (key == 'วันที่') and dataTypeDict[key] != 'O')
             or dataTypeDict[key] == 'datetime64[ns]'):
