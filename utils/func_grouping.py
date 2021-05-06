@@ -27,6 +27,8 @@ def grouping(df_beforecut):
     str_col = []
     num_col = []
     for col_name in df:
+        if (df[col_name] == 'Year'):
+            df[col_name] = df[col_name].astype(str)
         if (df[col_name].dtype == 'int64' or df[col_name].dtype == 'float64'):
             num_col.append(col_name)
         else :
