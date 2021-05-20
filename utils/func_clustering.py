@@ -28,7 +28,7 @@ def clustering(df_beforecut):
             or (dataTypeDict[key] == 'O')
             # check if column is something like id or no.
             or (df[key].is_monotonic and (('ลำดับ' in key) or (key == 'id' or key == 'Id')))
-            or (key == 'Id')
+            or (key == 'Id' )
             or ((key == 'Year') or (key == 'YEAR') or (key == 'year') or (key == 'ปี'))  # check if column is year
             or ((key == 'Month') or  (key == 'MONTH') or (key == 'month') or (key == 'เดือน')) # check if column is month
             or (('รวม' in key) or ('total' in key) or ('Total' in key))):

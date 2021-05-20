@@ -21,14 +21,16 @@ def grouping(df_beforecut):
             # or (('รวม' in key) or ('total' in key) or ('Total' in key))
             or len(set(df[key]))==1 
             or ((key == 'day') or (key == 'วันที่') and dataTypeDict[key] != 'O')
+            or (dataTypeDict[key] == 'O' and df[key].is_unique)
             or dataTypeDict[key] == 'datetime64[ns]'):
             df.drop(key, inplace=True, axis=1)
 
     str_col = []
     num_col = []
     for col_name in df:
-        if (df[col_name] == 'Year'):
-            df[col_name] = df[col_name].astype(str)
+        if (col_name == 'Year'):
+            df.sort_values([col_name],inplace=True)
+            df[col_name] = df[col_name].astype(str)   
         if (df[col_name].dtype == 'int64' or df[col_name].dtype == 'float64'):
             num_col.append(col_name)
         else :

@@ -6,19 +6,20 @@ import numpy as np
 import csv
 
 
-# df = pd.read_excel('test_files/sampledatafoodsales.xlsx')
+# df = pd.read_excel('Estimated_Gasoline_Sales__Beginning_1995.xlsx')
 
 def cleanDataframe(dfToClean):
     cleandf = dfToClean.copy(deep=True)
     dataTypeDict = dict(cleandf.dtypes)
     for key in dataTypeDict:
-        if ((cleandf[key].is_monotonic and (('ลำดับ' in key) or (key == 'id')))
+        if ((cleandf[key].is_monotonic and (('ลำดับ' in key) or (key == 'Id')))
         or ((not xor(dataTypeDict[key] != 'int64', dataTypeDict[key] != 'float64')) and cleandf[key].is_unique)
         or ((key == 'year') or (key == 'ปี'))
         or ((key == 'month') or (key == 'เดือน'))
         or ((key == 'day') or (key == 'วันที่') and dataTypeDict[key] != 'O')):      
              cleandf.drop(key,inplace=True,axis=1)
     df1=pd.DataFrame()
+    # print(df['County'].is_unique)
     for col_name in cleandf:
         values=[]
         if (cleandf[col_name].dtype == 'int64' or cleandf[col_name].dtype == 'float64'):

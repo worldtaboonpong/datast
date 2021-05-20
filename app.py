@@ -78,10 +78,7 @@ def analyze():
  
     file = app.config['UPLOAD_PATH']+'/'+ file_to_be_analyze
     df = pd.read_excel(file)
-
-    # for column in df:
-    #     df[column] = df[column].fillna(0)
-    
+    df.fillna(0,inplace=True)
     qa_clustering = clustering(df)
     qa_statistic = statistics(df)
     qa_assoocrule = association(df)
@@ -122,7 +119,7 @@ def predict():
     columns = list(df_after_clean)
     columns_values = {}
     for col in columns:
-        value_of_col = sorted(list(set(df_after_clean[col])))
+        value_of_col = (list(set(df_after_clean[col])))
         # print(col)
         # print(value_of_col)
         columns_values[col] = value_of_col
