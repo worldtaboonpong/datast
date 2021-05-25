@@ -158,7 +158,7 @@ def showOutput():
             col_val_selector[col] = request.form.get("selector-for-"+col)
     # print(col_val_selector)
     # x = DecisionTree()
-    answerList = getanswer(copy_df_after_clean,col_val_selector)
+    answerList = getanswer(df_after_clean,col_val_selector)
     answer = answerList[0]
     score = answerList[1]
     # print(type(df_after_clean))

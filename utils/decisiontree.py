@@ -91,10 +91,10 @@ def cleanDataframe(dfToClean):
     return cleandf
 
 
-# df = pd.read_excel('sampledatafoodsales.xlsx')
+# df = pd.read_excel('utils\sampledatafoodsales.xlsx')
 # df_after_clean = cleanDataframe(df)
 # #print(df_after_clean.loc[0])
-# dict = {'City':'Boston', 'Category': 'Bars','TotalPrice':'ช่วง 33.6 ถึง 121.6', 'Quantity': 'ช่วง 20 ถึง 52','Region':'East','UnitPrice':'ช่วง 1.35 ถึง 2.35'}
+# dict = {'City':'Boston', 'Product':'Carrot','TotalPrice':'ช่วง 33.6 ถึง 121.6', 'Quantity': 'ช่วง 20 ถึง 52','Region':'East','UnitPrice':'ช่วง 1.35 ถึง 2.35'}
 # DecisionTree = DecisionTree()
-# print(DecisionTree.getanswer(df_after_clean,dict))
+# print(getanswer(df_after_clean,dict))
 # # City,Boston Category,Bars Product,Carrot Quantity,ช่วง 20 ถึง 52 UnitPrice,ช่วง 1.35 ถึง 2.35 TotalPrice,ช่วง 33.6 ถึง 121.6
