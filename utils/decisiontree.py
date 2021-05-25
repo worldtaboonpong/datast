@@ -7,7 +7,7 @@ from operator import xor
 import numpy as np
 back={}
 
-def cleandata(self,Data,Predict):
+def cleandata(Data,Predict):
     Target=pd.DataFrame(Data[Data.columns[-1]])
     t1=Target.values.tolist()
     Tg=pd.DataFrame()
@@ -23,7 +23,7 @@ def cleandata(self,Data,Predict):
     Dataframe = Df[:len(Df)-1]
     Input = Df[len(Df)-1:]
     return Dataframe, Tg, Input
-def decisiontree(self, Dataframe, Target, input_n):
+def decisiontree(Dataframe, Target, input_n):
     model = tree.DecisionTreeClassifier()
     model.fit(Dataframe,Target)
     score=model.score(Dataframe,Target)
@@ -31,7 +31,7 @@ def decisiontree(self, Dataframe, Target, input_n):
     return [result[0],round(score*100,2)]
 # def getanswer(self,x):
 #     return x #return here
-def getanswer(self,df,ip):
+def getanswer(df,ip):
     s=df.columns.tolist()
     d=[]
     k=[]
