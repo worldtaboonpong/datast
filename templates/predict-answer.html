@@ -155,6 +155,14 @@ block content %}
       -webkit-animation: 6s ease 0s normal forwards 1 fadein; /* Safari and Chrome */
       -o-animation: 6s ease 0s normal forwards 1 fadein; /* Opera */
     }
+    .answer-card .answer-value .accuracy{
+      color: white;
+      font-size: 10px;
+      animation: 6s ease 0s normal forwards 1 fadein;
+      -moz-animation: 6s ease 0s normal forwards 1 fadein; /* Firefox */
+      -webkit-animation: 6s ease 0s normal forwards 1 fadein; /* Safari and Chrome */
+      -o-animation: 6s ease 0s normal forwards 1 fadein; /* Opera */
+    }
     .container-answer .btn-back {
       margin-top: 60px;
       text-align: center;
@@ -201,7 +209,7 @@ block content %}
             {{target_column}}
           </div>
           <div class="answer-value">
-            {{answer}} <span> (accuracy : {{score}}%)</span>
+            {{answer}} <span class="accuracy"> (accuracy : {{score}}%)</span>
           </div>
         </div>
         <div class="predict-back-button">

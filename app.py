@@ -141,11 +141,11 @@ def showOutput():
     file = app.config['UPLOAD_PATH']+'/'+ file_to_be_analyze
     df_before_clean = pd.read_excel(file)
     df_after_clean = cleanDataframe(df_before_clean)
-    print('------')
-    print(df_before_clean)
-    print('------')
-    print(df_after_clean)
-    print('------')
+    # print('------')
+    # print(df_before_clean)
+    # print('------')
+    # print(df_after_clean)
+    # print('------')
     copy_df_after_clean = df_after_clean.copy(deep=True)
     columns = list(df_after_clean)
     #col_val_selector is the user's inputs
