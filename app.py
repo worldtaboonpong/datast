@@ -158,16 +158,17 @@ def showOutput():
             col_val_selector[col] = request.form.get("selector-for-"+col)
     # print(col_val_selector)
     # x = DecisionTree()
-    answer = getanswer(copy_df_after_clean,col_val_selector)
-   
+    answerList = getanswer(copy_df_after_clean,col_val_selector)
+    answer = answerList[0]
+    score = answerList[1]
     # print(type(df_after_clean))
     # print(columns)
     print('We gonna show output for  '+app.config['UPLOAD_PATH']+'/' + file_to_be_analyze)
-    print(target_column)
-    print(col_val_selector)
-    print(answer)
+    # print(target_column)
+    # print(col_val_selector)
+    # print(answer)
 
-    return render_template('predict-answer.html', target_column=target_column, answer=answer, col_val_selector=col_val_selector)
+    return render_template('predict-answer.html', target_column=target_column, answer=answer, score=score,col_val_selector=col_val_selector)
 
 
 if __name__ == '__main__':
